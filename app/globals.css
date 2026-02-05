@@ -3,35 +3,30 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply border-gray-200;
-  }
-  
   html {
     @apply scroll-smooth;
   }
   
   body {
     @apply bg-white text-gray-900 antialiased;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-secondary text-white px-8 py-3.5 rounded-full font-semibold hover:bg-secondary-dark transition-all hover:scale-105 shadow-lg;
+    @apply bg-[#57F287] text-white px-8 py-3.5 rounded-full font-semibold hover:bg-[#4ADB7A] transition-all hover:scale-105 shadow-lg;
   }
   
   .btn-secondary {
-    @apply bg-primary text-white px-8 py-3.5 rounded-full font-semibold hover:bg-primary-dark transition-all hover:scale-105;
+    @apply bg-[#5865F2] text-white px-8 py-3.5 rounded-full font-semibold hover:bg-[#4752C4] transition-all hover:scale-105;
   }
   
   .btn-outline {
-    @apply border-2 border-primary text-primary bg-transparent px-8 py-3.5 rounded-full font-semibold hover:bg-primary hover:text-white transition-all;
+    @apply border-2 border-[#5865F2] text-[#5865F2] bg-transparent px-8 py-3.5 rounded-full font-semibold hover:bg-[#5865F2] hover:text-white transition-all;
   }
   
   .card {
-    @apply bg-white rounded-3xl p-8 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-2;
+    @apply bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2;
   }
   
   .section-padding {
@@ -43,47 +38,32 @@
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-  
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-  
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-}
-
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+  background: #f1f3f5;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary/30 rounded-full;
+  background: rgba(88, 101, 242, 0.3);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary/50;
+  background: rgba(88, 101, 242, 0.5);
 }
 
 /* Focus visible styles */
 :focus-visible {
-  @apply outline-none ring-2 ring-primary ring-offset-2;
+  outline: none;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #5865F2;
 }
 
 /* Selection */
 ::selection {
-  @apply bg-primary/20 text-primary-dark;
+  background: rgba(88, 101, 242, 0.2);
+  color: #4752C4;
 }
