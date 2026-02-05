@@ -10,7 +10,7 @@ export default function Home() {
   const services = useQuery(api.content.getServices);
   const newsletter = useQuery(api.content.getNewsletter);
   const serviceDetails = useQuery(api.content.getServiceDetails);
-  const pricing = useQuery(api.content.getPricing);
+  // Pricing removed - now on separate /cenik page
   const about = useQuery(api.content.getAbout);
   const contact = useQuery(api.content.getContact);
 
@@ -50,7 +50,7 @@ export default function Home() {
             <div className="hidden md:flex space-x-8 text-white">
               <a href="#sluzby" className="hover:opacity-80 transition">Služby</a>
               <a href="#o-nas" className="hover:opacity-80 transition">O nás</a>
-              <a href="#cenik" className="hover:opacity-80 transition">Ceník</a>
+              <a href="/cenik" className="hover:opacity-80 transition">Ceník</a>
               <a href="#kontakt" className="hover:opacity-80 transition">Kontakt</a>
             </div>
             <a 
@@ -184,49 +184,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* Pricing Section */}
-      {pricing && pricing.length > 0 && (
-        <section id="cenik" className="relative py-20 md:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-          {/* Top diagonal */}
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 transform origin-top-right -skew-y-2 -mt-16"></div>
-
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
-          
-          <div className="container mx-auto px-6 relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Podívejte se na cenu našich služeb</h2>
-            <p className="text-center text-gray-300 mb-16 text-lg">Transparentní ceník bez skrytých poplatků</p>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {pricing.map((pkg) => (
-                <div key={pkg._id} className="bg-white text-gray-900 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-2">
-                  <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
-                  <div className="mb-8">
-                    <span className="text-5xl font-bold text-[#5865F2]">{pkg.price}</span>
-                    <span className="text-xl ml-2 text-gray-600">{pkg.currency}</span>
-                    {pkg.unit && <span className="text-gray-500 ml-1">/ {pkg.unit}</span>}
-                  </div>
-                  <ul className="space-y-4 mb-8">
-                    {pkg.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <span className="text-[#57F287] text-xl flex-shrink-0">✓</span>
-                        <span className="text-gray-700 leading-relaxed">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="w-full bg-[#5865F2] text-white py-3.5 rounded-full font-semibold hover:bg-[#4752C4] transition-all hover:scale-105">
-                    Vybrat balíček
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom diagonal */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gray-50 transform origin-bottom-left -skew-y-2"></div>
-        </section>
-      )}
-
-      {/* About Section */}
       {about && (
         <section id="o-nas" className="relative py-20 md:py-28 bg-gray-50 -mt-1">
           <div className="container mx-auto px-6">
