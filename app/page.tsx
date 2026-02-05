@@ -4,13 +4,13 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const hero = useQuery(api.content.getHero);
   const services = useQuery(api.content.getServices);
   const newsletter = useQuery(api.content.getNewsletter);
   const serviceDetails = useQuery(api.content.getServiceDetails);
-  // Pricing removed - now on separate /cenik page
   const about = useQuery(api.content.getAbout);
   const contact = useQuery(api.content.getContact);
 
@@ -41,17 +41,19 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-white overflow-x-hidden">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-50">
-        <nav className="container mx-auto px-6 py-6">
+    <main className="min-h-screen bg-white">
+      {/* Sticky Header with White Background */}
+      <header className="sticky top-0 z-50 bg-white shadow-md">
+        <nav className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold text-white">Partex real s.r.o.</div>
-            <div className="hidden md:flex space-x-8 text-white">
-              <a href="#sluzby" className="hover:opacity-80 transition">Služby</a>
-              <a href="#o-nas" className="hover:opacity-80 transition">O nás</a>
-              <a href="/cenik" className="hover:opacity-80 transition">Ceník</a>
-              <a href="#kontakt" className="hover:opacity-80 transition">Kontakt</a>
+            <Link href="/" className="text-lg font-semibold text-[#5865F2] hover:opacity-80 transition">
+              Partex real s.r.o.
+            </Link>
+            <div className="hidden md:flex space-x-8 text-gray-700">
+              <a href="#sluzby" className="hover:text-[#5865F2] transition font-medium">Služby</a>
+              <a href="#o-nas" className="hover:text-[#5865F2] transition font-medium">O nás</a>
+              <Link href="/cenik" className="hover:text-[#5865F2] transition font-medium">Ceník</Link>
+              <a href="#kontakt" className="hover:text-[#5865F2] transition font-medium">Kontakt</a>
             </div>
             <a 
               href="#kontakt" 
@@ -63,9 +65,9 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Hero Section with Diagonal Bottom */}
-      <section className="relative bg-[#5865F2] text-white pb-20">
-        <div className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-20">
+      {/* Hero Section with Clean Diagonal */}
+      <section className="relative bg-[#5865F2] text-white pt-16 pb-32">
+        <div className="container mx-auto px-6 py-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
@@ -87,12 +89,16 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Diagonal separator - overlapping the next section */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-white transform origin-bottom-left -skew-y-2"></div>
+        {/* Diagonal separator using SVG */}
+        <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
+          <svg className="relative block w-full h-24" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+          </svg>
+        </div>
       </section>
 
       {/* Services Section */}
-      <section id="sluzby" className="relative py-20 md:py-28 bg-white -mt-1">
+      <section id="sluzby" className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">Co nabízíme?</h2>
           <p className="text-center text-gray-600 mb-16 text-lg">Naše služby jsou navrženy tak, aby vyhovovaly vaším potřebám</p>
@@ -125,11 +131,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Section with Diagonal Separators */}
-      <section className="relative bg-[#5865F2] text-white py-20 md:py-28">
-        {/* Top diagonal separator */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-[#5865F2] transform origin-top-right -skew-y-2 -mt-16"></div>
-        
+      {/* Newsletter Section with Diagonals */}
+      <section className="relative bg-[#5865F2] text-white py-32">
+        {/* Top diagonal */}
+        <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none">
+          <svg className="relative block w-full h-24" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ transform: 'rotate(180deg)' }}>
+            <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+          </svg>
+        </div>
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">{newsletter?.title || "Přispívejme na babybox"}</h2>
@@ -163,13 +173,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom diagonal separator */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-white transform origin-bottom-left -skew-y-2"></div>
+        {/* Bottom diagonal */}
+        <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
+          <svg className="relative block w-full h-24" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+          </svg>
+        </div>
       </section>
 
       {/* Service Details */}
       {serviceDetails && serviceDetails.length > 0 && (
-        <section className="relative py-20 md:py-28 bg-white -mt-1">
+        <section className="py-20 md:py-28 bg-white">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Co je náhradní plnění?</h2>
             <div className="max-w-4xl mx-auto space-y-8">
@@ -184,8 +198,9 @@ export default function Home() {
         </section>
       )}
 
+      {/* About Section */}
       {about && (
-        <section id="o-nas" className="relative py-20 md:py-28 bg-gray-50 -mt-1">
+        <section id="o-nas" className="py-20 md:py-28 bg-gray-50">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">{about.title}</h2>
             <div className="max-w-4xl mx-auto">
@@ -198,9 +213,13 @@ export default function Home() {
       )}
 
       {/* Job Posting Section */}
-      <section className="relative bg-[#5865F2] text-white py-20 md:py-28">
+      <section className="relative bg-[#5865F2] text-white py-32">
         {/* Top diagonal */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-[#5865F2] transform origin-top-right -skew-y-2 -mt-16"></div>
+        <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none">
+          <svg className="relative block w-full h-24" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ transform: 'rotate(180deg)' }}>
+            <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#F8F9FA"></path>
+          </svg>
+        </div>
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
@@ -215,13 +234,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom diagonal to footer */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-[#2C1E2C] transform origin-bottom-left -skew-y-2"></div>
+        {/* Bottom diagonal to contact/footer */}
+        <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
+          <svg className="relative block w-full h-24" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+          </svg>
+        </div>
       </section>
 
       {/* Contact Section */}
       {contact && contact.length > 0 && (
-        <section id="kontakt" className="relative py-20 md:py-28 bg-white -mt-1">
+        <section id="kontakt" className="py-20 md:py-28 bg-white">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Kontakty</h2>
             
@@ -248,7 +271,7 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="bg-[#2C1E2C] text-white py-16 -mt-1">
+      <footer className="bg-[#2C1E2C] text-white py-16">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             <div>
@@ -260,7 +283,7 @@ export default function Home() {
               <ul className="space-y-3">
                 <li><a href="#sluzby" className="text-gray-300 hover:text-white transition">Služby</a></li>
                 <li><a href="#o-nas" className="text-gray-300 hover:text-white transition">O nás</a></li>
-                <li><a href="#cenik" className="text-gray-300 hover:text-white transition">Ceník</a></li>
+                <li><Link href="/cenik" className="text-gray-300 hover:text-white transition">Ceník</Link></li>
                 <li><a href="#kontakt" className="text-gray-300 hover:text-white transition">Kontakt</a></li>
               </ul>
             </div>
