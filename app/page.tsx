@@ -41,7 +41,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white overflow-x-hidden">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-50">
         <nav className="container mx-auto px-6 py-6">
@@ -63,9 +63,9 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative bg-[#5865F2] text-white" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 4rem))' }}>
-        <div className="container mx-auto px-6 pt-32 pb-24 md:pt-40 md:pb-32">
+      {/* Hero Section with Diagonal Bottom */}
+      <section className="relative bg-[#5865F2] text-white pb-20">
+        <div className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
@@ -86,10 +86,13 @@ export default function Home() {
             </div>
           </div>
         </div>
+        
+        {/* Diagonal separator - overlapping the next section */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-white transform origin-bottom-left -skew-y-2"></div>
       </section>
 
       {/* Services Section */}
-      <section id="sluzby" className="py-20 md:py-28 bg-white">
+      <section id="sluzby" className="relative py-20 md:py-28 bg-white -mt-1">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">Co nabízíme?</h2>
           <p className="text-center text-gray-600 mb-16 text-lg">Naše služby jsou navrženy tak, aby vyhovovaly vaším potřebám</p>
@@ -122,9 +125,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="relative bg-[#5865F2] text-white" style={{ clipPath: 'polygon(0 4rem, 100% 0, 100% calc(100% - 4rem), 0 100%)' }}>
-        <div className="container mx-auto px-6 py-20 md:py-28">
+      {/* Newsletter Section with Diagonal Separators */}
+      <section className="relative bg-[#5865F2] text-white py-20 md:py-28">
+        {/* Top diagonal separator */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-[#5865F2] transform origin-top-right -skew-y-2 -mt-16"></div>
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">{newsletter?.title || "Přispívejme na babybox"}</h2>
             {newsletter?.description && (
@@ -156,11 +162,14 @@ export default function Home() {
             )}
           </div>
         </div>
+
+        {/* Bottom diagonal separator */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-white transform origin-bottom-left -skew-y-2"></div>
       </section>
 
       {/* Service Details */}
       {serviceDetails && serviceDetails.length > 0 && (
-        <section className="py-20 md:py-28 bg-white">
+        <section className="relative py-20 md:py-28 bg-white -mt-1">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Co je náhradní plnění?</h2>
             <div className="max-w-4xl mx-auto space-y-8">
@@ -177,7 +186,10 @@ export default function Home() {
 
       {/* Pricing Section */}
       {pricing && pricing.length > 0 && (
-        <section id="cenik" className="relative py-20 md:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" style={{ clipPath: 'polygon(0 4rem, 100% 0, 100% 100%, 0 calc(100% - 4rem))' }}>
+        <section id="cenik" className="relative py-20 md:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+          {/* Top diagonal */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 transform origin-top-right -skew-y-2 -mt-16"></div>
+
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
           
           <div className="container mx-auto px-6 relative z-10">
@@ -208,12 +220,15 @@ export default function Home() {
               ))}
             </div>
           </div>
+
+          {/* Bottom diagonal */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gray-50 transform origin-bottom-left -skew-y-2"></div>
         </section>
       )}
 
       {/* About Section */}
       {about && (
-        <section id="o-nas" className="py-20 md:py-28 bg-gray-50">
+        <section id="o-nas" className="relative py-20 md:py-28 bg-gray-50 -mt-1">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">{about.title}</h2>
             <div className="max-w-4xl mx-auto">
@@ -225,9 +240,12 @@ export default function Home() {
         </section>
       )}
 
-      {/* Job Posting */}
-      <section className="relative bg-[#5865F2] text-white" style={{ clipPath: 'polygon(0 4rem, 100% 0, 100% 100%, 0 calc(100% - 4rem))' }}>
-        <div className="container mx-auto px-6 py-20 md:py-28">
+      {/* Job Posting Section */}
+      <section className="relative bg-[#5865F2] text-white py-20 md:py-28">
+        {/* Top diagonal */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-[#5865F2] transform origin-top-right -skew-y-2 -mt-16"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Hledáme pozici do našich řad</h2>
             <p className="text-lg opacity-90 mb-8">Máme otevřenou pozici pro účetního/mzdového specialistu</p>
@@ -239,11 +257,14 @@ export default function Home() {
             </a>
           </div>
         </div>
+
+        {/* Bottom diagonal to footer */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-[#2C1E2C] transform origin-bottom-left -skew-y-2"></div>
       </section>
 
       {/* Contact Section */}
       {contact && contact.length > 0 && (
-        <section id="kontakt" className="py-20 md:py-28 bg-white">
+        <section id="kontakt" className="relative py-20 md:py-28 bg-white -mt-1">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Kontakty</h2>
             
@@ -270,7 +291,7 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="bg-[#2C1E2C] text-white py-16">
+      <footer className="bg-[#2C1E2C] text-white py-16 -mt-1">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             <div>
