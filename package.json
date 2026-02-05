@@ -7,6 +7,7 @@
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy",
     "build": "next build",
+    "vercel-build": "npm run convex:deploy && npm run build",
     "start": "next start",
     "lint": "eslint"
   },

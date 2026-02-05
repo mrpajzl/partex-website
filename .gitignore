@@ -38,4 +38,5 @@ next-env.d.ts
 
 # convex
 .convex
-convex/_generated
+# Temporarily allowing _generated for Vercel builds
+# convex/_generated
