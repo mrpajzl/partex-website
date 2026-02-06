@@ -3,52 +3,199 @@
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState } from "react";
-import { Trash2, Edit, Plus, Save, X } from "lucide-react";
+import { 
+  Trash2, Edit, Plus, Save, X, Eye, EyeOff, GripVertical, 
+  LayoutDashboard, FileText, Menu, Navigation, Image, Settings,
+  ChevronRight
+} from "lucide-react";
 import type { Id } from "@/convex/_generated/dataModel";
 
+type Section = "pages" | "services" | "pricing" | "contact" | "newsletter" | "about";
+
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<"services" | "pricing" | "contact" | "newsletter" | "about">("services");
+  const [activeSection, setActiveSection] = useState<Section>("pages");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const sections = [
+    { id: "pages", label: "Pages", icon: FileText, badge: null },
+    { id: "services", label: "Services", icon: LayoutDashboard, badge: null },
+    { id: "pricing", label: "Pricing", icon: Menu, badge: null },
+    { id: "contact", label: "Contact", icon: Navigation, badge: null },
+    { id: "newsletter", label: "Newsletter", icon: Image, badge: null },
+    { id: "about", label: "About", icon: Settings, badge: null },
+  ];
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-4xl font-bold text-gray-900">Content Management</h1>
-
-      {/* Tab Navigation */}
-      <div className="bg-white rounded-lg shadow-md p-2 flex space-x-2 overflow-x-auto">
-        {[
-          { id: "services", label: "Services" },
-          { id: "pricing", label: "Pricing" },
-          { id: "contact", label: "Contact" },
-          { id: "newsletter", label: "Newsletter" },
-          { id: "about", label: "About" },
-        ].map((tab) => (
+    <div className="flex h-screen bg-gray-50">
+      {/* Sidebar */}
+      <aside 
+        className={`${
+          sidebarOpen ? "w-64" : "w-20"
+        } bg-white border-r border-gray-200 transition-all duration-300 flex flex-col`}
+      >
+        {/* Logo/Header */}
+        <div className="h-16 border-b border-gray-200 flex items-center justify-between px-4">
+          {sidebarOpen && (
+            <h1 className="text-xl font-bold bg-gradient-to-r from-[#5865F2] to-[#7983F5] bg-clip-text text-transparent">
+              Partex CMS
+            </h1>
+          )}
           <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={`px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
-              activeTab === tab.id
-                ? "bg-primary-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="p-2 hover:bg-gray-100 rounded-lg transition"
           >
-            {tab.label}
+            <Menu className="w-5 h-5 text-gray-600" />
           </button>
-        ))}
-      </div>
+        </div>
 
-      {/* Tab Content */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        {activeTab === "services" && <ServicesManager />}
-        {activeTab === "pricing" && <PricingManager />}
-        {activeTab === "contact" && <ContactManager />}
-        {activeTab === "newsletter" && <NewsletterManager />}
-        {activeTab === "about" && <AboutManager />}
-      </div>
+        {/* Navigation */}
+        <nav className="flex-1 p-4 space-y-1">
+          {sections.map((section) => {
+            const Icon = section.icon;
+            const isActive = activeSection === section.id;
+            
+            return (
+              <button
+                key={section.id}
+                onClick={() => setActiveSection(section.id as Section)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  isActive
+                    ? "bg-[#5865F2] text-white shadow-md"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {sidebarOpen && (
+                  <>
+                    <span className="font-medium flex-1 text-left">{section.label}</span>
+                    {section.badge && (
+                      <span className="px-2 py-0.5 text-xs rounded-full bg-white/20">
+                        {section.badge}
+                      </span>
+                    )}
+                  </>
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* User/Settings */}
+        {sidebarOpen && (
+          <div className="p-4 border-t border-gray-200">
+            <div className="flex items-center gap-3 px-4 py-2">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5865F2] to-[#7983F5] flex items-center justify-center text-white font-bold">
+                A
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">Admin</p>
+                <p className="text-xs text-gray-500 truncate">admin@partex.cz</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto">
+        <div className="max-w-7xl mx-auto p-8">
+          {activeSection === "pages" && <PagesManager />}
+          {activeSection === "services" && <ServicesManager />}
+          {activeSection === "pricing" && <PricingManager />}
+          {activeSection === "contact" && <ContactManager />}
+          {activeSection === "newsletter" && <NewsletterManager />}
+          {activeSection === "about" && <AboutManager />}
+        </div>
+      </main>
     </div>
   );
 }
 
-// Services Manager
+// Pages Manager (NEW!)
+function PagesManager() {
+  const pages = useQuery(api.pages.list);
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900">Pages</h2>
+          <p className="text-gray-600 mt-1">Manage your website pages and sections</p>
+        </div>
+        <button className="btn-primary flex items-center gap-2">
+          <Plus className="w-5 h-5" />
+          New Page
+        </button>
+      </div>
+
+      {/* Pages Grid */}
+      <div className="grid gap-4">
+        {pages?.map((page) => (
+          <div
+            key={page._id}
+            className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group"
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900">{page.title}</h3>
+                  {page.isHomepage && (
+                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#5865F2] text-white">
+                      Homepage
+                    </span>
+                  )}
+                  {!page.isActive && (
+                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 text-gray-600">
+                      Draft
+                    </span>
+                  )}
+                </div>
+                <p className="text-gray-600 mb-3">{page.description}</p>
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <FileText className="w-4 h-4" />
+                    /{page.slug}
+                  </span>
+                  <span>
+                    Updated {new Date(page.updatedAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="btn-secondary-sm">
+                  <Eye className="w-4 h-4" />
+                </button>
+                <button className="btn-secondary-sm">
+                  <Edit className="w-4 h-4" />
+                </button>
+                <button className="btn-danger-sm">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Empty State */}
+      {pages?.length === 0 && (
+        <div className="text-center py-16 bg-white rounded-xl border-2 border-dashed border-gray-300">
+          <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No pages yet</h3>
+          <p className="text-gray-600 mb-6">Get started by creating your first page</p>
+          <button className="btn-primary">
+            <Plus className="w-5 h-5 mr-2" />
+            Create Page
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Services Manager (Redesigned)
 function ServicesManager() {
   const services = useQuery(api.content.getAllServices);
   const createService = useMutation(api.content.createService);
@@ -87,6 +234,7 @@ function ServicesManager() {
       ctaLink: service.ctaLink || "",
       order: service.order,
     });
+    setIsAdding(true);
   };
 
   const handleDelete = async (id: Id<"services">) => {
@@ -95,329 +243,158 @@ function ServicesManager() {
     }
   };
 
+  const handleCancel = () => {
+    setIsAdding(false);
+    setEditingId(null);
+    setFormData({ title: "", description: "", icon: "users", ctaText: "", ctaLink: "", order: 0 });
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Services</h2>
-        <button
-          onClick={() => setIsAdding(true)}
-          className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition flex items-center space-x-2"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Add Service</span>
-        </button>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900">Services</h2>
+          <p className="text-gray-600 mt-1">Manage your service offerings</p>
+        </div>
+        {!isAdding && (
+          <button 
+            onClick={() => setIsAdding(true)}
+            className="btn-primary flex items-center gap-2"
+          >
+            <Plus className="w-5 h-5" />
+            Add Service
+          </button>
+        )}
       </div>
 
-      {(isAdding || editingId) && (
-        <div className="bg-gray-50 p-6 rounded-lg border-2 border-primary-200">
-          <h3 className="text-xl font-bold mb-4">{editingId ? "Edit Service" : "New Service"}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Title"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="Icon (users, calculator, clipboard)"
-              value={formData.icon}
-              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <textarea
-              placeholder="Description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="px-4 py-2 border rounded-lg md:col-span-2"
-              rows={3}
-            />
-            <input
-              type="text"
-              placeholder="CTA Text"
-              value={formData.ctaText}
-              onChange={(e) => setFormData({ ...formData, ctaText: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="CTA Link"
-              value={formData.ctaLink}
-              onChange={(e) => setFormData({ ...formData, ctaLink: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Order"
-              value={formData.order}
-              onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-              className="px-4 py-2 border rounded-lg"
-            />
-          </div>
-          <div className="flex space-x-4 mt-4">
-            <button
-              onClick={handleSave}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center space-x-2"
-            >
-              <Save className="w-5 h-5" />
-              <span>Save</span>
-            </button>
-            <button
-              onClick={() => {
-                setIsAdding(false);
-                setEditingId(null);
-                setFormData({ title: "", description: "", icon: "users", ctaText: "", ctaLink: "", order: 0 });
-              }}
-              className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition flex items-center space-x-2"
-            >
-              <X className="w-5 h-5" />
-              <span>Cancel</span>
-            </button>
+      {/* Add/Edit Form */}
+      {isAdding && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-lg">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            {editingId ? "Edit Service" : "New Service"}
+          </h3>
+          <div className="grid gap-4">
+            <div>
+              <label className="label">Title</label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                className="input"
+                placeholder="Service title"
+              />
+            </div>
+            <div>
+              <label className="label">Description</label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className="input min-h-[100px]"
+                placeholder="Service description"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="label">Icon</label>
+                <input
+                  type="text"
+                  value={formData.icon}
+                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                  className="input"
+                  placeholder="users"
+                />
+              </div>
+              <div>
+                <label className="label">Order</label>
+                <input
+                  type="number"
+                  value={formData.order}
+                  onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
+                  className="input"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="label">CTA Text (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.ctaText}
+                  onChange={(e) => setFormData({ ...formData, ctaText: e.target.value })}
+                  className="input"
+                  placeholder="Learn More"
+                />
+              </div>
+              <div>
+                <label className="label">CTA Link (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.ctaLink}
+                  onChange={(e) => setFormData({ ...formData, ctaLink: e.target.value })}
+                  className="input"
+                  placeholder="/services"
+                />
+              </div>
+            </div>
+            <div className="flex gap-3 pt-4 border-t border-gray-200">
+              <button onClick={handleSave} className="btn-primary flex-1">
+                <Save className="w-4 h-4 mr-2" />
+                {editingId ? "Update" : "Create"}
+              </button>
+              <button onClick={handleCancel} className="btn-secondary flex-1">
+                <X className="w-4 h-4 mr-2" />
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      <div className="space-y-4">
+      {/* Services Grid */}
+      <div className="grid gap-4">
         {services?.map((service) => (
-          <div key={service._id} className="bg-gray-50 p-4 rounded-lg flex justify-between items-start">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-              <p className="text-gray-700 mb-2">{service.description}</p>
-              <div className="flex space-x-4 text-sm text-gray-600">
-                <span>Icon: {service.icon}</span>
-                <span>Order: {service.order}</span>
-                <span className={service.isActive ? "text-green-600" : "text-red-600"}>
-                  {service.isActive ? "Active" : "Inactive"}
-                </span>
-              </div>
-            </div>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => handleEdit(service)}
-                className="p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-              >
-                <Edit className="w-5 h-5" />
+          <div
+            key={service._id}
+            className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group"
+          >
+            <div className="flex items-start gap-4">
+              <button className="mt-1 text-gray-400 hover:text-gray-600 cursor-move">
+                <GripVertical className="w-5 h-5" />
               </button>
-              <button
-                onClick={() => handleDelete(service._id)}
-                className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// Pricing Manager
-function PricingManager() {
-  const pricing = useQuery(api.content.getAllPricing);
-  const createPricing = useMutation(api.content.createPricingPackage);
-  const updatePricing = useMutation(api.content.updatePricingPackage);
-  const deletePricing = useMutation(api.content.deletePricingPackage);
-
-  const [editingId, setEditingId] = useState<Id<"pricingPackages"> | null>(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    price: 0,
-    currency: "Kč",
-    unit: "měsíc",
-    features: [""],
-    order: 0,
-  });
-
-  const handleSave = async () => {
-    const cleanedFeatures = formData.features.filter(f => f.trim() !== "");
-    if (editingId) {
-      await updatePricing({ id: editingId, ...formData, features: cleanedFeatures });
-      setEditingId(null);
-    } else {
-      await createPricing({ ...formData, features: cleanedFeatures });
-      setIsAdding(false);
-    }
-    setFormData({ name: "", price: 0, currency: "Kč", unit: "měsíc", features: [""], order: 0 });
-  };
-
-  const handleEdit = (pkg: any) => {
-    setEditingId(pkg._id);
-    setFormData({
-      name: pkg.name,
-      price: pkg.price,
-      currency: pkg.currency,
-      unit: pkg.unit || "měsíc",
-      features: pkg.features,
-      order: pkg.order,
-    });
-  };
-
-  const handleDelete = async (id: Id<"pricingPackages">) => {
-    if (confirm("Are you sure you want to delete this pricing package?")) {
-      await deletePricing({ id });
-    }
-  };
-
-  const addFeature = () => {
-    setFormData({ ...formData, features: [...formData.features, ""] });
-  };
-
-  const updateFeature = (index: number, value: string) => {
-    const newFeatures = [...formData.features];
-    newFeatures[index] = value;
-    setFormData({ ...formData, features: newFeatures });
-  };
-
-  const removeFeature = (index: number) => {
-    const newFeatures = formData.features.filter((_, i) => i !== index);
-    setFormData({ ...formData, features: newFeatures });
-  };
-
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Pricing Packages</h2>
-        <button
-          onClick={() => setIsAdding(true)}
-          className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition flex items-center space-x-2"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Add Package</span>
-        </button>
-      </div>
-
-      {(isAdding || editingId) && (
-        <div className="bg-gray-50 p-6 rounded-lg border-2 border-primary-200">
-          <h3 className="text-xl font-bold mb-4">{editingId ? "Edit Package" : "New Package"}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <input
-              type="text"
-              placeholder="Package Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Price"
-              value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="Currency (Kč, €, $)"
-              value={formData.currency}
-              onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="Unit (měsíc, rok, etc.)"
-              value={formData.unit}
-              onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Order"
-              value={formData.order}
-              onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-              className="px-4 py-2 border rounded-lg"
-            />
-          </div>
-
-          <div className="mb-4">
-            <div className="flex justify-between items-center mb-2">
-              <label className="font-semibold">Features:</label>
-              <button
-                onClick={addFeature}
-                className="text-primary-600 hover:text-primary-700 flex items-center space-x-1"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Feature</span>
-              </button>
-            </div>
-            <div className="space-y-2">
-              {formData.features.map((feature, index) => (
-                <div key={index} className="flex space-x-2">
-                  <input
-                    type="text"
-                    placeholder={`Feature ${index + 1}`}
-                    value={feature}
-                    onChange={(e) => updateFeature(index, e.target.value)}
-                    className="flex-1 px-4 py-2 border rounded-lg"
-                  />
-                  <button
-                    onClick={() => removeFeature(index)}
-                    className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
+              
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900">{service.title}</h3>
+                  {!service.isActive && (
+                    <span className="px-2 py-1 text-xs rounded-full bg-gray-200 text-gray-600">
+                      Hidden
+                    </span>
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex space-x-4">
-            <button
-              onClick={handleSave}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center space-x-2"
-            >
-              <Save className="w-5 h-5" />
-              <span>Save</span>
-            </button>
-            <button
-              onClick={() => {
-                setIsAdding(false);
-                setEditingId(null);
-                setFormData({ name: "", price: 0, currency: "Kč", unit: "měsíc", features: [""], order: 0 });
-              }}
-              className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition flex items-center space-x-2"
-            >
-              <X className="w-5 h-5" />
-              <span>Cancel</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className="space-y-4">
-        {pricing?.map((pkg) => (
-          <div key={pkg._id} className="bg-gray-50 p-4 rounded-lg flex justify-between items-start">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">{pkg.name}</h3>
-              <p className="text-2xl font-bold text-primary-600 mb-2">
-                {pkg.price} {pkg.currency} {pkg.unit && `/ ${pkg.unit}`}
-              </p>
-              <ul className="list-disc list-inside space-y-1 text-gray-700">
-                {pkg.features.map((feature, idx) => (
-                  <li key={idx}>{feature}</li>
-                ))}
-              </ul>
-              <div className="mt-2 text-sm text-gray-600">
-                <span>Order: {pkg.order}</span>
-                <span className={`ml-4 ${pkg.isActive ? "text-green-600" : "text-red-600"}`}>
-                  {pkg.isActive ? "Active" : "Inactive"}
-                </span>
+                <p className="text-gray-600 mb-3">{service.description}</p>
+                {service.ctaText && (
+                  <div className="inline-flex items-center gap-2 text-sm text-[#5865F2]">
+                    <span>{service.ctaText}</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </div>
+                )}
               </div>
-            </div>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => handleEdit(pkg)}
-                className="p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-              >
-                <Edit className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => handleDelete(pkg._id)}
-                className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
+              
+              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button 
+                  onClick={() => handleEdit(service)}
+                  className="btn-secondary-sm"
+                >
+                  <Edit className="w-4 h-4" />
+                </button>
+                <button 
+                  onClick={() => handleDelete(service._id)}
+                  className="btn-danger-sm"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -426,253 +403,43 @@ function PricingManager() {
   );
 }
 
-// Contact Manager
+// Placeholder components for other sections
+function PricingManager() {
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+      <Menu className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">Pricing Manager</h3>
+      <p className="text-gray-600">Coming soon...</p>
+    </div>
+  );
+}
+
 function ContactManager() {
-  const contact = useQuery(api.content.getAllContact);
-  const createContact = useMutation(api.content.createContact);
-  const updateContact = useMutation(api.content.updateContact);
-  const deleteContact = useMutation(api.content.deleteContact);
-
-  const [editingId, setEditingId] = useState<Id<"contact"> | null>(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [formData, setFormData] = useState({
-    type: "email",
-    label: "",
-    value: "",
-    icon: "mail",
-    order: 0,
-  });
-
-  const handleSave = async () => {
-    if (editingId) {
-      await updateContact({ id: editingId, ...formData });
-      setEditingId(null);
-    } else {
-      await createContact(formData);
-      setIsAdding(false);
-    }
-    setFormData({ type: "email", label: "", value: "", icon: "mail", order: 0 });
-  };
-
-  const handleEdit = (item: any) => {
-    setEditingId(item._id);
-    setFormData({
-      type: item.type,
-      label: item.label,
-      value: item.value,
-      icon: item.icon || "mail",
-      order: item.order,
-    });
-  };
-
-  const handleDelete = async (id: Id<"contact">) => {
-    if (confirm("Are you sure you want to delete this contact item?")) {
-      await deleteContact({ id });
-    }
-  };
-
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Contact Information</h2>
-        <button
-          onClick={() => setIsAdding(true)}
-          className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition flex items-center space-x-2"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Add Contact</span>
-        </button>
-      </div>
-
-      {(isAdding || editingId) && (
-        <div className="bg-gray-50 p-6 rounded-lg border-2 border-primary-200">
-          <h3 className="text-xl font-bold mb-4">{editingId ? "Edit Contact" : "New Contact"}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Type (email, phone, address, hours)"
-              value={formData.type}
-              onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="text"
-              placeholder="Label"
-              value={formData.label}
-              onChange={(e) => setFormData({ ...formData, label: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <textarea
-              placeholder="Value"
-              value={formData.value}
-              onChange={(e) => setFormData({ ...formData, value: e.target.value })}
-              className="px-4 py-2 border rounded-lg md:col-span-2"
-              rows={3}
-            />
-            <input
-              type="text"
-              placeholder="Icon (mail, phone, map-pin, clock)"
-              value={formData.icon}
-              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="px-4 py-2 border rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Order"
-              value={formData.order}
-              onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-              className="px-4 py-2 border rounded-lg"
-            />
-          </div>
-          <div className="flex space-x-4 mt-4">
-            <button
-              onClick={handleSave}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center space-x-2"
-            >
-              <Save className="w-5 h-5" />
-              <span>Save</span>
-            </button>
-            <button
-              onClick={() => {
-                setIsAdding(false);
-                setEditingId(null);
-                setFormData({ type: "email", label: "", value: "", icon: "mail", order: 0 });
-              }}
-              className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition flex items-center space-x-2"
-            >
-              <X className="w-5 h-5" />
-              <span>Cancel</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className="space-y-4">
-        {contact?.map((item) => (
-          <div key={item._id} className="bg-gray-50 p-4 rounded-lg flex justify-between items-start">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">{item.label}</h3>
-              <p className="text-gray-700 mb-2 whitespace-pre-line">{item.value}</p>
-              <div className="flex space-x-4 text-sm text-gray-600">
-                <span>Type: {item.type}</span>
-                <span>Icon: {item.icon}</span>
-                <span>Order: {item.order}</span>
-                <span className={item.isActive ? "text-green-600" : "text-red-600"}>
-                  {item.isActive ? "Active" : "Inactive"}
-                </span>
-              </div>
-            </div>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => handleEdit(item)}
-                className="p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-              >
-                <Edit className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => handleDelete(item._id)}
-                className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+      <Navigation className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">Contact Manager</h3>
+      <p className="text-gray-600">Coming soon...</p>
     </div>
   );
 }
 
-// Newsletter Manager
 function NewsletterManager() {
-  const newsletter = useQuery(api.content.getNewsletter);
-  const subscribers = useQuery(api.content.getNewsletter); // You would need to create this query
-
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Newsletter Settings</h2>
-      {newsletter && (
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <h3 className="text-xl font-bold mb-4">{newsletter.title}</h3>
-          <p className="text-gray-700 mb-4">{newsletter.description}</p>
-          <p className="text-sm text-gray-600">CTA: {newsletter.ctaText}</p>
-        </div>
-      )}
-      <p className="text-gray-600 italic">Subscriber management coming soon...</p>
+    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+      <Image className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">Newsletter Manager</h3>
+      <p className="text-gray-600">Coming soon...</p>
     </div>
   );
 }
 
-// About Manager
 function AboutManager() {
-  const about = useQuery(api.content.getAbout);
-  const updateAbout = useMutation(api.content.updateAbout);
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    title: about?.title || "",
-    content: about?.content || "",
-  });
-
-  const handleSave = async () => {
-    if (about?._id) {
-      await updateAbout({ id: about._id, ...formData });
-      setIsEditing(false);
-    }
-  };
-
-  if (!about) return <div>Loading...</div>;
-
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">About Section</h2>
-        <button
-          onClick={() => {
-            setIsEditing(!isEditing);
-            if (!isEditing) {
-              setFormData({ title: about.title, content: about.content });
-            }
-          }}
-          className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition flex items-center space-x-2"
-        >
-          <Edit className="w-5 h-5" />
-          <span>{isEditing ? "Cancel" : "Edit"}</span>
-        </button>
-      </div>
-
-      {isEditing ? (
-        <div className="bg-gray-50 p-6 rounded-lg border-2 border-primary-200">
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Title"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
-            />
-            <textarea
-              placeholder="Content"
-              value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg"
-              rows={15}
-            />
-            <button
-              onClick={handleSave}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center space-x-2"
-            >
-              <Save className="w-5 h-5" />
-              <span>Save Changes</span>
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <h3 className="text-2xl font-bold mb-4">{about.title}</h3>
-          <p className="text-gray-700 whitespace-pre-line">{about.content}</p>
-        </div>
-      )}
+    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+      <Settings className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">About Manager</h3>
+      <p className="text-gray-600">Coming soon...</p>
     </div>
   );
 }
