@@ -134,7 +134,8 @@ function PagesManager() {
         {pages?.map((page) => (
           <div
             key={page._id}
-            className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group"
+            className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group cursor-pointer"
+            onClick={() => window.location.href = `/admin/pages/${page._id}`}
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -164,13 +165,33 @@ function PagesManager() {
               </div>
               
               <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="btn-secondary-sm">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(`/cms-test`, '_blank');
+                  }}
+                  className="btn-secondary-sm"
+                >
                   <Eye className="w-4 h-4" />
                 </button>
-                <button className="btn-secondary-sm">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `/admin/pages/${page._id}`;
+                  }}
+                  className="btn-secondary-sm"
+                >
                   <Edit className="w-4 h-4" />
                 </button>
-                <button className="btn-danger-sm">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (confirm('Delete this page?')) {
+                      // TODO: implement delete
+                    }
+                  }}
+                  className="btn-danger-sm"
+                >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
