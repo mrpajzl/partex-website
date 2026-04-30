@@ -172,6 +172,16 @@ export default function Home() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold">Přispívejme na babybox</h2>
+            <div className="mt-8 flex justify-center">
+              <Image
+                src="/babybox.gif"
+                alt="Podporujeme Babybox"
+                width={468}
+                height={60}
+                unoptimized
+                className="h-auto w-full max-w-[468px] rounded-2xl bg-white/95 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.16)]"
+              />
+            </div>
           </div>
         </div>
 
