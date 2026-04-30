@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -93,6 +93,7 @@ export default function Home() {
   const yearsWithClients = getYearsSinceFoundation();
   const [activeService, setActiveService] = useState<(typeof realServices)[number] | null>(null);
   const [usefulLinksOpen, setUsefulLinksOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const hero = useQuery(api.content.getHero);
   const about = useQuery(api.content.getAbout);
 
@@ -114,7 +115,7 @@ export default function Home() {
                 className="h-12 w-auto max-w-[12rem] flex-shrink object-contain object-left sm:h-14 sm:max-w-[16rem] md:h-16 md:max-w-[20rem]"
               />
             </a>
-            <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
+            <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner lg:flex">
               <a href="#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</a>
               <a href="#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</a>
               <Link href="/cenik" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Ceník</Link>
@@ -122,18 +123,35 @@ export default function Home() {
             </div>
             <a
               href="#kontakt"
-              className="group inline-flex flex-shrink-0 items-center gap-1.5 rounded-full bg-[#57F287] px-3 py-2.5 text-xs font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] sm:text-sm md:px-6 md:py-3"
+              className="group hidden flex-shrink-0 items-center gap-1.5 rounded-full bg-[#57F287] px-3 py-2.5 text-xs font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] sm:text-sm md:px-6 md:py-3 lg:inline-flex"
             >
               <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
             </a>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/90 text-[#2C1E2C] shadow-sm ring-1 ring-slate-200 transition hover:bg-white lg:hidden"
+              aria-label={mobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
-          <div className="mt-2 flex gap-2 overflow-x-auto pb-1 text-xs font-bold text-slate-700 md:hidden">
-            <a href="#sluzby" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Služby</a>
-            <a href="#o-nas" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">O nás</a>
-            <Link href="/cenik" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Ceník</Link>
-            <a href="#kontakt" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Kontakt</a>
-          </div>
+          {mobileMenuOpen && (
+            <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
+              <div className="grid gap-2">
+                <a onClick={() => setMobileMenuOpen(false)} href="#sluzby" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</a>
+                <a onClick={() => setMobileMenuOpen(false)} href="#o-nas" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</a>
+                <Link onClick={() => setMobileMenuOpen(false)} href="/cenik" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Ceník</Link>
+                <a onClick={() => setMobileMenuOpen(false)} href="#kontakt" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</a>
+                <a onClick={() => setMobileMenuOpen(false)} href="#kontakt" className="mt-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#57F287] px-4 py-3 font-extrabold text-[#17351f] transition hover:bg-[#4ADB7A]">
+                  Kontaktujte nás
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          )}
         </nav>
       </header>
 
