@@ -99,17 +99,17 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-[#f7f8ff] text-slate-950">
+    <main id="top" className="min-h-screen bg-[#f7f8ff] text-slate-950">
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
-        <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
+        <nav className="container mx-auto px-4 py-2.5 md:px-6 md:py-4">
+          <div className="flex items-center justify-between gap-3">
+            <a href="#top" className="group min-w-0 flex-1 rounded-full pr-2 transition hover:opacity-90" aria-label="Zpět na začátek stránky">
               <span className="leading-tight">
-                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real s. r. o.</span>
-                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví - mzdy - personalistika</span>
+                <span className="block truncate text-lg font-black tracking-tight text-[#2C1E2C] sm:text-xl md:text-2xl">Partex real s. r. o.</span>
+                <span className="hidden truncate text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#5865F2] sm:block md:text-xs md:tracking-[0.26em]">účetnictví - mzdy - personalistika</span>
               </span>
-            </Link>
+            </a>
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
               <a href="#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</a>
               <a href="#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</a>
@@ -118,17 +118,23 @@ export default function Home() {
             </div>
             <a
               href="#kontakt"
-              className="group inline-flex items-center gap-2 rounded-full bg-[#57F287] px-4 py-3 text-sm font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] md:px-6"
+              className="group inline-flex flex-shrink-0 items-center gap-1.5 rounded-full bg-[#57F287] px-3 py-2.5 text-xs font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] sm:text-sm md:px-6 md:py-3"
             >
               <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
             </a>
           </div>
+          <div className="mt-2 flex gap-2 overflow-x-auto pb-1 text-xs font-bold text-slate-700 md:hidden">
+            <a href="#sluzby" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Služby</a>
+            <a href="#o-nas" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">O nás</a>
+            <Link href="/cenik" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Ceník</Link>
+            <a href="#kontakt" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Kontakt</a>
+          </div>
         </nav>
       </header>
 
-      <div className="relative z-10 bg-[#2C1E2C] px-6 py-3 text-center text-sm font-extrabold uppercase tracking-[0.18em] text-white shadow-inner">
-        Již {yearsWithClients} let jsme tu pro naše klienty
+      <div className="relative z-10 bg-[#2C1E2C] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.10em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
+        <span className="mx-auto block max-w-[21rem] sm:max-w-none">Již {yearsWithClients} let jsme tu pro naše klienty</span>
       </div>
 
       {/* Hero Section */}
@@ -138,14 +144,14 @@ export default function Home() {
         <div className="container relative z-10 mx-auto px-6 py-10 md:py-12">
           <div className="grid items-center gap-14 md:grid-cols-[1.05fr_0.95fr]">
             <div>
-              <h1 className="max-w-4xl text-4xl font-black leading-[0.98] tracking-tight md:text-6xl lg:text-7xl">
+              <h1 className="max-w-[20rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:text-6xl lg:text-7xl">
                 {hero?.title || "Vaše cesta k úspěchu je i naše práce"}
               </h1>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-white/86 md:text-2xl md:leading-9">{hero?.subtitle || "Pomůžeme vám dosáhnout vašich cílů"}</p>
+              <p className="mt-5 max-w-[20rem] text-base leading-7 text-white/86 sm:max-w-2xl sm:text-lg md:text-2xl md:leading-9">{hero?.subtitle || "Pomůžeme vám dosáhnout vašich cílů"}</p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <a
                   href="#sluzby"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-extrabold text-[#5865F2] shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-all hover:-translate-y-1 hover:bg-[#f4f6ff]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-extrabold text-[#5865F2] sm:px-8 sm:py-4 shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-all hover:-translate-y-1 hover:bg-[#f4f6ff]"
                 >
                   Naše služby
                   <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
@@ -169,26 +175,26 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="sluzby" className="relative bg-white py-20 md:py-28">
+      <section id="sluzby" className="relative bg-white py-14 md:py-28">
         <div className="absolute inset-x-0 top-8 mx-auto h-48 max-w-5xl rounded-full bg-[#5865F2]/5 blur-3xl" />
-        <div className="container relative mx-auto px-6">
+        <div className="container relative mx-auto max-w-full px-4 sm:px-6">
           <h2 className="mb-4 text-center text-3xl font-black tracking-tight text-slate-950 md:text-5xl">Co nabízíme?</h2>
-          <p className="mx-auto mb-16 max-w-2xl text-center text-lg leading-8 text-slate-600">Naše služby jsou navrženy tak, aby vyhovovaly vašim potřebám — přehledně, spolehlivě a bez zbytečného papírování.</p>
+          <p className="mx-auto mb-10 max-w-[18rem] text-center text-base leading-7 text-slate-600 sm:max-w-2xl md:mb-16 md:text-lg md:leading-8">Naše služby jsou navrženy tak, aby vyhovovaly vašim potřebám — přehledně, spolehlivě a bez zbytečného papírování.</p>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="mx-auto grid max-w-full gap-5 md:max-w-6xl md:grid-cols-3 md:gap-8">
             {realServices.map((service) => {
               const Icon = service.icon;
               return (
                 <div
                   key={service.title}
-                  className="group relative overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_18px_55px_rgba(29,38,90,0.08)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_28px_70px_rgba(88,101,242,0.16)]"
+                  className="group relative mx-auto w-full max-w-[22rem] overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white p-6 shadow-[0_18px_55px_rgba(29,38,90,0.08)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_28px_70px_rgba(88,101,242,0.16)] md:max-w-none"
                 >
                   <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#5865F2]/8 transition group-hover:bg-[#57F287]/18" />
                   <div className="relative mb-6 flex h-18 w-18 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-[#5865F2] to-[#2C1E2C] shadow-lg shadow-[#5865F2]/20">
                     <Icon className="h-9 w-9 text-white" />
                   </div>
                   <h3 className="relative mb-4 text-2xl font-black text-slate-950">{service.title}</h3>
-                  <p className="relative mb-6 leading-7 text-slate-600">{service.description}</p>
+                  <p className="relative mb-6 overflow-wrap-anywhere leading-7 text-slate-600">{service.description}</p>
                   <button
                     type="button"
                     onClick={() => setActiveService(service)}
@@ -389,9 +395,9 @@ export default function Home() {
 
 
 
-      <div className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3">
+      <div className="fixed bottom-4 left-4 z-[90] flex flex-col items-start gap-3 sm:left-auto sm:right-4 sm:items-end">
         {usefulLinksOpen && (
-          <div className="w-[min(calc(100vw-2.5rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
+          <div className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
             <div className="flex items-center justify-between bg-[#2C1E2C] px-5 py-4 text-white">
               <div>
                 <div className="text-sm font-black uppercase tracking-[0.18em] text-[#57F287]">Pro klienty</div>
@@ -417,7 +423,7 @@ export default function Home() {
         <button
           type="button"
           onClick={() => setUsefulLinksOpen((open) => !open)}
-          className="rounded-full bg-[#57F287] px-5 py-3 text-sm font-black text-[#17351f] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[#4ADB7A]"
+          className="rounded-full bg-[#57F287] px-3.5 py-2.5 text-xs font-black sm:px-5 sm:py-3 sm:text-sm text-[#17351f] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[#4ADB7A]"
           aria-expanded={usefulLinksOpen}
         >
           Užitečné odkazy

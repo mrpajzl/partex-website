@@ -107,12 +107,12 @@ function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
-        <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
+        <nav className="container mx-auto px-4 py-2.5 md:px-6 md:py-4">
+          <div className="flex items-center justify-between gap-3">
+            <Link href="/#top" className="group min-w-0 flex-1 rounded-full pr-2 transition hover:opacity-90" aria-label="Zpět na začátek stránky">
               <span className="leading-tight">
-                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real s. r. o.</span>
-                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví - mzdy - personalistika</span>
+                <span className="block truncate text-lg font-black tracking-tight text-[#2C1E2C] sm:text-xl md:text-2xl">Partex real s. r. o.</span>
+                <span className="hidden truncate text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#5865F2] sm:block md:text-xs md:tracking-[0.26em]">účetnictví - mzdy - personalistika</span>
               </span>
             </Link>
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
@@ -123,15 +123,21 @@ function Header() {
             </div>
             <Link
               href="/#kontakt"
-              className="group inline-flex items-center gap-2 rounded-full bg-[#57F287] px-4 py-3 text-sm font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] md:px-6"
+              className="group inline-flex flex-shrink-0 items-center gap-1.5 rounded-full bg-[#57F287] px-3 py-2.5 text-xs font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] sm:text-sm md:px-6 md:py-3"
             >
               <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
             </Link>
           </div>
+          <div className="mt-2 flex gap-2 overflow-x-auto pb-1 text-xs font-bold text-slate-700 md:hidden">
+            <Link href="/#sluzby" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Služby</Link>
+            <Link href="/#o-nas" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">O nás</Link>
+            <Link href="/cenik" className="rounded-full bg-[#5865F2]/10 px-3 py-1.5 text-[#5865F2] shadow-sm ring-1 ring-[#5865F2]/10">Ceník</Link>
+            <Link href="/#kontakt" className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-slate-200">Kontakt</Link>
+          </div>
         </nav>
       </header>
-      <div className="relative z-10 bg-[#2C1E2C] px-6 py-3 text-center text-sm font-extrabold uppercase tracking-[0.18em] text-white shadow-inner">
+      <div className="relative z-10 bg-[#2C1E2C] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
         Již {yearsWithClients} let jsme tu pro naše klienty
       </div>
     </>
@@ -140,7 +146,7 @@ function Header() {
 
 export default function CenikPage() {
   return (
-    <main className="min-h-screen bg-[#f7f8ff] text-slate-950">
+    <main id="top" className="min-h-screen bg-[#f7f8ff] text-slate-950">
       <Header />
 
       <section className="relative overflow-hidden bg-[#5865F2] py-20 text-white md:py-28">
