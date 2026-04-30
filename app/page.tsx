@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, Sparkles, type LucideIcon } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -60,10 +60,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
         <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
           <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="group flex items-center gap-3 rounded-full pr-3 transition hover:opacity-90">
-              <span className="grid h-18 w-28 place-items-center rounded-[1.35rem] bg-white px-2 shadow-[0_16px_35px_rgba(88,101,242,0.26)] ring-1 ring-[#5865F2]/10 md:h-24 md:w-36">
-                <PartexIllustration className="h-16 w-24 object-contain md:h-20 md:w-32" />
-              </span>
+            <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
               <span className="leading-tight">
                 <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
                 <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
@@ -93,10 +90,6 @@ export default function Home() {
         <div className="container relative z-10 mx-auto px-6 py-20 md:py-24">
           <div className="grid items-center gap-14 md:grid-cols-[1.05fr_0.95fr]">
             <div>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/12 px-4 py-2 text-sm font-bold text-white shadow-lg backdrop-blur">
-                <Sparkles className="h-4 w-4 text-[#57F287]" />
-                Partner pro firmy, které chtějí mít pořádek v číslech
-              </div>
               <h1 className="max-w-4xl text-4xl font-black leading-[0.98] tracking-tight md:text-6xl lg:text-7xl">
                 {hero?.title || "Vaše cesta k úspěchu je i naše práce"}
               </h1>
@@ -112,19 +105,10 @@ export default function Home() {
                 <a href="#sluzby" className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur transition hover:bg-white/18">Naše služby</a>
               </div>
             </div>
-            <div className="relative hidden min-h-[430px] items-center justify-center md:flex">
-              <div className="absolute h-80 w-80 rounded-full bg-[#57F287]/20 blur-3xl" />
-              <div className="relative w-full max-w-md rounded-[2.5rem] border border-white/18 bg-white/12 p-8 shadow-[0_28px_80px_rgba(0,0,0,0.24)] backdrop-blur-2xl">
-                <div className="absolute -right-5 -top-5 rounded-3xl bg-[#57F287] px-5 py-3 text-sm font-black text-[#17351f] shadow-xl">bez chaosu</div>
-                <div className="grid aspect-[1.18/1] place-items-center rounded-[2rem] bg-white p-6 shadow-2xl">
-                  <PartexIllustration className="h-72 w-full object-contain" />
-                </div>
-                <div className="mt-6 grid grid-cols-3 gap-3 text-center text-sm font-bold">
-                  <div className="rounded-2xl bg-white/12 p-3">Účetnictví</div>
-                  <div className="rounded-2xl bg-white/12 p-3">Daně</div>
-                  <div className="rounded-2xl bg-white/12 p-3">Mzdy</div>
-                </div>
-              </div>
+            <div className="relative hidden min-h-[470px] items-center justify-center md:flex">
+              <div className="absolute -right-10 top-3 h-96 w-96 rounded-full border border-white/10" />
+              <div className="absolute -right-2 top-12 h-72 w-72 rounded-full bg-[#57F287]/18 blur-3xl" />
+              <PartexIllustration className="relative z-10 w-[560px] max-w-none -translate-x-2 translate-y-6 -rotate-3 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[650px] lg:translate-x-8" />
             </div>
           </div>
         </div>
