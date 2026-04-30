@@ -2,10 +2,20 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+
+const usefulLinks = [
+  { title: "ARES", description: "Vyhledávání ekonomických subjektů", href: "http://wwwinfo.mfcr.cz/ares/ares_es.html.cz" },
+  { title: "Plátci DPH", description: "Čísla účtů pro ekonomickou činnost", href: "http://adisspr.mfcr.cz/adis/jepo/epo/dpr/apl_ramce.htm?R=/adistc/DphReg?ZPRAC=FDPHI1%26poc_dic=2%26OK=Zobraz" },
+  { title: "Ověření DIČ v ČR", description: "Registr plátců DPH v ČR", href: "http://adisreg.mfcr.cz/cgi-bin/adis/idph/int_dp_prij.cgi?ZPRAC=FDPHI1&poc_dic=1" },
+  { title: "Ověření DIČ v EU", description: "VIES Evropské komise", href: "http://ec.europa.eu/taxation_customs/vies/?locale=cs" },
+  { title: "Finanční úřady", description: "Číselník finančních úřadů ČR", href: "http://www.statnisprava.cz/rstsp/ciselniky.nsf/i/d0027" },
+  { title: "Justice", description: "Oficiální server českého soudnictví", href: "http://portal.justice.cz/justice2/uvod/uvod.aspx" },
+  { title: "Kurzy ČNB", description: "Kurzy devizového trhu", href: "https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/" },
+];
 
 const FOUNDATION_DATE = new Date("2004-11-15T00:00:00+01:00");
 const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
@@ -82,6 +92,7 @@ function PartexIllustration({ className = "" }: { className?: string }) {
 export default function Home() {
   const yearsWithClients = getYearsSinceFoundation();
   const [activeService, setActiveService] = useState<(typeof realServices)[number] | null>(null);
+  const [usefulLinksOpen, setUsefulLinksOpen] = useState(false);
   const hero = useQuery(api.content.getHero);
   const about = useQuery(api.content.getAbout);
 
@@ -377,6 +388,42 @@ export default function Home() {
         </div>
       </section>
 
+
+
+      <div className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3">
+        {usefulLinksOpen && (
+          <div className="w-[min(calc(100vw-2.5rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
+            <div className="flex items-center justify-between bg-[#2C1E2C] px-5 py-4 text-white">
+              <div>
+                <div className="text-sm font-black uppercase tracking-[0.18em] text-[#57F287]">Pro klienty</div>
+                <div className="text-lg font-black">Užitečné odkazy</div>
+              </div>
+              <button type="button" onClick={() => setUsefulLinksOpen(false)} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20" aria-label="Zavřít užitečné odkazy">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="max-h-[60vh] divide-y divide-slate-100 overflow-y-auto">
+              {usefulLinks.map((link) => (
+                <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="group flex items-start justify-between gap-4 px-5 py-3.5 transition hover:bg-[#5865F2]/5">
+                  <span>
+                    <span className="block font-bold text-slate-950 group-hover:text-[#5865F2]">{link.title}</span>
+                    <span className="mt-0.5 block text-sm leading-5 text-slate-500">{link.description}</span>
+                  </span>
+                  <ExternalLink className="mt-1 h-4 w-4 flex-shrink-0 text-slate-400 group-hover:text-[#5865F2]" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={() => setUsefulLinksOpen((open) => !open)}
+          className="rounded-full bg-[#57F287] px-5 py-3 text-sm font-black text-[#17351f] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[#4ADB7A]"
+          aria-expanded={usefulLinksOpen}
+        >
+          Užitečné odkazy
+        </button>
+      </div>
 
       {activeService && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061727]/70 px-4 py-8 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="service-dialog-title">
