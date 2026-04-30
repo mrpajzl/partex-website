@@ -157,6 +157,29 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* Pricing CTA Section */}
+      <section className="relative overflow-hidden bg-[#f7f8ff] py-20 md:py-28">
+        <div className="absolute -left-24 top-12 h-64 w-64 rounded-full bg-[#5865F2]/10 blur-3xl" />
+        <div className="absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-[#57F287]/14 blur-3xl" />
+        <div className="container relative mx-auto px-6">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 rounded-[2.5rem] border border-white/80 bg-white p-8 shadow-[0_28px_80px_rgba(29,38,90,0.10)] md:grid-cols-[1fr_auto] md:p-12">
+            <div>
+              <p className="mb-3 text-sm font-black uppercase tracking-[0.28em] text-[#5865F2]">Ceník služeb</p>
+              <h2 className="max-w-3xl text-3xl font-black tracking-tight text-slate-950 md:text-5xl">Jasné ceny pro účetnictví, daně i mzdy</h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Podívejte se na přehled služeb a orientační ceny. Pro konkrétní rozsah vám připravíme nabídku na míru.</p>
+            </div>
+            <Link
+              href="/cenik"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#5865F2] px-8 py-4 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[#4752C4]"
+            >
+              Zobrazit ceník
+              <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter Section with Diagonals */}
       <section className="relative bg-[#5865F2] text-white py-32">
         {/* Top diagonal */}
@@ -168,6 +191,16 @@ export default function Home() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
+            <div className="mb-8 flex justify-center">
+              <Image
+                src="/babybox.gif"
+                alt="Podporujeme Babybox"
+                width={468}
+                height={60}
+                unoptimized
+                className="h-auto w-full max-w-[468px] rounded-2xl bg-white/95 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.16)]"
+              />
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">{newsletter?.title || "Přispívejme na babybox"}</h2>
             {newsletter?.description && (
               <p className="mb-10 text-lg opacity-90">{newsletter.description}</p>
