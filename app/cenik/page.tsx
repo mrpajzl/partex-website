@@ -187,8 +187,7 @@ export default function CenikPage() {
                       </div>
 
                       {item.children && (
-                        <div className="mt-4 rounded-3xl bg-slate-50 p-3 ring-1 ring-slate-200/80 md:ml-4 md:p-4">
-                          <div className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-slate-500">Varianty</div>
+                        <div className="mt-4 rounded-3xl bg-slate-50 p-3 ring-1 ring-slate-200/80 md:ml-4 md:p-3">
                           <div className="space-y-3">
                             {item.children.map((child) => (
                               <div key={`${item.service}-${child.service}-${child.price}`} className="rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200/70">
@@ -196,9 +195,9 @@ export default function CenikPage() {
                                   <div className="min-w-0">
                                     <div className="font-semibold leading-7 text-slate-800">{child.service}</div>
                                     {child.note && (
-                                      <div className="mt-2 rounded-xl bg-amber-50 px-3 py-2 text-sm font-medium leading-6 text-amber-950 ring-1 ring-amber-200">
+                                      <p className="mt-1 text-sm leading-6 text-slate-500">
                                         {child.note}
-                                      </div>
+                                      </p>
                                     )}
                                   </div>
                                   <div className="flex md:justify-end">
