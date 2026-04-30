@@ -111,8 +111,8 @@ function Header() {
           <div className="flex items-center justify-between gap-4">
             <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
               <span className="leading-tight">
-                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
-                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
+                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real s. r. o.</span>
+                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví - mzdy - personalistika</span>
               </span>
             </Link>
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
@@ -234,7 +234,7 @@ export default function CenikPage() {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             <div>
-              <h3 className="font-bold text-xl mb-4">Partex Real s.r.o.</h3>
+              <h3 className="font-bold text-xl mb-4">Partex real s. r. o.</h3>
               <p className="text-gray-300 leading-relaxed">Profesionální účetní a daňové služby pro vaši firmu</p>
             </div>
             <div>
@@ -253,7 +253,7 @@ export default function CenikPage() {
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} Partex Real s.r.o. Všechna práva vyhrazena.</p>
+            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} Partex real s. r. o. Všechna práva vyhrazena.</p>
           </div>
         </div>
       </footer>

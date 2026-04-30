@@ -95,8 +95,8 @@ export default function Home() {
           <div className="flex items-center justify-between gap-4">
             <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
               <span className="leading-tight">
-                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
-                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
+                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real s. r. o.</span>
+                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví - mzdy - personalistika</span>
               </span>
             </Link>
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
@@ -282,7 +282,7 @@ export default function Home() {
                 {about.content}
               </div>
               <div className="mt-10 rounded-3xl bg-white p-6 text-lg leading-8 text-slate-700 shadow-sm ring-1 ring-slate-200">
-                Společnost Partex Real s.r.o. byla založena 15. listopadu {FOUNDATION_YEAR}. Již {yearsWithClients} let jsme tu pro naše klienty a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.
+                Společnost Partex real s. r. o. byla založena 15. listopadu {FOUNDATION_YEAR}. Již {yearsWithClients} let jsme tu pro naše klienty a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.
               </div>
             </div>
           </div>
@@ -367,7 +367,7 @@ export default function Home() {
 
           <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-slate-200">
             <iframe
-              title="Mapa Partex Real"
+              title="Mapa Partex real s. r. o."
               src="https://www.google.com/maps?q=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1-Fry%C5%A1t%C3%A1t&output=embed"
               className="h-96 w-full border-0"
               loading="lazy"
@@ -421,7 +421,7 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             <div>
-              <h3 className="font-bold text-xl mb-4">Partex Real s.r.o.</h3>
+              <h3 className="font-bold text-xl mb-4">Partex real s. r. o.</h3>
               <p className="text-gray-300 leading-relaxed">Profesionální účetní a daňové služby pro vaši firmu</p>
             </div>
             <div>
@@ -440,7 +440,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} Partex Real s.r.o. Všechna práva vyhrazena.</p>
+            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} Partex real s. r. o. Všechna práva vyhrazena.</p>
           </div>
         </div>
       </footer>
