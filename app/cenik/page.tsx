@@ -19,53 +19,88 @@ function getYearsSinceFoundation() {
   return years;
 }
 
-const pricingItems = [
-  { service: "Vedení daňové evidence – plátce DPH", price: "Od 1 500 Kč/měsíc" },
-  { service: "Vedení účetnictví – neplátce DPH", price: "Od 2 000 Kč/měsíc" },
-  { service: "Vedení účetnictví – plátce DPH", price: "Od 2 000 Kč/měsíc" },
-  { service: "Vedení účetnictví – řádek", price: "Od 25 Kč" },
-  { service: "Vedení účetnictví – SVJ nebo družstvo", price: "Od 100 Kč/měsíc" },
-  { service: "Mzdy – 1 zaměstnanec/měsíc", price: "300 Kč" },
-  { service: "Mzdy zaměstnance na dotaci/měsíc", price: "400 Kč / 1 zaměstnanec" },
+const pricingSections = [
   {
-    service: "Daňové přiznání pro fyzické osoby",
-    price: "od 500 Kč",
-    children: [
-      { service: "§6 daně z příjmů", price: "500 Kč" },
-      { service: "příjmy z podnikání, ostatní příjmy", price: "2 000 Kč", note: "bez účtování, vypracování z dodaných údajů, včetně přehledů pro OSSZ a ZP" },
-      { service: "příjmy z podnikání, ostatní příjmy", price: "5 000 Kč", note: "včetně zaúčtování, uzávěrkových operací a přehledů pro OSSZ a ZP" },
+    title: "Účetnictví",
+    description: "Vedení účetnictví, daňové evidence a souvisejících agend.",
+    items: [
+      { service: "Vedení daňové evidence – plátce DPH", price: "Od 1 500 Kč/měsíc" },
+      { service: "Vedení účetnictví – neplátce DPH", price: "Od 2 000 Kč/měsíc" },
+      { service: "Vedení účetnictví – plátce DPH", price: "Od 2 000 Kč/měsíc" },
+      { service: "Vedení účetnictví – řádek", price: "Od 25 Kč" },
+      { service: "Vedení účetnictví – SVJ nebo družstvo", price: "Od 100 Kč/měsíc" },
     ],
   },
-  { service: "Daňové přiznání pro právnické osoby", price: "Od 3 000 Kč", note: "bez účtování, vypracování z dodaných údajů" },
-  { service: "Daň z nemovitých věcí (1 ks)", price: "1 000 Kč" },
-  { service: "Daň z nabytí nemovitých věcí (1 ks)", price: "1 000 Kč" },
-  { service: "Kontrolní hlášení pro DPH (1 ks) dle podkladů", price: "500 Kč" },
-  { service: "Daň z přidané hodnoty (1 ks) dle podkladů", price: "500 Kč" },
-  { service: "Daň silniční za 1 vozidlo", price: "500 Kč" },
-  { service: "Daň silniční za každé další vozidlo", price: "100 Kč" },
-  { service: "Individuální konzultace, poradenství", price: "1 000 Kč/hod." },
-  { service: "Zastupování na úřadech", price: "500 Kč/hod." },
-  { service: "Založení s.r.o.", price: "Od 8 000 Kč" },
-  { service: "Umístění sídla – Karviná nebo Praha", price: "Od 2 000 Kč/měsíc" },
-  { service: "Vypracování podnikatelského záměru", price: "Od 5 000 Kč" },
-  { service: "Zpracování žádosti o úvěr", price: "Od 1 000 Kč" },
-  { service: "Zpracování dotací – čtvrtletně (zaměstnanci)", price: "3 000 Kč" },
-  { service: "Žádost o dotace – zaměstnanci", price: "5 000 Kč" },
-  { service: "Náhradní plnění – zápis 1 firmy na portál MPSV", price: "150 Kč" },
-  { service: "Tvorba vnitropodnikových směrnic", price: "dle dohody" },
-  { service: "Vystavování tuzemských faktur", price: "150 Kč/1 ks" },
-  { service: "Vystavování zahraničních faktur", price: "200 Kč/1 ks" },
-  { service: "Výkazy pro ČSÚ", price: "1 000 Kč/1 ks" },
-  { service: "Personální audit ve firmě", price: "Od 5 000 Kč" },
-  { service: "Kontrola účetnictví minulých let", price: "500 Kč/hod." },
-  { service: "Odklad daňového přiznání FO", price: "3 000 Kč" },
-  { service: "Odklad daňového přiznání PO", price: "5 000 Kč" },
-  { service: "Správa nemovitostí (družstva, SVJ...)", price: "150 Kč/jednotka" },
-  { service: "Žádosti, odvolání, prominutí penále a další", price: "Od 1 000 Kč" },
-  { service: "Poradenství v oblasti správního řízení v silniční dopravě", price: "Od 1 500 Kč/hod." },
-  { service: "Poradenství v oblasti celního a daňového řízení", price: "Od 1 500 Kč/hod." },
+  {
+    title: "Mzdy a zaměstnanci",
+    description: "Mzdová agenda, dotace a navazující administrativa.",
+    items: [
+      { service: "Mzdy – 1 zaměstnanec/měsíc", price: "300 Kč" },
+      { service: "Mzdy zaměstnance na dotaci/měsíc", price: "400 Kč / 1 zaměstnanec" },
+      { service: "Zpracování dotací – čtvrtletně (zaměstnanci)", price: "3 000 Kč" },
+      { service: "Žádost o dotace – zaměstnanci", price: "5 000 Kč" },
+    ],
+  },
+  {
+    title: "Daňová přiznání",
+    description: "Přiznání pro fyzické i právnické osoby včetně přehledů.",
+    items: [
+      {
+        service: "Daňové přiznání pro fyzické osoby",
+        price: "od 500 Kč",
+        children: [
+          { service: "§6 daně z příjmů", price: "500 Kč" },
+          { service: "příjmy z podnikání, ostatní příjmy", price: "2 000 Kč", note: "bez účtování, z dodaných údajů, včetně přehledů pro OSSZ a ZP" },
+          { service: "příjmy z podnikání, ostatní příjmy", price: "5 000 Kč", note: "včetně zaúčtování, uzávěrkových operací a přehledů pro OSSZ a ZP" },
+        ],
+      },
+      { service: "Daňové přiznání pro právnické osoby", price: "Od 3 000 Kč", note: "bez účtování, vypracování z dodaných údajů" },
+      { service: "Odklad daňového přiznání FO", price: "3 000 Kč" },
+      { service: "Odklad daňového přiznání PO", price: "5 000 Kč" },
+    ],
+  },
+  {
+    title: "Daně a hlášení",
+    description: "Jednotlivá daňová podání, hlášení a výkazy dle podkladů.",
+    items: [
+      { service: "Daň z nemovitých věcí (1 ks)", price: "1 000 Kč" },
+      { service: "Daň z nabytí nemovitých věcí (1 ks)", price: "1 000 Kč" },
+      { service: "Kontrolní hlášení pro DPH (1 ks) dle podkladů", price: "500 Kč" },
+      { service: "Daň z přidané hodnoty (1 ks) dle podkladů", price: "500 Kč" },
+      { service: "Daň silniční za 1 vozidlo", price: "500 Kč" },
+      { service: "Daň silniční za každé další vozidlo", price: "100 Kč" },
+      { service: "Výkazy pro ČSÚ", price: "1 000 Kč/1 ks" },
+    ],
+  },
+  {
+    title: "Poradenství a zastupování",
+    description: "Konzultace, kontrola účetnictví a zastupování na úřadech.",
+    items: [
+      { service: "Individuální konzultace, poradenství", price: "1 000 Kč/hod." },
+      { service: "Zastupování na úřadech", price: "500 Kč/hod." },
+      { service: "Kontrola účetnictví minulých let", price: "500 Kč/hod." },
+      { service: "Žádosti, odvolání, prominutí penále a další", price: "Od 1 000 Kč" },
+      { service: "Poradenství v oblasti správního řízení v silniční dopravě", price: "Od 1 500 Kč/hod." },
+      { service: "Poradenství v oblasti celního a daňového řízení", price: "Od 1 500 Kč/hod." },
+    ],
+  },
+  {
+    title: "Ostatní služby",
+    description: "Administrativa, fakturace, sídla, nemovitosti a firemní dokumenty.",
+    items: [
+      { service: "Založení s.r.o.", price: "Od 8 000 Kč" },
+      { service: "Umístění sídla – Karviná nebo Praha", price: "Od 2 000 Kč/měsíc" },
+      { service: "Vypracování podnikatelského záměru", price: "Od 5 000 Kč" },
+      { service: "Zpracování žádosti o úvěr", price: "Od 1 000 Kč" },
+      { service: "Náhradní plnění – zápis 1 firmy na portál MPSV", price: "150 Kč" },
+      { service: "Tvorba vnitropodnikových směrnic", price: "dle dohody" },
+      { service: "Vystavování tuzemských faktur", price: "150 Kč/1 ks" },
+      { service: "Vystavování zahraničních faktur", price: "200 Kč/1 ks" },
+      { service: "Personální audit ve firmě", price: "Od 5 000 Kč" },
+      { service: "Správa nemovitostí (družstva, SVJ...)", price: "150 Kč/jednotka" },
+    ],
+  },
 ];
-
 function Header() {
   const yearsWithClients = getYearsSinceFoundation();
 
@@ -119,48 +154,69 @@ export default function CenikPage() {
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6">
-          <div className="overflow-hidden rounded-[2rem] bg-white shadow-[0_22px_70px_rgba(29,38,90,0.10)] ring-1 ring-slate-200">
-            <div className="hidden md:grid grid-cols-[minmax(0,1fr)_220px] bg-[#2C1E2C] px-6 py-4 text-sm font-black uppercase tracking-[0.18em] text-white">
-              <div>Služba</div>
-              <div>Cena</div>
-            </div>
-            <div className="divide-y divide-slate-100">
-              {pricingItems.map((item, index) => (
-                <div key={`${item.service}-${index}`} className="px-6 py-5 transition hover:bg-[#5865F2]/5">
-                  <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
+          <div className="space-y-8">
+            {pricingSections.map((section) => (
+              <section key={section.title} className="overflow-hidden rounded-[2rem] bg-white shadow-[0_22px_70px_rgba(29,38,90,0.09)] ring-1 ring-slate-200">
+                <div className="border-b border-slate-100 bg-gradient-to-r from-[#2C1E2C] to-[#5865F2] px-5 py-5 text-white md:px-7">
+                  <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                     <div>
-                      <div className="font-bold text-slate-950">{item.service}</div>
-                      {item.note && (
-                        <div className="mt-2 inline-flex max-w-3xl rounded-2xl bg-[#5865F2]/8 px-4 py-2 text-sm font-medium leading-6 text-slate-700 ring-1 ring-[#5865F2]/10">
-                          {item.note}
+                      <h2 className="text-2xl font-black tracking-tight">{section.title}</h2>
+                      <p className="mt-1 max-w-2xl text-sm leading-6 text-white/78">{section.description}</p>
+                    </div>
+                    <div className="text-sm font-bold uppercase tracking-[0.18em] text-[#57F287]">{section.items.length} položek</div>
+                  </div>
+                </div>
+
+                <div className="divide-y divide-slate-100">
+                  {section.items.map((item, index) => (
+                    <div key={`${section.title}-${item.service}-${index}`} className="px-5 py-5 transition hover:bg-[#5865F2]/5 md:px-7">
+                      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
+                        <div className="min-w-0">
+                          <div className="font-bold leading-7 text-slate-950">{item.service}</div>
+                          {item.note && (
+                            <div className="mt-2 inline-flex max-w-full rounded-2xl bg-[#5865F2]/8 px-4 py-2 text-sm font-medium leading-6 text-slate-700 ring-1 ring-[#5865F2]/10">
+                              {item.note}
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex items-start md:justify-end">
+                          <span className="rounded-full bg-[#5865F2]/10 px-4 py-2 text-base font-black whitespace-nowrap text-[#5865F2] ring-1 ring-[#5865F2]/10 md:text-right">
+                            {item.price}
+                          </span>
+                        </div>
+                      </div>
+
+                      {item.children && (
+                        <div className="mt-4 rounded-3xl bg-slate-50 p-3 ring-1 ring-slate-200/80 md:ml-4 md:p-4">
+                          <div className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-slate-500">Varianty</div>
+                          <div className="space-y-3">
+                            {item.children.map((child) => (
+                              <div key={`${item.service}-${child.service}-${child.price}`} className="rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200/70">
+                                <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_180px] md:items-start">
+                                  <div className="min-w-0">
+                                    <div className="font-semibold leading-7 text-slate-800">{child.service}</div>
+                                    {child.note && (
+                                      <div className="mt-2 rounded-xl bg-amber-50 px-3 py-2 text-sm font-medium leading-6 text-amber-950 ring-1 ring-amber-200">
+                                        {child.note}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="flex md:justify-end">
+                                    <span className="rounded-full bg-white px-3 py-1.5 font-black whitespace-nowrap text-[#5865F2] ring-1 ring-[#5865F2]/15">
+                                      {child.price}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
-                    <div className="text-lg font-black text-[#5865F2] md:text-right">{item.price}</div>
-                  </div>
-
-                  {item.children && (
-                    <div className="mt-4 space-y-3 border-l-2 border-[#5865F2]/20 pl-4 md:ml-4">
-                      {item.children.map((child) => (
-                        <div key={`${item.service}-${child.service}-${child.price}`} className="rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200/70">
-                          <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_180px] md:items-start">
-                            <div>
-                              <div className="font-semibold text-slate-800">{child.service}</div>
-                              {child.note && (
-                                <div className="mt-2 inline-flex rounded-xl bg-amber-50 px-3 py-1.5 text-sm font-medium leading-6 text-amber-950 ring-1 ring-amber-200">
-                                  {child.note}
-                                </div>
-                              )}
-                            </div>
-                            <div className="font-black text-[#5865F2] md:text-right">{child.price}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  ))}
                 </div>
-              ))}
-            </div>
+              </section>
+            ))}
           </div>
 
           <div className="mt-12 text-center">
