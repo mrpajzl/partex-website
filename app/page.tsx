@@ -1,9 +1,8 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, type LucideIcon } from "lucide-react";
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -23,26 +22,9 @@ function PartexIllustration({ className = "" }: { className?: string }) {
 export default function Home() {
   const hero = useQuery(api.content.getHero);
   const services = useQuery(api.content.getServices);
-  const newsletter = useQuery(api.content.getNewsletter);
   const serviceDetails = useQuery(api.content.getServiceDetails);
   const about = useQuery(api.content.getAbout);
   const contact = useQuery(api.content.getContact);
-
-  const subscribe = useMutation(api.content.subscribe);
-  const [email, setEmail] = useState("");
-  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubscribeStatus("loading");
-    try {
-      await subscribe({ email });
-      setSubscribeStatus("success");
-      setEmail("");
-    } catch {
-      setSubscribeStatus("error");
-    }
-  };
 
   const iconMap: Record<string, LucideIcon> = {
     users: Users,
@@ -191,44 +173,7 @@ export default function Home() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="mb-8 flex justify-center">
-              <Image
-                src="/babybox.gif"
-                alt="Podporujeme Babybox"
-                width={468}
-                height={60}
-                unoptimized
-                className="h-auto w-full max-w-[468px] rounded-2xl bg-white/95 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.16)]"
-              />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">{newsletter?.title || "Přispívejme na babybox"}</h2>
-            {newsletter?.description && (
-              <p className="mb-10 text-lg opacity-90">{newsletter.description}</p>
-            )}
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Váš email"
-                className="px-6 py-3.5 rounded-full text-gray-900 flex-1 focus:outline-none focus:ring-2 focus:ring-white/50"
-                required
-                disabled={subscribeStatus === "loading"}
-              />
-              <button
-                type="submit"
-                className="bg-white text-[#5865F2] px-8 py-3.5 rounded-full font-semibold hover:bg-slate-100 transition-all hover:scale-105 disabled:opacity-50 whitespace-nowrap"
-                disabled={subscribeStatus === "loading"}
-              >
-                {newsletter?.ctaText || "Sofia"}
-              </button>
-            </form>
-            {subscribeStatus === "success" && (
-              <p className="mt-6 text-green-200 font-medium">✓ Děkujeme za odběr!</p>
-            )}
-            {subscribeStatus === "error" && (
-              <p className="mt-6 text-red-200 font-medium">✗ Tento email již je zaregistrován</p>
-            )}
+            <h2 className="text-3xl md:text-4xl font-bold">Přispívejme na babybox</h2>
           </div>
         </div>
 
