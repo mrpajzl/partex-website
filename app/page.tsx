@@ -177,17 +177,17 @@ export default function Home() {
       {/* Services Section */}
       <section id="sluzby" className="relative bg-white py-14 md:py-28">
         <div className="absolute inset-x-0 top-8 mx-auto h-48 max-w-5xl rounded-full bg-[#5865F2]/5 blur-3xl" />
-        <div className="container relative mx-auto max-w-full px-4 sm:px-6">
+        <div className="container relative mx-auto w-full max-w-[100vw] px-4 sm:px-6">
           <h2 className="mb-4 text-center text-3xl font-black tracking-tight text-slate-950 md:text-5xl">Co nabízíme?</h2>
           <p className="mx-auto mb-10 max-w-[18rem] text-center text-base leading-7 text-slate-600 sm:max-w-2xl md:mb-16 md:text-lg md:leading-8">Naše služby jsou navrženy tak, aby vyhovovaly vašim potřebám — přehledně, spolehlivě a bez zbytečného papírování.</p>
           
-          <div className="mx-auto grid max-w-full gap-5 md:max-w-6xl md:grid-cols-3 md:gap-8">
+          <div className="mx-auto grid w-full max-w-[calc(100vw-2rem)] gap-5 md:max-w-6xl md:grid-cols-3 md:gap-8">
             {realServices.map((service) => {
               const Icon = service.icon;
               return (
                 <div
                   key={service.title}
-                  className="group relative mx-auto w-full max-w-[22rem] overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white p-6 shadow-[0_18px_55px_rgba(29,38,90,0.08)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_28px_70px_rgba(88,101,242,0.16)] md:max-w-none"
+                  className="group relative w-full overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white p-6 shadow-[0_18px_55px_rgba(29,38,90,0.08)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_28px_70px_rgba(88,101,242,0.16)]"
                 >
                   <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#5865F2]/8 transition group-hover:bg-[#57F287]/18" />
                   <div className="relative mb-6 flex h-18 w-18 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-[#5865F2] to-[#2C1E2C] shadow-lg shadow-[#5865F2]/20">

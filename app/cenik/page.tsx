@@ -154,13 +154,13 @@ export default function CenikPage() {
         <div className="container relative mx-auto px-6 text-center">
           <p className="mb-4 text-sm font-black uppercase tracking-[0.28em] text-[#57F287]">Platný od 1. 1. 2024</p>
           <h1 className="text-4xl font-black tracking-tight md:text-6xl">Ceník služeb</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/86">Orientační ceny účetních, daňových a poradenských služeb. Finální rozsah rádi upřesníme podle vašich potřeb.</p>
+          <p className="mx-auto mt-5 max-w-[20rem] text-base leading-7 text-white/86 sm:max-w-2xl sm:text-lg sm:leading-8">Orientační ceny účetních, daňových a poradenských služeb. Finální rozsah rádi upřesníme podle vašich potřeb.</p>
         </div>
       </section>
 
       <section className="py-10 md:py-14">
-        <div className="container mx-auto px-6">
-          <div className="space-y-5">
+        <div className="container mx-auto max-w-[100vw] px-4 sm:px-6">
+          <div className="mx-auto max-w-[calc(100vw-2rem)] space-y-5 md:max-w-none">
             {pricingSections.map((section) => (
               <section key={section.title} className="overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200">
                 <div className="border-b border-slate-100 bg-gradient-to-r from-[#2C1E2C] to-[#5865F2] px-5 py-4 text-white md:px-6">
