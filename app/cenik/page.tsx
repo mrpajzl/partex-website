@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const FOUNDATION_DATE = new Date("2004-11-15T00:00:00+01:00");
@@ -109,8 +110,16 @@ function Header() {
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
         <nav className="container mx-auto px-4 py-2.5 md:px-6 md:py-4">
           <div className="flex items-center justify-between gap-3">
-            <Link href="/#top" className="group min-w-0 flex-1 rounded-full pr-2 transition hover:opacity-90" aria-label="Zpět na začátek stránky">
-              <span className="leading-tight">
+            <Link href="/#top" className="group flex min-w-0 flex-1 items-center gap-3 rounded-full pr-2 transition hover:opacity-90" aria-label="Zpět na začátek stránky">
+              <Image
+                src="/partex-logo.png"
+                alt="Partex real s. r. o."
+                width={1536}
+                height={1024}
+                priority
+                className="h-10 w-10 flex-shrink-0 rounded-xl object-cover object-center shadow-sm ring-1 ring-slate-200 sm:h-12 sm:w-12"
+              />
+              <span className="min-w-0 leading-tight">
                 <span className="block truncate text-lg font-black tracking-tight text-[#2C1E2C] sm:text-xl md:text-2xl">Partex real s. r. o.</span>
                 <span className="hidden truncate text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#5865F2] sm:block md:text-xs md:tracking-[0.26em]">účetnictví - mzdy - personalistika</span>
               </span>
