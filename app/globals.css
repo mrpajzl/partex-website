@@ -11,24 +11,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f3f5;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(88, 101, 242, 0.3);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(88, 101, 242, 0.5);
-}
-
 /* Focus visible styles */
 :focus-visible {
   outline: none;
