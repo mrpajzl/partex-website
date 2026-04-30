@@ -4,29 +4,19 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, Sparkles, type LucideIcon } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
-function PartexMark({ className = "" }: { className?: string }) {
+function PartexIllustration({ className = "" }: { className?: string }) {
   return (
-    <svg
+    <Image
+      src="/partex-real-illustration.svg"
+      alt="Partex real účetní služby"
+      width={336}
+      height={235}
       className={className}
-      viewBox="0 0 96 96"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <rect x="8" y="8" width="80" height="80" rx="24" fill="url(#partex-bg)" />
-      <path d="M28 66V30h24c10.5 0 17 5.8 17 15.1 0 9.4-6.5 15-17.2 15H42v6H28Z" fill="white" opacity="0.96" />
-      <path d="M42 47.7h9.1c3.5 0 5.4-1.2 5.4-3.7 0-2.4-1.9-3.7-5.4-3.7H42v7.4Z" fill="#5865F2" />
-      <path d="M27 72c14-1 27.7-6.2 40-16" stroke="#57F287" strokeWidth="6" strokeLinecap="round" />
-      <defs>
-        <linearGradient id="partex-bg" x1="12" y1="10" x2="87" y2="90" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#6B74FF" />
-          <stop offset="0.55" stopColor="#5865F2" />
-          <stop offset="1" stopColor="#33245C" />
-        </linearGradient>
-      </defs>
-    </svg>
+      priority
+    />
   );
 }
 
@@ -71,8 +61,8 @@ export default function Home() {
         <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
           <div className="flex items-center justify-between gap-4">
             <Link href="/" className="group flex items-center gap-3 rounded-full pr-3 transition hover:opacity-90">
-              <span className="grid h-16 w-16 place-items-center rounded-[1.35rem] bg-white shadow-[0_16px_35px_rgba(88,101,242,0.26)] ring-1 ring-[#5865F2]/10 md:h-[4.75rem] md:w-[4.75rem]">
-                <PartexMark className="h-14 w-14 md:h-[4.1rem] md:w-[4.1rem]" />
+              <span className="grid h-18 w-28 place-items-center rounded-[1.35rem] bg-white px-2 shadow-[0_16px_35px_rgba(88,101,242,0.26)] ring-1 ring-[#5865F2]/10 md:h-24 md:w-36">
+                <PartexIllustration className="h-16 w-24 object-contain md:h-20 md:w-32" />
               </span>
               <span className="leading-tight">
                 <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
@@ -126,8 +116,8 @@ export default function Home() {
               <div className="absolute h-80 w-80 rounded-full bg-[#57F287]/20 blur-3xl" />
               <div className="relative w-full max-w-md rounded-[2.5rem] border border-white/18 bg-white/12 p-8 shadow-[0_28px_80px_rgba(0,0,0,0.24)] backdrop-blur-2xl">
                 <div className="absolute -right-5 -top-5 rounded-3xl bg-[#57F287] px-5 py-3 text-sm font-black text-[#17351f] shadow-xl">bez chaosu</div>
-                <div className="grid aspect-square place-items-center rounded-[2rem] bg-white shadow-2xl">
-                  <PartexMark className="h-64 w-64" />
+                <div className="grid aspect-[1.18/1] place-items-center rounded-[2rem] bg-white p-6 shadow-2xl">
+                  <PartexIllustration className="h-72 w-full object-contain" />
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-3 text-center text-sm font-bold">
                   <div className="rounded-2xl bg-white/12 p-3">Účetnictví</div>
