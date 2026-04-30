@@ -121,10 +121,10 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative bg-[#5865F2] text-white pt-8 pb-24">
+      <section className="relative bg-[#5865F2] text-white pt-6 pb-20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(87,242,135,0.30),transparent_28%),radial-gradient(circle_at_86%_12%,rgba(255,255,255,0.22),transparent_26%),linear-gradient(135deg,#5865F2_0%,#4450d4_48%,#2C1E2C_100%)]" />
         <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
-        <div className="container relative z-10 mx-auto px-6 py-14 md:py-16">
+        <div className="container relative z-10 mx-auto px-6 py-10 md:py-12">
           <div className="grid items-center gap-14 md:grid-cols-[1.05fr_0.95fr]">
             <div>
               <h1 className="max-w-4xl text-4xl font-black leading-[0.98] tracking-tight md:text-6xl lg:text-7xl">
@@ -142,10 +142,10 @@ export default function Home() {
                 <a href="#sluzby" className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur transition hover:bg-white/18">Naše služby</a>
               </div>
             </div>
-            <div className="relative hidden min-h-[430px] items-center justify-center md:flex">
+            <div className="relative hidden min-h-[380px] items-center justify-center md:flex">
               <div className="absolute -right-16 top-8 h-[28rem] w-[28rem] rounded-full border border-white/10" />
               <div className="absolute -right-8 top-20 h-80 w-80 rounded-full bg-[#57F287]/18 blur-3xl" />
-              <PartexIllustration className="relative z-10 w-[620px] max-w-none translate-x-4 translate-y-16 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[720px] lg:translate-x-16" />
+              <PartexIllustration className="relative z-10 w-[580px] max-w-none translate-x-4 translate-y-14 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[680px] lg:translate-x-16" />
             </div>
           </div>
         </div>
