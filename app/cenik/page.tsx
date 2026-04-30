@@ -27,9 +27,15 @@ const pricingItems = [
   { service: "Vedení účetnictví – SVJ nebo družstvo", price: "Od 100 Kč/měsíc" },
   { service: "Mzdy – 1 zaměstnanec/měsíc", price: "300 Kč" },
   { service: "Mzdy zaměstnance na dotaci/měsíc", price: "400 Kč / 1 zaměstnanec" },
-  { service: "Daňové přiznání pro závislou činnost – §6 daně z příjmů", price: "500 Kč" },
-  { service: "Daňové přiznání FO – příjmy z podnikání, ostatní příjmy", price: "2 000 Kč", note: "bez účtování, vypracování z dodaných údajů, včetně přehledu o příjmech a výdajích na OSSZ a ZP" },
-  { service: "Daňové přiznání FO – příjmy z podnikání, ostatní příjmy", price: "5 000 Kč", note: "včetně zaúčtování, uzávěrkových operací, apod. včetně přehledu o příjmech a výdajích na OSSZ a ZP" },
+  {
+    service: "Daňové přiznání pro fyzické osoby",
+    price: "od 500 Kč",
+    children: [
+      { service: "§6 daně z příjmů", price: "500 Kč" },
+      { service: "příjmy z podnikání, ostatní příjmy", price: "2 000 Kč", note: "bez účtování, vypracování z dodaných údajů, včetně přehledů pro OSSZ a ZP" },
+      { service: "příjmy z podnikání, ostatní příjmy", price: "5 000 Kč", note: "včetně zaúčtování, uzávěrkových operací a přehledů pro OSSZ a ZP" },
+    ],
+  },
   { service: "Daňové přiznání pro právnické osoby", price: "Od 3 000 Kč", note: "bez účtování, vypracování z dodaných údajů" },
   { service: "Daň z nemovitých věcí (1 ks)", price: "1 000 Kč" },
   { service: "Daň z nabytí nemovitých věcí (1 ks)", price: "1 000 Kč" },
@@ -114,17 +120,44 @@ export default function CenikPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6">
           <div className="overflow-hidden rounded-[2rem] bg-white shadow-[0_22px_70px_rgba(29,38,90,0.10)] ring-1 ring-slate-200">
-            <div className="hidden md:grid grid-cols-[1.5fr_0.8fr_1.2fr] bg-[#2C1E2C] px-6 py-4 text-sm font-black uppercase tracking-[0.18em] text-white">
+            <div className="hidden md:grid grid-cols-[minmax(0,1fr)_220px] bg-[#2C1E2C] px-6 py-4 text-sm font-black uppercase tracking-[0.18em] text-white">
               <div>Služba</div>
               <div>Cena</div>
-              <div>Poznámka</div>
             </div>
             <div className="divide-y divide-slate-100">
               {pricingItems.map((item, index) => (
-                <div key={`${item.service}-${index}`} className="grid gap-3 px-6 py-5 transition hover:bg-[#5865F2]/5 md:grid-cols-[1.5fr_0.8fr_1.2fr] md:items-center">
-                  <div className="font-bold text-slate-950">{item.service}</div>
-                  <div className="text-lg font-black text-[#5865F2]">{item.price}</div>
-                  <div className="text-sm leading-6 text-slate-600">{item.note || "—"}</div>
+                <div key={`${item.service}-${index}`} className="px-6 py-5 transition hover:bg-[#5865F2]/5">
+                  <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
+                    <div>
+                      <div className="font-bold text-slate-950">{item.service}</div>
+                      {item.note && (
+                        <div className="mt-2 inline-flex max-w-3xl rounded-2xl bg-[#5865F2]/8 px-4 py-2 text-sm font-medium leading-6 text-slate-700 ring-1 ring-[#5865F2]/10">
+                          {item.note}
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-lg font-black text-[#5865F2] md:text-right">{item.price}</div>
+                  </div>
+
+                  {item.children && (
+                    <div className="mt-4 space-y-3 border-l-2 border-[#5865F2]/20 pl-4 md:ml-4">
+                      {item.children.map((child) => (
+                        <div key={`${item.service}-${child.service}-${child.price}`} className="rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200/70">
+                          <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_180px] md:items-start">
+                            <div>
+                              <div className="font-semibold text-slate-800">{child.service}</div>
+                              {child.note && (
+                                <div className="mt-2 inline-flex rounded-xl bg-amber-50 px-3 py-1.5 text-sm font-medium leading-6 text-amber-950 ring-1 ring-amber-200">
+                                  {child.note}
+                                </div>
+                              )}
+                            </div>
+                            <div className="font-black text-[#5865F2] md:text-right">{child.price}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
