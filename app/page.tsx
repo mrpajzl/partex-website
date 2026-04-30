@@ -2,9 +2,10 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, type LucideIcon } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const FOUNDATION_DATE = new Date("2004-11-15T00:00:00+01:00");
 const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
@@ -22,6 +23,49 @@ function getYearsSinceFoundation() {
   return years;
 }
 
+const realServices = [
+  {
+    title: "Účetnictví",
+    icon: Calculator,
+    description: "Kompletní účetní a daňová agenda pro fyzické i právnické osoby.",
+    details: [
+      "zpracování daňové evidence, jednoduché účetnictví",
+      "vedení účetnictví pro fyzické i právnické osoby",
+      "rekonstrukce účetnictví za uplynulá období",
+      "evidence majetku, kniha jízd, skladové hospodářství, směrnice, cestovní příkazy a další",
+      "zpracování různých daňových přiznání (DPH, daň silniční, daň z příjmů a další)",
+      "zpracování daní nemovitého majetku (daň z nemovitostí a daň z nabytí nemovitosti)",
+      "zpracování různé administrativy pro OSSZ, zdravotní pojišťovny, finanční úřady, úřady práce a další, včetně zastupování na úřadech",
+      "zpracování podnikatelských záměrů, včetně kalkulace",
+      "poradenství v oblasti účetnictví, daní i financí",
+    ],
+  },
+  {
+    title: "Mzdy a personalistika",
+    icon: Users,
+    description: "Mzdy, personalistika, přehledy, dotace a komunikace s institucemi.",
+    details: [
+      "zpracování mezd zaměstnanců",
+      "zpracování měsíčních a ročních přehledů pro OSSZ, zdravotní pojišťovny a FÚ, zastupování na úřadech",
+      "poradenství v oblasti mzdové a personální problematiky",
+      "zpracování podkladů pro poskytnutí dotací dle § 78a zákona o zaměstnanosti",
+      "měsíční uzávěrky mezd pro účetnictví i daňovou evidenci",
+      "spolupráce s exekutory či insolvenčními správci",
+    ],
+  },
+  {
+    title: "Rekvalifikace, odborná praxe",
+    icon: Clipboard,
+    description: "Odborná praxe pro absolventy, účastníky rekvalifikací a studenty.",
+    intro: "Odbornou praxi v našich prostorách nabízíme těmto osobám:",
+    details: [
+      "absolventům SŠ i VŠ, kteří mají zájem o účetní profesi",
+      "účastníkům kurzů v rámci rekvalifikace pořádané úřadem práce",
+      "studentům, kteří mají povinnou odbornou praxi v rámci výuky",
+    ],
+  },
+];
+
 function PartexIllustration({ className = "" }: { className?: string }) {
   return (
     <Image
@@ -37,19 +81,11 @@ function PartexIllustration({ className = "" }: { className?: string }) {
 
 export default function Home() {
   const yearsWithClients = getYearsSinceFoundation();
+  const [activeService, setActiveService] = useState<(typeof realServices)[number] | null>(null);
   const hero = useQuery(api.content.getHero);
-  const services = useQuery(api.content.getServices);
   const about = useQuery(api.content.getAbout);
 
-  const iconMap: Record<string, LucideIcon> = {
-    users: Users,
-    calculator: Calculator,
-    clipboard: Clipboard,
-    "map-pin": MapPin,
-    mail: Mail,
-    phone: Phone,
-    clock: Clock,
-  };
+
 
   return (
     <main className="min-h-screen bg-[#f7f8ff] text-slate-950">
@@ -130,11 +166,11 @@ export default function Home() {
           <p className="mx-auto mb-16 max-w-2xl text-center text-lg leading-8 text-slate-600">Naše služby jsou navrženy tak, aby vyhovovaly vašim potřebám — přehledně, spolehlivě a bez zbytečného papírování.</p>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {services?.map((service) => {
-              const Icon = service.icon ? iconMap[service.icon] : Users;
+            {realServices.map((service) => {
+              const Icon = service.icon;
               return (
-                <div 
-                  key={service._id} 
+                <div
+                  key={service.title}
                   className="group relative overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_18px_55px_rgba(29,38,90,0.08)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_28px_70px_rgba(88,101,242,0.16)]"
                 >
                   <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#5865F2]/8 transition group-hover:bg-[#57F287]/18" />
@@ -143,14 +179,13 @@ export default function Home() {
                   </div>
                   <h3 className="relative mb-4 text-2xl font-black text-slate-950">{service.title}</h3>
                   <p className="relative mb-6 leading-7 text-slate-600">{service.description}</p>
-                  {service.ctaText && (
-                    <a 
-                      href={service.ctaLink || "#"}
-                      className="relative inline-flex items-center rounded-full bg-[#57F287] px-6 py-2.5 font-extrabold text-[#17351f] shadow-lg shadow-[#57F287]/20 transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A]"
-                    >
-                      {service.ctaText}
-                    </a>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => setActiveService(service)}
+                    className="relative inline-flex items-center rounded-full bg-[#57F287] px-6 py-2.5 font-extrabold text-[#17351f] shadow-lg shadow-[#57F287]/20 transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A]"
+                  >
+                    Zjistit více
+                  </button>
                 </div>
               );
             })}
@@ -320,6 +355,45 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+
+      {activeService && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061727]/70 px-4 py-8 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="service-dialog-title">
+          <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] bg-white p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] md:p-10">
+            <button
+              type="button"
+              onClick={() => setActiveService(null)}
+              className="absolute right-5 top-5 rounded-full bg-slate-100 p-2 text-slate-600 transition hover:bg-slate-200 hover:text-slate-950"
+              aria-label="Zavřít detail služby"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-[#5865F2] to-[#2C1E2C] shadow-lg shadow-[#5865F2]/20">
+              <activeService.icon className="h-8 w-8 text-white" />
+            </div>
+            <h3 id="service-dialog-title" className="pr-12 text-3xl font-black tracking-tight text-slate-950 md:text-4xl">{activeService.title}</h3>
+            <p className="mt-4 text-lg leading-8 text-slate-600">{activeService.description}</p>
+            {activeService.intro && <p className="mt-7 font-bold text-slate-950">{activeService.intro}</p>}
+            <ul className="mt-6 space-y-4">
+              {activeService.details.map((detail) => (
+                <li key={detail} className="flex gap-3 text-slate-700">
+                  <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[#57F287]" />
+                  <span className="leading-7">{detail}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href="#kontakt" onClick={() => setActiveService(null)} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5865F2] px-7 py-3.5 font-extrabold text-white transition hover:bg-[#4752C4]">
+                Poptat službu
+                <ArrowRight className="h-5 w-5" />
+              </a>
+              <button type="button" onClick={() => setActiveService(null)} className="inline-flex items-center justify-center rounded-full border border-slate-200 px-7 py-3.5 font-bold text-slate-700 transition hover:bg-slate-50">
+                Zavřít
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="bg-[#2C1E2C] text-white py-16">
