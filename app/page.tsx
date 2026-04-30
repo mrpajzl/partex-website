@@ -6,6 +6,22 @@ import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, t
 import Image from "next/image";
 import Link from "next/link";
 
+const FOUNDATION_DATE = new Date("2004-11-15T00:00:00+01:00");
+const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
+const CURRENT_YEAR = new Date().getFullYear();
+
+function getYearsSinceFoundation() {
+  const today = new Date();
+  let years = today.getFullYear() - FOUNDATION_DATE.getFullYear();
+  const anniversaryThisYear = new Date(today.getFullYear(), FOUNDATION_DATE.getMonth(), FOUNDATION_DATE.getDate());
+
+  if (today < anniversaryThisYear) {
+    years -= 1;
+  }
+
+  return years;
+}
+
 function PartexIllustration({ className = "" }: { className?: string }) {
   return (
     <Image
@@ -20,6 +36,7 @@ function PartexIllustration({ className = "" }: { className?: string }) {
 }
 
 export default function Home() {
+  const yearsWithClients = getYearsSinceFoundation();
   const hero = useQuery(api.content.getHero);
   const services = useQuery(api.content.getServices);
   const about = useQuery(api.content.getAbout);
@@ -62,6 +79,10 @@ export default function Home() {
           </div>
         </nav>
       </header>
+
+      <div className="relative z-10 bg-[#2C1E2C] px-6 py-3 text-center text-sm font-extrabold uppercase tracking-[0.18em] text-white shadow-inner">
+        Již {yearsWithClients} let jsme tu pro naše klienty
+      </div>
 
       {/* Hero Section */}
       <section className="relative bg-[#5865F2] text-white pt-12 pb-32">
@@ -225,6 +246,9 @@ export default function Home() {
               <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-lg">
                 {about.content}
               </div>
+              <div className="mt-10 rounded-3xl bg-white p-6 text-lg leading-8 text-slate-700 shadow-sm ring-1 ring-slate-200">
+                Společnost Partex Real s.r.o. byla založena 15. listopadu {FOUNDATION_YEAR}. Již {yearsWithClients} let jsme tu pro naše klienty a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.
+              </div>
             </div>
           </div>
         </section>
@@ -321,7 +345,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2024 Partex Real s.r.o. Všechna práva vyhrazena.</p>
+            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} Partex Real s.r.o. Všechna práva vyhrazena.</p>
           </div>
         </div>
       </footer>

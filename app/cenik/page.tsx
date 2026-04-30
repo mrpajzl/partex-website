@@ -3,6 +3,22 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+const FOUNDATION_DATE = new Date("2004-11-15T00:00:00+01:00");
+const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
+const CURRENT_YEAR = new Date().getFullYear();
+
+function getYearsSinceFoundation() {
+  const today = new Date();
+  let years = today.getFullYear() - FOUNDATION_DATE.getFullYear();
+  const anniversaryThisYear = new Date(today.getFullYear(), FOUNDATION_DATE.getMonth(), FOUNDATION_DATE.getDate());
+
+  if (today < anniversaryThisYear) {
+    years -= 1;
+  }
+
+  return years;
+}
+
 const pricingItems = [
   { service: "Vedení daňové evidence – plátce DPH", price: "Od 1 500 Kč/měsíc" },
   { service: "Vedení účetnictví – neplátce DPH", price: "Od 2 000 Kč/měsíc" },
@@ -45,32 +61,39 @@ const pricingItems = [
 ];
 
 function Header() {
+  const yearsWithClients = getYearsSinceFoundation();
+
   return (
-    <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
-      <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
-        <div className="flex items-center justify-between gap-4">
-          <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
-            <span className="leading-tight">
-              <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
-              <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
-            </span>
-          </Link>
-          <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
-            <Link href="/#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</Link>
-            <Link href="/#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</Link>
-            <Link href="/cenik" className="rounded-full bg-[#5865F2]/10 px-4 py-2 text-[#5865F2] transition">Ceník</Link>
-            <Link href="/#kontakt" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</Link>
+    <>
+      <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
+        <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
+          <div className="flex items-center justify-between gap-4">
+            <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
+              <span className="leading-tight">
+                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
+                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
+              </span>
+            </Link>
+            <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
+              <Link href="/#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</Link>
+              <Link href="/#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</Link>
+              <Link href="/cenik" className="rounded-full bg-[#5865F2]/10 px-4 py-2 text-[#5865F2] transition">Ceník</Link>
+              <Link href="/#kontakt" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</Link>
+            </div>
+            <Link
+              href="/#kontakt"
+              className="group inline-flex items-center gap-2 rounded-full bg-[#57F287] px-4 py-3 text-sm font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] md:px-6"
+            >
+              <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+            </Link>
           </div>
-          <Link
-            href="/#kontakt"
-            className="group inline-flex items-center gap-2 rounded-full bg-[#57F287] px-4 py-3 text-sm font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] md:px-6"
-          >
-            <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-          </Link>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
+      <div className="relative z-10 bg-[#2C1E2C] px-6 py-3 text-center text-sm font-extrabold uppercase tracking-[0.18em] text-white shadow-inner">
+        Již {yearsWithClients} let jsme tu pro naše klienty
+      </div>
+    </>
   );
 }
 
@@ -142,7 +165,7 @@ export default function CenikPage() {
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2024 Partex Real s.r.o. Všechna práva vyhrazena.</p>
+            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} Partex Real s.r.o. Všechna práva vyhrazena.</p>
           </div>
         </div>
       </footer>
