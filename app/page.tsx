@@ -144,13 +144,12 @@ export default function Home() {
               <p className="mt-7 max-w-2xl text-lg leading-8 text-white/86 md:text-2xl md:leading-9">{hero?.subtitle || "Pomůžeme vám dosáhnout vašich cílů"}</p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <a
-                  href={hero?.ctaLink || "#kontakt"}
+                  href="#sluzby"
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-extrabold text-[#5865F2] shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-all hover:-translate-y-1 hover:bg-[#f4f6ff]"
                 >
-                  {hero?.ctaText || "Zjistit více"}
+                  Naše služby
                   <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
                 </a>
-                <a href="#sluzby" className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur transition hover:bg-white/18">Naše služby</a>
               </div>
             </div>
             <div className="relative hidden min-h-[380px] items-center justify-center md:flex">
