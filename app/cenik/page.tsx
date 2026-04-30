@@ -10,7 +10,7 @@ export default function CenikPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-[#5865F2] text-white">
+      <header className="sticky top-0 z-50 bg-[#5865F2]/95 text-white shadow-[0_16px_50px_rgba(45,55,130,0.18)] backdrop-blur-xl">
         <nav className="container mx-auto px-6 py-6">
           <div className="flex justify-between items-center">
             <Link href="/" className="text-lg font-semibold hover:opacity-80 transition">

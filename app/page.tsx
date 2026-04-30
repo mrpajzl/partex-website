@@ -55,7 +55,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#f7f8ff] text-slate-950">
+    <main className="min-h-screen bg-[#f7f8ff] text-slate-950">
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
         <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
