@@ -113,16 +113,12 @@ function Header() {
             <Link href="/#top" className="group flex min-w-0 flex-1 items-center gap-3 rounded-full pr-2 transition hover:opacity-90" aria-label="Zpět na začátek stránky">
               <Image
                 src="/partex-logo.png"
-                alt="Partex real s. r. o."
+                alt="Partex real s. r. o. - účetnictví, mzdy, personalistika"
                 width={1536}
                 height={1024}
                 priority
-                className="h-10 w-10 flex-shrink-0 rounded-xl object-cover object-center shadow-sm ring-1 ring-slate-200 sm:h-12 sm:w-12"
+                className="h-12 w-auto max-w-[12rem] flex-shrink object-contain object-left sm:h-14 sm:max-w-[16rem] md:h-16 md:max-w-[20rem]"
               />
-              <span className="min-w-0 leading-tight">
-                <span className="block truncate text-lg font-black tracking-tight text-[#2C1E2C] sm:text-xl md:text-2xl">Partex real s. r. o.</span>
-                <span className="hidden truncate text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#5865F2] sm:block md:text-xs md:tracking-[0.26em]">účetnictví - mzdy - personalistika</span>
-              </span>
             </Link>
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
               <Link href="/#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</Link>
