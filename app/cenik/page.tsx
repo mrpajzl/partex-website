@@ -2,6 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function CenikPage() {
@@ -10,23 +11,27 @@ export default function CenikPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#5865F2]/95 text-white shadow-[0_16px_50px_rgba(45,55,130,0.18)] backdrop-blur-xl">
-        <nav className="container mx-auto px-6 py-6">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="text-lg font-semibold hover:opacity-80 transition">
-              Partex real s.r.o.
+      <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
+        <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
+          <div className="flex items-center justify-between gap-4">
+            <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
+              <span className="leading-tight">
+                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
+                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
+              </span>
             </Link>
-            <div className="hidden md:flex space-x-8">
-              <Link href="/#sluzby" className="hover:opacity-80 transition">Služby</Link>
-              <Link href="/#o-nas" className="hover:opacity-80 transition">O nás</Link>
-              <Link href="/cenik" className="hover:opacity-80 transition font-semibold">Ceník</Link>
-              <Link href="/#kontakt" className="hover:opacity-80 transition">Kontakt</Link>
+            <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
+              <Link href="/#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</Link>
+              <Link href="/#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</Link>
+              <Link href="/cenik" className="rounded-full bg-[#5865F2]/10 px-4 py-2 text-[#5865F2] transition">Ceník</Link>
+              <Link href="/#kontakt" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</Link>
             </div>
-            <Link 
-              href="/#kontakt" 
-              className="bg-[#57F287] text-white px-6 py-2.5 rounded-full font-semibold hover:bg-[#4ADB7A] transition-all hover:scale-105"
+            <Link
+              href="/#kontakt"
+              className="group inline-flex items-center gap-2 rounded-full bg-[#57F287] px-4 py-3 text-sm font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] md:px-6"
             >
-              Kontaktujte nás
+              <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
             </Link>
           </div>
         </nav>
