@@ -326,19 +326,40 @@ export default function Home() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 max-w-6xl mx-auto">
             {[
-              { label: "Adresa", value: "Hrnčířská 42/1\n733 01 Karviná-Fryštát", icon: MapPin },
-              { label: "E-mail", value: "partex@seznam.cz", icon: Mail },
-              { label: "Telefon", value: "+420 775 554 377", icon: Phone },
+              { label: "Adresa", value: "Hrnčířská 42/1\n733 01 Karviná-Fryštát", icon: MapPin, href: "https://www.google.com/maps/search/?api=1&query=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1-Fry%C5%A1t%C3%A1t" },
+              { label: "E-mail", value: "partex@seznam.cz", icon: Mail, href: "mailto:partex@seznam.cz" },
+              { label: "Telefon", value: "+420 775 554 377", icon: Phone, href: "tel:+420775554377" },
               { label: "Otevírací doba", value: "pondělí – pátek\n8:00 – 16:30", icon: Clock },
             ].map((item) => {
               const Icon = item.icon;
-              return (
-                <div key={item.label} className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-                  <div className="w-14 h-14 bg-[#5865F2]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              const content = (
+                <>
+                  <div className="w-14 h-14 bg-[#5865F2]/10 rounded-full flex items-center justify-center mx-auto mb-4 transition group-hover:bg-[#5865F2]/15">
                     <Icon className="w-7 h-7 text-[#5865F2]" />
                   </div>
                   <h3 className="font-bold mb-3 text-gray-900">{item.label}</h3>
-                  <p className="text-gray-600 whitespace-pre-line text-sm leading-relaxed">{item.value}</p>
+                  <p className="text-gray-600 whitespace-pre-line text-sm leading-relaxed group-hover:text-[#5865F2]">{item.value}</p>
+                </>
+              );
+
+              if (item.href) {
+                const isExternal = item.href.startsWith("http");
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noreferrer" : undefined}
+                    className="group block bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                  >
+                    {content}
+                  </a>
+                );
+              }
+
+              return (
+                <div key={item.label} className="group bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+                  {content}
                 </div>
               );
             })}
