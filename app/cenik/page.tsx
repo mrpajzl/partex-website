@@ -1,192 +1,124 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-export default function CenikPage() {
-  const pricing = useQuery(api.content.getPricing);
+const pricingItems = [
+  { service: "Vedení daňové evidence – plátce DPH", price: "Od 1 500 Kč/měsíc" },
+  { service: "Vedení účetnictví – neplátce DPH", price: "Od 2 000 Kč/měsíc" },
+  { service: "Vedení účetnictví – plátce DPH", price: "Od 2 000 Kč/měsíc" },
+  { service: "Vedení účetnictví – řádek", price: "Od 25 Kč" },
+  { service: "Vedení účetnictví – SVJ nebo družstvo", price: "Od 100 Kč/měsíc" },
+  { service: "Mzdy – 1 zaměstnanec/měsíc", price: "300 Kč" },
+  { service: "Mzdy zaměstnance na dotaci/měsíc", price: "400 Kč / 1 zaměstnanec" },
+  { service: "Daňové přiznání pro závislou činnost – §6 daně z příjmů", price: "500 Kč" },
+  { service: "Daňové přiznání FO – příjmy z podnikání, ostatní příjmy", price: "2 000 Kč", note: "bez účtování, vypracování z dodaných údajů, včetně přehledu o příjmech a výdajích na OSSZ a ZP" },
+  { service: "Daňové přiznání FO – příjmy z podnikání, ostatní příjmy", price: "5 000 Kč", note: "včetně zaúčtování, uzávěrkových operací, apod. včetně přehledu o příjmech a výdajích na OSSZ a ZP" },
+  { service: "Daňové přiznání pro právnické osoby", price: "Od 3 000 Kč", note: "bez účtování, vypracování z dodaných údajů" },
+  { service: "Daň z nemovitých věcí (1 ks)", price: "1 000 Kč" },
+  { service: "Daň z nabytí nemovitých věcí (1 ks)", price: "1 000 Kč" },
+  { service: "Kontrolní hlášení pro DPH (1 ks) dle podkladů", price: "500 Kč" },
+  { service: "Daň z přidané hodnoty (1 ks) dle podkladů", price: "500 Kč" },
+  { service: "Daň silniční za 1 vozidlo", price: "500 Kč" },
+  { service: "Daň silniční za každé další vozidlo", price: "100 Kč" },
+  { service: "Individuální konzultace, poradenství", price: "1 000 Kč/hod." },
+  { service: "Zastupování na úřadech", price: "500 Kč/hod." },
+  { service: "Založení s.r.o.", price: "Od 8 000 Kč" },
+  { service: "Umístění sídla – Karviná nebo Praha", price: "Od 2 000 Kč/měsíc" },
+  { service: "Vypracování podnikatelského záměru", price: "Od 5 000 Kč" },
+  { service: "Zpracování žádosti o úvěr", price: "Od 1 000 Kč" },
+  { service: "Zpracování dotací – čtvrtletně (zaměstnanci)", price: "3 000 Kč" },
+  { service: "Žádost o dotace – zaměstnanci", price: "5 000 Kč" },
+  { service: "Náhradní plnění – zápis 1 firmy na portál MPSV", price: "150 Kč" },
+  { service: "Tvorba vnitropodnikových směrnic", price: "dle dohody" },
+  { service: "Vystavování tuzemských faktur", price: "150 Kč/1 ks" },
+  { service: "Vystavování zahraničních faktur", price: "200 Kč/1 ks" },
+  { service: "Výkazy pro ČSÚ", price: "1 000 Kč/1 ks" },
+  { service: "Personální audit ve firmě", price: "Od 5 000 Kč" },
+  { service: "Kontrola účetnictví minulých let", price: "500 Kč/hod." },
+  { service: "Odklad daňového přiznání FO", price: "3 000 Kč" },
+  { service: "Odklad daňového přiznání PO", price: "5 000 Kč" },
+  { service: "Správa nemovitostí (družstva, SVJ...)", price: "150 Kč/jednotka" },
+  { service: "Žádosti, odvolání, prominutí penále a další", price: "Od 1 000 Kč" },
+  { service: "Poradenství v oblasti správního řízení v silniční dopravě", price: "Od 1 500 Kč/hod." },
+  { service: "Poradenství v oblasti celního a daňového řízení", price: "Od 1 500 Kč/hod." },
+];
 
+function Header() {
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
-        <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
-              <span className="leading-tight">
-                <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
-                <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
-              </span>
-            </Link>
-            <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
-              <Link href="/#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</Link>
-              <Link href="/#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</Link>
-              <Link href="/cenik" className="rounded-full bg-[#5865F2]/10 px-4 py-2 text-[#5865F2] transition">Ceník</Link>
-              <Link href="/#kontakt" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</Link>
-            </div>
-            <Link
-              href="/#kontakt"
-              className="group inline-flex items-center gap-2 rounded-full bg-[#57F287] px-4 py-3 text-sm font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] md:px-6"
-            >
-              <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-            </Link>
+    <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
+      <nav className="container mx-auto px-5 py-3 md:px-6 md:py-4">
+        <div className="flex items-center justify-between gap-4">
+          <Link href="/" className="group rounded-full pr-3 transition hover:opacity-90">
+            <span className="leading-tight">
+              <span className="block text-xl font-black tracking-tight text-[#2C1E2C] md:text-2xl">Partex real</span>
+              <span className="hidden text-xs font-semibold uppercase tracking-[0.26em] text-[#5865F2] sm:block">účetnictví · daně · mzdy</span>
+            </span>
+          </Link>
+          <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner md:flex">
+            <Link href="/#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</Link>
+            <Link href="/#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</Link>
+            <Link href="/cenik" className="rounded-full bg-[#5865F2]/10 px-4 py-2 text-[#5865F2] transition">Ceník</Link>
+            <Link href="/#kontakt" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</Link>
           </div>
-        </nav>
-      </header>
+          <Link
+            href="/#kontakt"
+            className="group inline-flex items-center gap-2 rounded-full bg-[#57F287] px-4 py-3 text-sm font-extrabold text-[#17351f] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#4ADB7A] md:px-6"
+          >
+            <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+      </nav>
+    </header>
+  );
+}
 
-      {/* Page Header */}
-      <section className="bg-[#5865F2] text-white py-16 md:py-20">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Ceník služeb</h1>
-          <p className="text-xl opacity-90">Transparentní ceník bez skrytých poplatků</p>
+export default function CenikPage() {
+  return (
+    <main className="min-h-screen bg-[#f7f8ff] text-slate-950">
+      <Header />
+
+      <section className="relative overflow-hidden bg-[#5865F2] py-20 text-white md:py-28">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(87,242,135,0.26),transparent_28%),linear-gradient(135deg,#5865F2_0%,#4450d4_55%,#2C1E2C_100%)]" />
+        <div className="container relative mx-auto px-6 text-center">
+          <p className="mb-4 text-sm font-black uppercase tracking-[0.28em] text-[#57F287]">Platný od 1. 1. 2024</p>
+          <h1 className="text-4xl font-black tracking-tight md:text-6xl">Ceník služeb</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/86">Orientační ceny účetních, daňových a poradenských služeb. Finální rozsah rádi upřesníme podle vašich potřeb.</p>
         </div>
       </section>
 
-      {/* Pricing Table */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6">
-          {pricing && pricing.length > 0 ? (
-            <>
-              {/* Desktop Table */}
-              <div className="hidden md:block bg-white rounded-2xl shadow-lg overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-[#5865F2] text-white">
-                      <th className="px-6 py-4 text-left font-bold text-lg">Služba</th>
-                      <th className="px-6 py-4 text-left font-bold text-lg">Cena</th>
-                      <th className="px-6 py-4 text-left font-bold text-lg">Platnost</th>
-                      <th className="px-6 py-4 text-left font-bold text-lg">Co je zahrnuto</th>
-                      <th className="px-6 py-4 text-center font-bold text-lg">Akce</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pricing.map((pkg, index) => (
-                      <tr 
-                        key={pkg._id} 
-                        className={`border-b border-gray-100 hover:bg-gray-50 transition ${
-                          index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                        }`}
-                      >
-                        <td className="px-6 py-6">
-                          <div className="font-bold text-lg text-gray-900">{pkg.name}</div>
-                        </td>
-                        <td className="px-6 py-6">
-                          <div className="text-2xl font-bold text-[#5865F2]">
-                            {pkg.price} {pkg.currency}
-                          </div>
-                        </td>
-                        <td className="px-6 py-6">
-                          <div className="text-gray-700">
-                            {pkg.unit ? `za ${pkg.unit}` : 'Jednorázově'}
-                          </div>
-                        </td>
-                        <td className="px-6 py-6">
-                          <ul className="space-y-2">
-                            {pkg.features.map((feature, idx) => (
-                              <li key={idx} className="flex items-start gap-2">
-                                <span className="text-[#57F287] mt-1 flex-shrink-0">✓</span>
-                                <span className="text-gray-700 text-sm">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </td>
-                        <td className="px-6 py-6 text-center">
-                          <Link
-                            href="/#kontakt"
-                            className="inline-block bg-[#5865F2] text-white px-6 py-2.5 rounded-full font-semibold hover:bg-[#4752C4] transition-all hover:scale-105"
-                          >
-                            Objednat
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Mobile Cards */}
-              <div className="md:hidden space-y-6">
-                {pricing.map((pkg) => (
-                  <div key={pkg._id} className="bg-white rounded-2xl shadow-lg p-6">
-                    <div className="mb-4">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
-                      <div className="text-3xl font-bold text-[#5865F2] mb-1">
-                        {pkg.price} {pkg.currency}
-                      </div>
-                      <div className="text-gray-600">
-                        {pkg.unit ? `za ${pkg.unit}` : 'Jednorázově'}
-                      </div>
-                    </div>
-
-                    <div className="mb-6">
-                      <h4 className="font-semibold text-gray-900 mb-3">Co je zahrnuto:</h4>
-                      <ul className="space-y-2">
-                        {pkg.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <span className="text-[#57F287] mt-1 flex-shrink-0">✓</span>
-                            <span className="text-gray-700">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <Link
-                      href="/#kontakt"
-                      className="block w-full text-center bg-[#5865F2] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#4752C4] transition-all"
-                    >
-                      Objednat
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">Načítám ceník...</p>
+          <div className="overflow-hidden rounded-[2rem] bg-white shadow-[0_22px_70px_rgba(29,38,90,0.10)] ring-1 ring-slate-200">
+            <div className="hidden md:grid grid-cols-[1.5fr_0.8fr_1.2fr] bg-[#2C1E2C] px-6 py-4 text-sm font-black uppercase tracking-[0.18em] text-white">
+              <div>Služba</div>
+              <div>Cena</div>
+              <div>Poznámka</div>
             </div>
-          )}
-        </div>
-      </section>
-
-      {/* Additional Info */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">Často kladené otázky</h2>
-            
-            <div className="space-y-6">
-              <div className="bg-gray-50 rounded-xl p-6">
-                <h3 className="font-bold text-lg text-gray-900 mb-2">Jak probíhá objednávka?</h3>
-                <p className="text-gray-700">Kontaktujte nás přes formulář nebo telefon a domluvíme si schůzku, kde probereme vaše potřeby a navrhnem optimální řešení.</p>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <h3 className="font-bold text-lg text-gray-900 mb-2">Je možné kombinovat služby?</h3>
-                <p className="text-gray-700">Ano, nabízíme individuální balíčky služeb přizpůsobené vašim potřebám. Cena se určí na základě rozsahu služeb.</p>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <h3 className="font-bold text-lg text-gray-900 mb-2">Poskytujete slevy pro dlouhodobou spolupráci?</h3>
-                <p className="text-gray-700">Ano, při roční předplatném nabízíme speciální ceny. Kontaktujte nás pro cenovou nabídku.</p>
-              </div>
+            <div className="divide-y divide-slate-100">
+              {pricingItems.map((item, index) => (
+                <div key={`${item.service}-${index}`} className="grid gap-3 px-6 py-5 transition hover:bg-[#5865F2]/5 md:grid-cols-[1.5fr_0.8fr_1.2fr] md:items-center">
+                  <div className="font-bold text-slate-950">{item.service}</div>
+                  <div className="text-lg font-black text-[#5865F2]">{item.price}</div>
+                  <div className="text-sm leading-6 text-slate-600">{item.note || "—"}</div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="text-center mt-12">
-              <Link
-                href="/#kontakt"
-                className="inline-block bg-[#5865F2] text-white px-8 py-3.5 rounded-full font-semibold hover:bg-[#4752C4] transition-all hover:scale-105"
-              >
-                Kontaktujte nás pro cenovou nabídku
-              </Link>
-            </div>
+          <div className="mt-12 text-center">
+            <Link
+              href="/#kontakt"
+              className="inline-flex items-center gap-2 rounded-full bg-[#5865F2] px-8 py-4 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[#4752C4]"
+            >
+              Kontaktujte nás pro cenovou nabídku
+              <ArrowRight className="h-5 w-5" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-[#2C1E2C] text-white py-16">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
@@ -205,8 +137,8 @@ export default function CenikPage() {
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Kontakt</h3>
-              <p className="text-gray-300 mb-2">info@partex.cz</p>
-              <p className="text-gray-300">+420 123 456 789</p>
+              <p className="text-gray-300 mb-2">partex@seznam.cz</p>
+              <p className="text-gray-300">+420 775 554 377</p>
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">

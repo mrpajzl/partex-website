@@ -22,9 +22,7 @@ function PartexIllustration({ className = "" }: { className?: string }) {
 export default function Home() {
   const hero = useQuery(api.content.getHero);
   const services = useQuery(api.content.getServices);
-  const serviceDetails = useQuery(api.content.getServiceDetails);
   const about = useQuery(api.content.getAbout);
-  const contact = useQuery(api.content.getContact);
 
   const iconMap: Record<string, LucideIcon> = {
     users: Users,
@@ -186,21 +184,27 @@ export default function Home() {
       </section>
 
       {/* Service Details */}
-      {serviceDetails && serviceDetails.length > 0 && (
-        <section className="py-20 md:py-28 bg-white">
-          <div className="container mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Co je náhradní plnění?</h2>
-            <div className="max-w-4xl mx-auto space-y-8">
-              {serviceDetails.map((detail) => (
-                <div key={detail._id} className="bg-[#f7f8ff] rounded-2xl p-8 border border-gray-100">
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{detail.title}</h3>
-                  <p className="text-gray-700 leading-relaxed text-lg">{detail.content}</p>
-                </div>
-              ))}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-[#f7f8ff] p-8 shadow-[0_18px_55px_rgba(29,38,90,0.08)] md:p-12">
+            <h2 className="text-3xl md:text-4xl font-black text-center mb-10 text-slate-950">Co je náhradní plnění?</h2>
+            <div className="space-y-5 text-lg leading-8 text-slate-700">
+              <p>Každé firmě, která zaměstnává <strong>nad 25 pracovníků, vzniká povinnost zaměstnávat osoby se zdravotním postižením (OZP)</strong>, a to v povinném podílu 4 % k celkovému přepočtenému počtu zaměstnanců.</p>
+              <p>V případě, že firma nezaměstnává požadovaný počet OZP, musí ze zákona odvést státu vypočtenou částku.</p>
+              <p><strong>Náhradní plnění představuje ideální alternativu</strong>, pokud vaše firma nemůže přímo zaměstnávat OZP a zároveň chcete ušetřit na zmíněném odvodu státu. Stačí si objednat naše služby a my vám poskytneme tzv. náhradní plnění.</p>
             </div>
+            <div className="mt-10 rounded-3xl bg-white p-6 shadow-sm">
+              <h3 className="mb-4 text-xl font-bold text-slate-950">Důležité odkazy</h3>
+              <ul className="space-y-3 text-slate-700">
+                <li><a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="http://portal.mpsv.cz/sz/obecne/prav_predpisy/vyklady/plneni_povinneho_podilu_ozp" target="_blank" rel="noreferrer">Souhrn legislativy k povinnému podílu zaměstnávání OZP</a></li>
+                <li>Aktuální zákon č. 435/2004 Sb., o zaměstnanosti — zaměstnávání OZP: <a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="http://www.mpsv.cz/ppropo.php?ID=z435_2004_2#par81" target="_blank" rel="noreferrer">§81–83</a></li>
+                <li>Prováděcí vyhláška č. 518/2004 Sb. — výpočet plnění povinného podílu: <a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="http://www.mpsv.cz/ppropo.php?ID=v518_2004#par16" target="_blank" rel="noreferrer">§17–20</a></li>
+              </ul>
+            </div>
+            <p className="mt-8 text-lg text-slate-700">Pokud máte zájem o tuto službu, neváhejte nás <a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="#kontakt">kontaktovat</a>.</p>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* About Section */}
       {about && (
@@ -247,32 +251,41 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      {contact && contact.length > 0 && (
-        <section id="kontakt" className="py-20 md:py-28 bg-white">
-          <div className="container mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Kontakty</h2>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 max-w-6xl mx-auto">
-              {contact.map((item) => {
-                const Icon = item.icon ? iconMap[item.icon] : Mail;
-                return (
-                  <div key={item._id} className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-                    <div className="w-14 h-14 bg-[#5865F2]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Icon className="w-7 h-7 text-[#5865F2]" />
-                    </div>
-                    <h3 className="font-bold mb-3 text-gray-900">{item.label}</h3>
-                    <p className="text-gray-600 whitespace-pre-line text-sm leading-relaxed">{item.value}</p>
+      <section id="kontakt" className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Kontakty</h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 max-w-6xl mx-auto">
+            {[
+              { label: "Adresa", value: "Hrnčířská 42/1\n733 01 Karviná-Fryštát", icon: MapPin },
+              { label: "E-mail", value: "partex@seznam.cz", icon: Mail },
+              { label: "Telefon", value: "+420 775 554 377", icon: Phone },
+              { label: "Otevírací doba", value: "pondělí – pátek\n8:00 – 16:30", icon: Clock },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.label} className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+                  <div className="w-14 h-14 bg-[#5865F2]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-7 h-7 text-[#5865F2]" />
                   </div>
-                );
-              })}
-            </div>
-
-            <div className="bg-slate-100 rounded-3xl h-96 flex items-center justify-center shadow-lg overflow-hidden">
-              <p className="text-gray-500 text-lg">Google Map zde</p>
-            </div>
+                  <h3 className="font-bold mb-3 text-gray-900">{item.label}</h3>
+                  <p className="text-gray-600 whitespace-pre-line text-sm leading-relaxed">{item.value}</p>
+                </div>
+              );
+            })}
           </div>
-        </section>
-      )}
+
+          <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-slate-200">
+            <iframe
+              title="Mapa Partex Real"
+              src="https://www.google.com/maps?q=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1-Fry%C5%A1t%C3%A1t&output=embed"
+              className="h-96 w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-[#2C1E2C] text-white py-16">
@@ -293,8 +306,8 @@ export default function Home() {
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Kontakt</h3>
-              <p className="text-gray-300 mb-2">info@partex.cz</p>
-              <p className="text-gray-300">+420 123 456 789</p>
+              <p className="text-gray-300 mb-2">partex@seznam.cz</p>
+              <p className="text-gray-300">+420 775 554 377</p>
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
