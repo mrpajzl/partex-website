@@ -152,16 +152,16 @@ export default function CenikPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section className="py-10 md:py-14">
         <div className="container mx-auto px-6">
-          <div className="space-y-8">
+          <div className="space-y-5">
             {pricingSections.map((section) => (
-              <section key={section.title} className="overflow-hidden rounded-[2rem] bg-white shadow-[0_22px_70px_rgba(29,38,90,0.09)] ring-1 ring-slate-200">
-                <div className="border-b border-slate-100 bg-gradient-to-r from-[#2C1E2C] to-[#5865F2] px-5 py-5 text-white md:px-7">
+              <section key={section.title} className="overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200">
+                <div className="border-b border-slate-100 bg-gradient-to-r from-[#2C1E2C] to-[#5865F2] px-5 py-4 text-white md:px-6">
                   <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                     <div>
-                      <h2 className="text-2xl font-black tracking-tight">{section.title}</h2>
-                      <p className="mt-1 max-w-2xl text-sm leading-6 text-white/78">{section.description}</p>
+                      <h2 className="text-xl font-black tracking-tight">{section.title}</h2>
+                      <p className="mt-1 max-w-2xl text-xs leading-5 text-white/78">{section.description}</p>
                     </div>
                     <div className="text-sm font-bold uppercase tracking-[0.18em] text-[#57F287]">{section.items.length} položek</div>
                   </div>
@@ -169,39 +169,39 @@ export default function CenikPage() {
 
                 <div className="divide-y divide-slate-100">
                   {section.items.map((item, index) => (
-                    <div key={`${section.title}-${item.service}-${index}`} className="px-5 py-5 transition hover:bg-[#5865F2]/5 md:px-7">
+                    <div key={`${section.title}-${item.service}-${index}`} className="px-5 py-3.5 transition hover:bg-[#5865F2]/5 md:px-6">
                       <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
                         <div className="min-w-0">
-                          <div className="font-bold leading-7 text-slate-950">{item.service}</div>
+                          <div className="font-bold leading-6 text-slate-950">{item.service}</div>
                           {item.note && (
-                            <div className="mt-2 inline-flex max-w-full rounded-2xl bg-[#5865F2]/8 px-4 py-2 text-sm font-medium leading-6 text-slate-700 ring-1 ring-[#5865F2]/10">
+                            <div className="mt-1.5 inline-flex max-w-full rounded-xl bg-[#5865F2]/8 px-3 py-1.5 text-xs font-medium leading-5 text-slate-700 ring-1 ring-[#5865F2]/10">
                               {item.note}
                             </div>
                           )}
                         </div>
                         <div className="flex items-start md:justify-end">
-                          <span className="rounded-full bg-[#5865F2]/10 px-4 py-2 text-base font-black whitespace-nowrap text-[#5865F2] ring-1 ring-[#5865F2]/10 md:text-right">
+                          <span className="rounded-full bg-[#5865F2]/10 px-3 py-1.5 text-sm font-black whitespace-nowrap text-[#5865F2] ring-1 ring-[#5865F2]/10 md:text-right">
                             {item.price}
                           </span>
                         </div>
                       </div>
 
                       {item.children && (
-                        <div className="mt-4 rounded-3xl bg-slate-50 p-3 ring-1 ring-slate-200/80 md:ml-4 md:p-3">
-                          <div className="space-y-3">
+                        <div className="mt-3 rounded-2xl bg-slate-50 p-2.5 ring-1 ring-slate-200/80 md:ml-4 md:p-2.5">
+                          <div className="space-y-2">
                             {item.children.map((child) => (
-                              <div key={`${item.service}-${child.service}-${child.price}`} className="rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200/70">
+                              <div key={`${item.service}-${child.service}-${child.price}`} className="rounded-xl bg-white px-3 py-2.5 shadow-sm ring-1 ring-slate-200/70">
                                 <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_180px] md:items-start">
                                   <div className="min-w-0">
-                                    <div className="font-semibold leading-7 text-slate-800">{child.service}</div>
+                                    <div className="font-semibold leading-6 text-slate-800">{child.service}</div>
                                     {child.note && (
-                                      <p className="mt-1 text-sm leading-6 text-slate-500">
+                                      <p className="mt-1 text-xs leading-5 text-slate-500">
                                         {child.note}
                                       </p>
                                     )}
                                   </div>
                                   <div className="flex md:justify-end">
-                                    <span className="rounded-full bg-white px-3 py-1.5 font-black whitespace-nowrap text-[#5865F2] ring-1 ring-[#5865F2]/15">
+                                    <span className="rounded-full bg-white px-3 py-1 text-sm font-black whitespace-nowrap text-[#5865F2] ring-1 ring-[#5865F2]/15">
                                       {child.price}
                                     </span>
                                   </div>
@@ -218,10 +218,10 @@ export default function CenikPage() {
             ))}
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-8 text-center">
             <Link
               href="/#kontakt"
-              className="inline-flex items-center gap-2 rounded-full bg-[#5865F2] px-8 py-4 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[#4752C4]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#5865F2] px-7 py-3.5 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[#4752C4]"
             >
               Kontaktujte nás pro cenovou nabídku
               <ArrowRight className="h-5 w-5" />
@@ -239,7 +239,7 @@ export default function CenikPage() {
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Rychlé odkazy</h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 <li><Link href="/#sluzby" className="text-gray-300 hover:text-white transition">Služby</Link></li>
                 <li><Link href="/#o-nas" className="text-gray-300 hover:text-white transition">O nás</Link></li>
                 <li><Link href="/cenik" className="text-gray-300 hover:text-white transition">Ceník</Link></li>
