@@ -105,10 +105,10 @@ export default function Home() {
                 <a href="#sluzby" className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur transition hover:bg-white/18">Naše služby</a>
               </div>
             </div>
-            <div className="relative hidden min-h-[470px] items-center justify-center md:flex">
-              <div className="absolute -right-10 top-3 h-96 w-96 rounded-full border border-white/10" />
-              <div className="absolute -right-2 top-12 h-72 w-72 rounded-full bg-[#57F287]/18 blur-3xl" />
-              <PartexIllustration className="relative z-10 w-[560px] max-w-none -translate-x-2 translate-y-6 -rotate-3 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[650px] lg:translate-x-8" />
+            <div className="relative hidden min-h-[520px] items-center justify-center md:flex">
+              <div className="absolute -right-16 top-8 h-[28rem] w-[28rem] rounded-full border border-white/10" />
+              <div className="absolute -right-8 top-20 h-80 w-80 rounded-full bg-[#57F287]/18 blur-3xl" />
+              <PartexIllustration className="relative z-10 w-[680px] max-w-none translate-x-4 translate-y-20 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[790px] lg:translate-x-16" />
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@ export default function Home() {
         {/* Diagonal separator using SVG */}
         <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
           <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+            <path d="M0,60 L1200,0 L1200,120 L0,120 Z" fill="#ffffff"></path>
           </svg>
         </div>
       </section>
