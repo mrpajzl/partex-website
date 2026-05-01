@@ -160,16 +160,16 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative bg-[#5865F2] text-white pt-6 pb-20">
+      <section className="relative overflow-hidden bg-[#5865F2] text-white pt-6 pb-20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(87,242,135,0.30),transparent_28%),radial-gradient(circle_at_86%_12%,rgba(255,255,255,0.22),transparent_26%),linear-gradient(135deg,#5865F2_0%,#4450d4_48%,#2C1E2C_100%)]" />
         <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
-        <div className="container relative z-10 mx-auto px-6 py-10 md:py-12">
-          <div className="grid items-center gap-14 md:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <h1 className="max-w-[20rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:text-6xl lg:text-7xl">
+        <div className="container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12">
+          <div className="grid items-center gap-8 md:grid-cols-[minmax(0,1.28fr)_minmax(300px,0.72fr)] lg:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.65fr)] lg:gap-10">
+            <div className="relative z-20 max-w-4xl">
+              <h1 className="max-w-[22rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:max-w-[46rem] md:text-6xl lg:max-w-[52rem] lg:text-7xl">
                 {hero?.title || "Vaše cesta k úspěchu je i naše práce"}
               </h1>
-              <p className="mt-5 max-w-[20rem] text-base leading-7 text-white/86 sm:max-w-2xl sm:text-lg md:text-2xl md:leading-9">{hero?.subtitle || "Pomůžeme vám dosáhnout vašich cílů"}</p>
+              <p className="mt-5 max-w-[22rem] text-base leading-7 text-white/86 sm:max-w-2xl sm:text-lg md:max-w-[38rem] md:text-2xl md:leading-9">{hero?.subtitle || "Pomůžeme vám dosáhnout vašich cílů"}</p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <a
                   href="#sluzby"
@@ -180,10 +180,10 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="relative hidden min-h-[380px] items-center justify-center md:flex">
-              <div className="absolute -right-16 top-8 h-[28rem] w-[28rem] rounded-full border border-white/10" />
-              <div className="absolute -right-8 top-20 h-80 w-80 rounded-full bg-[#57F287]/18 blur-3xl" />
-              <PartexIllustration className="relative z-10 w-[580px] max-w-none translate-x-4 translate-y-14 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[680px] lg:translate-x-16" />
+            <div className="relative hidden min-h-[340px] items-center justify-end md:flex lg:min-h-[380px]">
+              <div className="absolute -right-20 top-10 h-[25rem] w-[25rem] rounded-full border border-white/10 lg:h-[28rem] lg:w-[28rem]" />
+              <div className="absolute -right-10 top-24 h-72 w-72 rounded-full bg-[#57F287]/18 blur-3xl lg:h-80 lg:w-80" />
+              <PartexIllustration className="relative z-10 w-[470px] max-w-none translate-x-10 translate-y-12 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[560px] lg:translate-x-12 xl:w-[620px]" />
             </div>
           </div>
         </div>
