@@ -5,13 +5,13 @@ import { Shield } from "lucide-react";
 import { useState } from "react";
 
 export function AuthGate({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useConvexAuth();
+  const auth = useConvexAuth();
 
-  if (isLoading) {
+  if (!auth || auth.isLoading) {
     return <div className="flex min-h-screen items-center justify-center text-slate-600">Načítám administraci…</div>;
   }
 
-  if (!isAuthenticated) {
+  if (!auth.isAuthenticated) {
     return <SignIn />;
   }
 
