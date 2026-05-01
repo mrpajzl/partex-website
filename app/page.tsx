@@ -6,16 +6,9 @@ import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { mergeSiteContent, type SiteContent, type SiteService } from "@/lib/site-content";
 
-const usefulLinks = [
-  { title: "ARES", description: "Vyhledávání ekonomických subjektů", href: "http://wwwinfo.mfcr.cz/ares/ares_es.html.cz" },
-  { title: "Plátci DPH", description: "Čísla účtů pro ekonomickou činnost", href: "http://adisspr.mfcr.cz/adis/jepo/epo/dpr/apl_ramce.htm?R=/adistc/DphReg?ZPRAC=FDPHI1%26poc_dic=2%26OK=Zobraz" },
-  { title: "Ověření DIČ v ČR", description: "Registr plátců DPH v ČR", href: "http://adisreg.mfcr.cz/cgi-bin/adis/idph/int_dp_prij.cgi?ZPRAC=FDPHI1&poc_dic=1" },
-  { title: "Ověření DIČ v EU", description: "VIES Evropské komise", href: "http://ec.europa.eu/taxation_customs/vies/?locale=cs" },
-  { title: "Finanční úřady", description: "Číselník finančních úřadů ČR", href: "http://www.statnisprava.cz/rstsp/ciselniky.nsf/i/d0027" },
-  { title: "Justice", description: "Oficiální server českého soudnictví", href: "http://portal.justice.cz/justice2/uvod/uvod.aspx" },
-  { title: "Kurzy ČNB", description: "Kurzy devizového trhu", href: "https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/" },
-];
+const iconMap = { Calculator, Users, Clipboard, Mail, Phone, MapPin, Clock };
 
 const FOUNDATION_DATE = new Date("2004-11-15T00:00:00+01:00");
 const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
@@ -33,48 +26,6 @@ function getYearsSinceFoundation() {
   return years;
 }
 
-const realServices = [
-  {
-    title: "Účetnictví",
-    icon: Calculator,
-    description: "Kompletní účetní a daňová agenda pro fyzické i právnické osoby.",
-    details: [
-      "zpracování daňové evidence, jednoduché účetnictví",
-      "vedení účetnictví pro fyzické i právnické osoby",
-      "rekonstrukce účetnictví za uplynulá období",
-      "evidence majetku, kniha jízd, skladové hospodářství, směrnice, cestovní příkazy a další",
-      "zpracování různých daňových přiznání (DPH, daň silniční, daň z příjmů a další)",
-      "zpracování daní nemovitého majetku (daň z nemovitostí a daň z nabytí nemovitosti)",
-      "zpracování různé administrativy pro OSSZ, zdravotní pojišťovny, finanční úřady, úřady práce a další, včetně zastupování na úřadech",
-      "zpracování podnikatelských záměrů, včetně kalkulace",
-      "poradenství v oblasti účetnictví, daní i financí",
-    ],
-  },
-  {
-    title: "Mzdy a personalistika",
-    icon: Users,
-    description: "Mzdy, personalistika, přehledy, dotace a komunikace s institucemi.",
-    details: [
-      "zpracování mezd zaměstnanců",
-      "zpracování měsíčních a ročních přehledů pro OSSZ, zdravotní pojišťovny a FÚ, zastupování na úřadech",
-      "poradenství v oblasti mzdové a personální problematiky",
-      "zpracování podkladů pro poskytnutí dotací dle § 78a zákona o zaměstnanosti",
-      "měsíční uzávěrky mezd pro účetnictví i daňovou evidenci",
-      "spolupráce s exekutory či insolvenčními správci",
-    ],
-  },
-  {
-    title: "Rekvalifikace, odborná praxe",
-    icon: Clipboard,
-    description: "Odborná praxe pro absolventy, účastníky rekvalifikací a studenty.",
-    intro: "Odbornou praxi v našich prostorách nabízíme těmto osobám:",
-    details: [
-      "absolventům SŠ i VŠ, kteří mají zájem o účetní profesi",
-      "účastníkům kurzů v rámci rekvalifikace pořádané úřadem práce",
-      "studentům, kteří mají povinnou odbornou praxi v rámci výuky",
-    ],
-  },
-];
 
 function PartexIllustration({ className = "" }: { className?: string }) {
   return (
@@ -91,13 +42,11 @@ function PartexIllustration({ className = "" }: { className?: string }) {
 
 export default function Home() {
   const yearsWithClients = getYearsSinceFoundation();
-  const [activeService, setActiveService] = useState<(typeof realServices)[number] | null>(null);
+  const [activeService, setActiveService] = useState<SiteService | null>(null);
   const [usefulLinksOpen, setUsefulLinksOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const hero = useQuery(api.content.getHero);
-  const about = useQuery(api.content.getAbout);
-
-
+  const storedContent = useQuery(api.content.getSiteContent, { key: "main" });
+  const site = mergeSiteContent(storedContent?.value as Partial<SiteContent> | undefined);
 
   return (
     <main id="top" className="min-h-screen bg-[#f7f8ff] text-slate-950">
@@ -116,10 +65,11 @@ export default function Home() {
               />
             </a>
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner lg:flex">
-              <a href="#sluzby" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</a>
-              <a href="#o-nas" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</a>
-              <Link href="/cenik" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Ceník</Link>
-              <a href="#kontakt" className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</a>
+              {site.navigation.map((item) => item.href.startsWith("/") ? (
+                <Link key={item.href} href={item.href} className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">{item.label}</Link>
+              ) : (
+                <a key={item.href} href={item.href} className="rounded-full px-4 py-2 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">{item.label}</a>
+              ))}
             </div>
             <a
               href="#kontakt"
@@ -141,10 +91,11 @@ export default function Home() {
           {mobileMenuOpen && (
             <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
               <div className="grid gap-2">
-                <a onClick={() => setMobileMenuOpen(false)} href="#sluzby" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Služby</a>
-                <a onClick={() => setMobileMenuOpen(false)} href="#o-nas" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">O nás</a>
-                <Link onClick={() => setMobileMenuOpen(false)} href="/cenik" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Ceník</Link>
-                <a onClick={() => setMobileMenuOpen(false)} href="#kontakt" className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">Kontakt</a>
+                {site.navigation.map((item) => item.href.startsWith("/") ? (
+                  <Link key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href} className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">{item.label}</Link>
+                ) : (
+                  <a key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href} className="rounded-2xl px-4 py-3 transition hover:bg-[#5865F2]/10 hover:text-[#5865F2]">{item.label}</a>
+                ))}
                 <a onClick={() => setMobileMenuOpen(false)} href="#kontakt" className="mt-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#57F287] px-4 py-3 font-extrabold text-[#17351f] transition hover:bg-[#4ADB7A]">
                   Kontaktujte nás
                   <ArrowRight className="h-4 w-4" />
@@ -156,7 +107,7 @@ export default function Home() {
       </header>
 
       <div className="relative z-10 bg-[#2C1E2C] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.10em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
-        <span className="mx-auto block max-w-[21rem] sm:max-w-none">Již {yearsWithClients} let jsme tu pro naše klienty</span>
+        <span className="mx-auto block max-w-[21rem] sm:max-w-none">{site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}</span>
       </div>
 
       {/* Hero Section */}
@@ -164,26 +115,26 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(87,242,135,0.30),transparent_28%),radial-gradient(circle_at_86%_12%,rgba(255,255,255,0.22),transparent_26%),linear-gradient(135deg,#5865F2_0%,#4450d4_48%,#2C1E2C_100%)]" />
         <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
         <div className="container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12">
-          <div className="grid items-center gap-8 md:grid-cols-[minmax(0,1.28fr)_minmax(300px,0.72fr)] lg:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.65fr)] lg:gap-10">
-            <div className="relative z-20 max-w-4xl">
-              <h1 className="max-w-[22rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:max-w-[46rem] md:text-6xl lg:max-w-[52rem] lg:text-7xl">
-                {hero?.title || "Vaše cesta k úspěchu je i naše práce"}
+          <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.65fr)] lg:grid-cols-[minmax(0,1.42fr)_minmax(360px,0.58fr)] lg:gap-2">
+            <div className="relative z-20 max-w-5xl">
+              <h1 className="max-w-[22rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:max-w-[50rem] md:text-6xl lg:max-w-[58rem] lg:text-7xl">
+                {site.hero.title}
               </h1>
-              <p className="mt-5 max-w-[22rem] text-base leading-7 text-white/86 sm:max-w-2xl sm:text-lg md:max-w-[38rem] md:text-2xl md:leading-9">{hero?.subtitle || "Pomůžeme vám dosáhnout vašich cílů"}</p>
+              <p className="mt-5 max-w-[22rem] text-base leading-7 text-white/86 sm:max-w-2xl sm:text-lg md:max-w-[38rem] md:text-2xl md:leading-9">{site.hero.subtitle}</p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <a
-                  href="#sluzby"
+                  href={site.hero.primaryCtaHref}
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-extrabold text-[#5865F2] sm:px-8 sm:py-4 shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-all hover:-translate-y-1 hover:bg-[#f4f6ff]"
                 >
-                  Naše služby
+                  {site.hero.primaryCtaText}
                   <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
                 </a>
               </div>
             </div>
-            <div className="relative hidden min-h-[340px] items-center justify-end md:flex lg:min-h-[380px]">
-              <div className="absolute -right-20 top-10 h-[25rem] w-[25rem] rounded-full border border-white/10 lg:h-[28rem] lg:w-[28rem]" />
-              <div className="absolute -right-10 top-24 h-72 w-72 rounded-full bg-[#57F287]/18 blur-3xl lg:h-80 lg:w-80" />
-              <PartexIllustration className="relative z-10 w-[470px] max-w-none translate-x-10 translate-y-12 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[560px] lg:translate-x-12 xl:w-[620px]" />
+            <div className="relative hidden min-h-[380px] items-center justify-end md:flex">
+              <div className="absolute -right-16 top-8 h-[28rem] w-[28rem] rounded-full border border-white/10" />
+              <div className="absolute -right-8 top-20 h-80 w-80 rounded-full bg-[#57F287]/18 blur-3xl" />
+              <PartexIllustration className="relative z-10 w-[580px] max-w-none translate-x-6 translate-y-14 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[680px] lg:translate-x-16" />
             </div>
           </div>
         </div>
@@ -200,12 +151,12 @@ export default function Home() {
       <section id="sluzby" className="relative bg-white py-14 md:py-28">
         <div className="absolute inset-x-0 top-8 mx-auto h-48 max-w-5xl rounded-full bg-[#5865F2]/5 blur-3xl" />
         <div className="container relative mx-auto w-full max-w-[100vw] px-4 sm:px-6">
-          <h2 className="mb-4 text-center text-3xl font-black tracking-tight text-slate-950 md:text-5xl">Co nabízíme?</h2>
-          <p className="mx-auto mb-10 max-w-[18rem] text-center text-base leading-7 text-slate-600 sm:max-w-2xl md:mb-16 md:text-lg md:leading-8">Naše služby jsou navrženy tak, aby vyhovovaly vašim potřebám — přehledně, spolehlivě a bez zbytečného papírování.</p>
+          <h2 className="mb-4 text-center text-3xl font-black tracking-tight text-slate-950 md:text-5xl">{site.services.heading}</h2>
+          <p className="mx-auto mb-10 max-w-[18rem] text-center text-base leading-7 text-slate-600 sm:max-w-2xl md:mb-16 md:text-lg md:leading-8">{site.services.description}</p>
           
           <div className="mx-auto grid w-full max-w-[calc(100vw-2rem)] gap-5 md:max-w-6xl md:grid-cols-3 md:gap-8">
-            {realServices.map((service) => {
-              const Icon = service.icon;
+            {site.services.cards.map((service) => {
+              const Icon = iconMap[service.icon] ?? Calculator;
               return (
                 <div
                   key={service.title}
@@ -239,23 +190,23 @@ export default function Home() {
         <div className="container relative mx-auto px-6">
           <div className="mx-auto grid max-w-6xl items-center gap-10 rounded-[2.5rem] border border-white/80 bg-white p-8 shadow-[0_28px_80px_rgba(29,38,90,0.10)] md:grid-cols-[1fr_auto] md:p-12">
             <div>
-              <p className="mb-3 text-sm font-black uppercase tracking-[0.28em] text-[#5865F2]">Ceník služeb</p>
-              <h2 className="max-w-3xl text-3xl font-black tracking-tight text-slate-950 md:text-5xl">Jasné ceny pro účetnictví, daně i mzdy</h2>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Podívejte se na přehled služeb a orientační ceny. Pro konkrétní rozsah vám připravíme nabídku na míru.</p>
+              <p className="mb-3 text-sm font-black uppercase tracking-[0.28em] text-[#5865F2]">{site.pricingCta.eyebrow}</p>
+              <h2 className="max-w-3xl text-3xl font-black tracking-tight text-slate-950 md:text-5xl">{site.pricingCta.title}</h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">{site.pricingCta.description}</p>
             </div>
             <Link
               href="/cenik"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#5865F2] px-8 py-4 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[#4752C4]"
             >
-              Zobrazit ceník
+              {site.pricingCta.buttonText}
               <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Newsletter Section with Diagonals */}
-      <section className="relative bg-[#5865F2] text-white py-32">
+      {/* Support Banner Section with Diagonals */}
+      {site.supportBanner.enabled && <section className="relative bg-[#5865F2] text-white py-32">
         {/* Top diagonal */}
         <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none">
           <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ transform: 'rotate(180deg)' }}>
@@ -265,11 +216,11 @@ export default function Home() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold">Přispívejme na babybox</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">{site.supportBanner.title}</h2>
             <div className="mt-8 flex justify-center">
               <Image
-                src="/babybox.gif"
-                alt="Podporujeme Babybox"
+                src={site.supportBanner.imageUrl}
+                alt={site.supportBanner.imageAlt}
                 width={468}
                 height={60}
                 unoptimized
@@ -285,50 +236,44 @@ export default function Home() {
             <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
           </svg>
         </div>
-      </section>
+      </section>}
 
       {/* Service Details */}
       <section className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-6">
           <div className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-[#f7f8ff] p-8 shadow-[0_18px_55px_rgba(29,38,90,0.08)] md:p-12">
-            <h2 className="text-3xl md:text-4xl font-black text-center mb-10 text-slate-950">Co je náhradní plnění?</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-center mb-10 text-slate-950">{site.replacementFulfillment.title}</h2>
             <div className="space-y-5 text-lg leading-8 text-slate-700">
-              <p>Každé firmě, která zaměstnává <strong>nad 25 pracovníků, vzniká povinnost zaměstnávat osoby se zdravotním postižením (OZP)</strong>, a to v povinném podílu 4 % k celkovému přepočtenému počtu zaměstnanců.</p>
-              <p>V případě, že firma nezaměstnává požadovaný počet OZP, musí ze zákona odvést státu vypočtenou částku.</p>
-              <p><strong>Náhradní plnění představuje ideální alternativu</strong>, pokud vaše firma nemůže přímo zaměstnávat OZP a zároveň chcete ušetřit na zmíněném odvodu státu. Stačí si objednat naše služby a my vám poskytneme tzv. náhradní plnění.</p>
+              {site.replacementFulfillment.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
             <div className="mt-10 rounded-3xl bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-xl font-bold text-slate-950">Důležité odkazy</h3>
+              <h3 className="mb-4 text-xl font-bold text-slate-950">{site.replacementFulfillment.linksTitle}</h3>
               <ul className="space-y-3 text-slate-700">
-                <li><a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="http://portal.mpsv.cz/sz/obecne/prav_predpisy/vyklady/plneni_povinneho_podilu_ozp" target="_blank" rel="noreferrer">Souhrn legislativy k povinnému podílu zaměstnávání OZP</a></li>
-                <li>Aktuální zákon č. 435/2004 Sb., o zaměstnanosti — zaměstnávání OZP: <a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="http://www.mpsv.cz/ppropo.php?ID=z435_2004_2#par81" target="_blank" rel="noreferrer">§81–83</a></li>
-                <li>Prováděcí vyhláška č. 518/2004 Sb. — výpočet plnění povinného podílu: <a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="http://www.mpsv.cz/ppropo.php?ID=v518_2004#par16" target="_blank" rel="noreferrer">§17–20</a></li>
+                {site.replacementFulfillment.links.map((link) => <li key={link.href}><a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href={link.href} target="_blank" rel="noreferrer">{link.title}</a>{link.description ? ` — ${link.description}` : ""}</li>)}
               </ul>
             </div>
-            <p className="mt-8 text-lg text-slate-700">Pokud máte zájem o tuto službu, neváhejte nás <a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="#kontakt">kontaktovat</a>.</p>
+            <p className="mt-8 text-lg text-slate-700">{site.replacementFulfillment.closingText} <a className="font-semibold text-[#5865F2] underline-offset-4 hover:underline" href="#kontakt">Kontaktovat</a>.</p>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      {about && (
-        <section id="o-nas" className="py-20 md:py-28 bg-[#f7f8ff]">
-          <div className="container mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">{about.title}</h2>
-            <div className="max-w-4xl mx-auto">
-              <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-lg">
-                {about.content}
-              </div>
-              <div className="mt-10 rounded-3xl bg-white p-6 text-lg leading-8 text-slate-700 shadow-sm ring-1 ring-slate-200">
-                Společnost Partex real s. r. o. byla založena 15. listopadu {FOUNDATION_YEAR}. Již {yearsWithClients} let jsme tu pro naše klienty a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.
-              </div>
+      <section id="o-nas" className="py-20 md:py-28 bg-[#f7f8ff]">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">{site.about.title}</h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-lg">
+              {site.about.content}
+            </div>
+            <div className="mt-10 rounded-3xl bg-white p-6 text-lg leading-8 text-slate-700 shadow-sm ring-1 ring-slate-200">
+              Společnost Partex real s. r. o. byla založena 15. listopadu {FOUNDATION_YEAR}. Již {yearsWithClients} let jsme tu pro naše klienty a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Job Posting Section */}
-      <section className="relative bg-[#5865F2] text-white py-32">
+      {site.hiring.enabled && <section className="relative bg-[#5865F2] text-white py-32">
         {/* Top diagonal */}
         <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none">
           <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ transform: 'rotate(180deg)' }}>
@@ -338,13 +283,13 @@ export default function Home() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Hledáme pozici do našich řad</h2>
-            <p className="text-lg opacity-90 mb-8">Máme otevřenou pozici pro účetního/mzdového specialistu</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">{site.hiring.title}</h2>
+            <p className="text-lg opacity-90 mb-8">{site.hiring.description}</p>
             <a 
               href="#kontakt"
               className="inline-block bg-white text-[#5865F2] px-8 py-3.5 rounded-full font-semibold hover:bg-slate-100 transition-all hover:scale-105"
             >
-              Kontaktujte nás
+              {site.hiring.buttonText}
             </a>
           </div>
         </div>
@@ -355,21 +300,16 @@ export default function Home() {
             <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
           </svg>
         </div>
-      </section>
+      </section>}
 
       {/* Contact Section */}
       <section id="kontakt" className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Kontakty</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">{site.contact.title}</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 max-w-6xl mx-auto">
-            {[
-              { label: "Adresa", value: "Hrnčířská 42/1\n733 01 Karviná-Fryštát", icon: MapPin, href: "https://www.google.com/maps/search/?api=1&query=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1-Fry%C5%A1t%C3%A1t" },
-              { label: "E-mail", value: "partex@seznam.cz", icon: Mail, href: "mailto:partex@seznam.cz" },
-              { label: "Telefon", value: "+420 775 554 377", icon: Phone, href: "tel:+420775554377" },
-              { label: "Otevírací doba", value: "pondělí – pátek\n8:00 – 16:30", icon: Clock },
-            ].map((item) => {
-              const Icon = item.icon;
+            {site.contact.items.map((item) => {
+              const Icon = iconMap[item.icon] ?? MapPin;
               const content = (
                 <>
                   <div className="w-14 h-14 bg-[#5865F2]/10 rounded-full flex items-center justify-center mx-auto mb-4 transition group-hover:bg-[#5865F2]/15">
@@ -406,7 +346,7 @@ export default function Home() {
           <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-slate-200">
             <iframe
               title="Mapa Partex real s. r. o."
-              src="https://www.google.com/maps?q=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1-Fry%C5%A1t%C3%A1t&output=embed"
+              src={site.contact.mapEmbedUrl}
               className="h-96 w-full border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -430,7 +370,7 @@ export default function Home() {
               </button>
             </div>
             <div className="max-h-[60vh] divide-y divide-slate-100 overflow-y-auto">
-              {usefulLinks.map((link) => (
+              {site.usefulLinks.map((link) => (
                 <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="group flex items-start justify-between gap-4 px-5 py-3.5 transition hover:bg-[#5865F2]/5">
                   <span>
                     <span className="block font-bold text-slate-950 group-hover:text-[#5865F2]">{link.title}</span>
@@ -464,7 +404,10 @@ export default function Home() {
               <X className="h-5 w-5" />
             </button>
             <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-[#5865F2] to-[#2C1E2C] shadow-lg shadow-[#5865F2]/20">
-              <activeService.icon className="h-8 w-8 text-white" />
+              {(() => {
+                const Icon = iconMap[activeService.icon] ?? Calculator;
+                return <Icon className="h-8 w-8 text-white" />;
+              })()}
             </div>
             <h3 id="service-dialog-title" className="pr-12 text-3xl font-black tracking-tight text-slate-950 md:text-4xl">{activeService.title}</h3>
             <p className="mt-4 text-lg leading-8 text-slate-600">{activeService.description}</p>
@@ -496,7 +439,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             <div>
               <h3 className="font-bold text-xl mb-4">Partex real s. r. o.</h3>
-              <p className="text-gray-300 leading-relaxed">Profesionální účetní a daňové služby pro vaši firmu</p>
+              <p className="text-gray-300 leading-relaxed">{site.footer.tagline}</p>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Rychlé odkazy</h3>
@@ -509,8 +452,8 @@ export default function Home() {
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Kontakt</h3>
-              <p className="text-gray-300 mb-2">partex@seznam.cz</p>
-              <p className="text-gray-300">+420 775 554 377</p>
+              <p className="text-gray-300 mb-2">{site.contact.items.find((item) => item.icon === "Mail")?.value}</p>
+              <p className="text-gray-300">{site.contact.items.find((item) => item.icon === "Phone")?.value}</p>
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
