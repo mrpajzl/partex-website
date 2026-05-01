@@ -115,7 +115,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(87,242,135,0.30),transparent_28%),radial-gradient(circle_at_86%_12%,rgba(255,255,255,0.22),transparent_26%),linear-gradient(135deg,#5865F2_0%,#4450d4_48%,#2C1E2C_100%)]" />
         <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
         <div className="container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12">
-          <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.65fr)] lg:grid-cols-[minmax(0,1.42fr)_minmax(360px,0.58fr)] lg:gap-2">
+          <div className="grid items-center gap-2 md:grid-cols-[minmax(0,1fr)_minmax(460px,0.95fr)] lg:grid-cols-[minmax(0,0.96fr)_minmax(600px,1.04fr)] lg:gap-0">
             <div className="relative z-20 max-w-5xl">
               <h1 className="max-w-[22rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:max-w-[50rem] md:text-6xl lg:max-w-[58rem] lg:text-7xl">
                 {site.hero.title}
@@ -131,10 +131,10 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="relative hidden min-h-[430px] items-center justify-end md:flex lg:min-h-[470px]">
-              <div className="absolute -right-24 -top-2 h-[35rem] w-[35rem] rounded-full border border-white/10" />
-              <div className="absolute -right-12 top-10 h-[25rem] w-[25rem] rounded-full bg-[#57F287]/18 blur-3xl" />
-              <PartexIllustration className="relative z-10 w-[760px] max-w-none translate-x-2 translate-y-16 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[920px] lg:translate-x-10 xl:w-[980px]" />
+            <div className="relative hidden min-h-[500px] items-center justify-center md:flex lg:min-h-[540px]">
+              <div className="absolute right-2 top-0 h-[36rem] w-[36rem] rounded-full border border-white/10" />
+              <div className="absolute right-16 top-12 h-[26rem] w-[26rem] rounded-full bg-[#57F287]/18 blur-3xl" />
+              <PartexIllustration className="relative z-10 w-[820px] max-w-none -translate-x-8 translate-y-16 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[960px] lg:-translate-x-12 xl:w-[1040px]" />
             </div>
           </div>
         </div>
