@@ -109,8 +109,8 @@ export default function Home() {
               <Image
                 src="/partex-logo.png"
                 alt="Partex real s. r. o. - účetnictví, mzdy, personalistika"
-                width={1536}
-                height={1024}
+                width={1116}
+                height={302}
                 priority
                 className="h-12 w-auto max-w-[12rem] flex-shrink object-contain object-left sm:h-14 sm:max-w-[16rem] md:h-16 md:max-w-[20rem]"
               />
