@@ -132,9 +132,9 @@ export default function Home() {
               </div>
             </div>
             <div className="relative hidden min-h-[380px] items-center justify-end md:flex">
-              <div className="absolute -right-16 top-8 h-[28rem] w-[28rem] rounded-full border border-white/10" />
-              <div className="absolute -right-8 top-20 h-80 w-80 rounded-full bg-[#57F287]/18 blur-3xl" />
-              <PartexIllustration className="relative z-10 w-[580px] max-w-none translate-x-6 translate-y-14 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[680px] lg:translate-x-16" />
+              <div className="absolute -right-20 top-4 h-[31rem] w-[31rem] rounded-full border border-white/10" />
+              <div className="absolute -right-10 top-16 h-88 w-88 rounded-full bg-[#57F287]/18 blur-3xl" />
+              <PartexIllustration className="relative z-10 w-[640px] max-w-none translate-x-12 translate-y-14 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[760px] lg:translate-x-24" />
             </div>
           </div>
         </div>
