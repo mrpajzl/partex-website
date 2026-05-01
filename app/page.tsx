@@ -131,10 +131,10 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="relative hidden min-h-[380px] items-center justify-end md:flex">
-              <div className="absolute -right-20 top-4 h-[31rem] w-[31rem] rounded-full border border-white/10" />
-              <div className="absolute -right-10 top-16 h-88 w-88 rounded-full bg-[#57F287]/18 blur-3xl" />
-              <PartexIllustration className="relative z-10 w-[640px] max-w-none translate-x-12 translate-y-14 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[760px] lg:translate-x-24" />
+            <div className="relative hidden min-h-[430px] items-center justify-end md:flex lg:min-h-[470px]">
+              <div className="absolute -right-24 -top-2 h-[35rem] w-[35rem] rounded-full border border-white/10" />
+              <div className="absolute -right-12 top-10 h-[25rem] w-[25rem] rounded-full bg-[#57F287]/18 blur-3xl" />
+              <PartexIllustration className="relative z-10 w-[760px] max-w-none translate-x-2 translate-y-16 object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] lg:w-[920px] lg:translate-x-10 xl:w-[980px]" />
             </div>
           </div>
         </div>
