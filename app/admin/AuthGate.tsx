@@ -1,8 +1,10 @@
 "use client";
 
 import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { Shield } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function AuthGate({ children }: { children: React.ReactNode }) {
   const auth = useConvexAuth();
@@ -22,9 +24,16 @@ function SignIn() {
   const { signIn } = useAuthActions();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const hasUsers = useQuery(api.adminAuth.hasUsers);
   const [flow, setFlow] = useState<"signIn" | "signUp">("signIn");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (hasUsers === false) {
+      setFlow("signUp");
+    }
+  }, [hasUsers]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,7 +42,15 @@ function SignIn() {
     try {
       await signIn("password", { email, password, flow });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Přihlášení se nepovedlo.");
+      const message = err instanceof Error ? err.message : "";
+      if (message.includes("InvalidAccountId")) {
+        setFlow("signUp");
+        setError("Účet zatím neexistuje. Vytvořte první admin účet tímto e-mailem a heslem.");
+      } else if (message.includes("InvalidSecret")) {
+        setError("Nesprávné heslo.");
+      } else {
+        setError(message || "Přihlášení se nepovedlo.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -54,8 +71,8 @@ function SignIn() {
         <label className="label">Heslo</label>
         <input className="input mb-5" type="password" autoComplete={flow === "signIn" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} required />
         {error && <div className="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</div>}
-        <button disabled={submitting} className="btn-primary w-full justify-center disabled:opacity-60">
-          {submitting ? "Pracuji…" : flow === "signIn" ? "Přihlásit" : "Vytvořit účet"}
+        <button disabled={submitting || hasUsers === undefined} className="btn-primary w-full justify-center disabled:opacity-60">
+          {submitting ? "Pracuji…" : hasUsers === undefined ? "Kontroluji administraci…" : flow === "signIn" ? "Přihlásit" : "Vytvořit první admin účet"}
         </button>
         <button type="button" onClick={() => setFlow(flow === "signIn" ? "signUp" : "signIn")} className="mt-4 w-full text-sm font-semibold text-[#5865F2] hover:underline">
           {flow === "signIn" ? "První přihlášení? Vytvořit admin účet" : "Účet už existuje? Přihlásit"}
