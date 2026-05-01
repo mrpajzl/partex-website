@@ -14,7 +14,7 @@ import {
   type SiteService,
   type UsefulLink,
 } from "@/lib/site-content";
-import { Eye, GripVertical, LogOut, Plus, Save, Trash2 } from "lucide-react";
+import { Eye, GripVertical, LogOut, MoreHorizontal, Plus, Save, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -276,40 +276,91 @@ function PricingItemEditor({ item, drag, setDrag, sectionIndex, itemIndex, onDro
   onDelete: () => void;
 }) {
   const children = item.children ?? [];
+  const [showNote, setShowNote] = useState(Boolean(item.note));
   const setChildren = (next: PricingItem[]) => onChange({ ...item, children: next });
+  const hasNote = Boolean(item.note?.trim());
 
   return (
-    <DraggableRow drag={drag} setDrag={setDrag} dragState={{ type: "pricing-item", sectionIndex, itemIndex }} onDrop={onDropItem} vertical className="bg-white">
-      <div className="flex items-start gap-3">
-        <Grip />
-        <div className="flex-1 space-y-3">
-          <div className="grid gap-3 md:grid-cols-[1fr_180px]">
-            <TextField label="Položka" value={item.service} onChange={(service) => onChange({ ...item, service })} compact />
-            <TextField label="Cena" value={item.price} onChange={(price) => onChange({ ...item, price })} compact />
+    <DraggableRow drag={drag} setDrag={setDrag} dragState={{ type: "pricing-item", sectionIndex, itemIndex }} onDrop={onDropItem} vertical className="bg-white p-2">
+      <div className="flex items-start gap-2">
+        <Grip tight />
+        <div className="min-w-0 flex-1 space-y-2">
+          <div className="grid gap-2 md:grid-cols-[1fr_160px]">
+            <CompactInput label="Položka" value={item.service} onChange={(service) => onChange({ ...item, service })} />
+            <CompactInput label="Cena" value={item.price} onChange={(price) => onChange({ ...item, price })} />
           </div>
-          <TextField label="Poznámka (volitelné)" value={item.note ?? ""} onChange={(note) => onChange({ ...item, note })} compact />
-          <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-3">
-            <RepeatableHeader small title="Pod-položky / varianty" onAdd={() => setChildren([...children, newPricingItem("Nová varianta")])} addLabel="Přidat pod-položku" />
-            <div className="mt-3 space-y-2">
+          {(showNote || hasNote) && (
+            <CompactInput
+              label="Volitelný popis / poznámka"
+              value={item.note ?? ""}
+              onChange={(note) => {
+                onChange({ ...item, note });
+                if (!note.trim()) setShowNote(false);
+              }}
+            />
+          )}
+          {children.length > 0 && (
+            <div className="space-y-2 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-2">
               {children.map((child, childIndex) => (
-                <DraggableRow key={`${child.service}-${childIndex}`} drag={drag} setDrag={setDrag} dragState={{ type: "pricing-child", sectionIndex, itemIndex, childIndex }} onDrop={() => drag?.type === "pricing-child" && drag.sectionIndex === sectionIndex && drag.itemIndex === itemIndex && setChildren(moveItem(children, drag.childIndex, childIndex))}>
-                  <Grip small />
-                  <div className="grid flex-1 gap-2 md:grid-cols-[1fr_150px]">
-                    <TextField label="Název" value={child.service} onChange={(service) => setChildren(replaceAt(children, childIndex, { ...child, service }))} compact />
-                    <TextField label="Cena" value={child.price} onChange={(price) => setChildren(replaceAt(children, childIndex, { ...child, price }))} compact />
-                    <div className="md:col-span-2">
-                      <TextField label="Poznámka" value={child.note ?? ""} onChange={(note) => setChildren(replaceAt(children, childIndex, { ...child, note }))} compact />
-                    </div>
-                  </div>
-                  <RowActions onUp={() => setChildren(moveItem(children, childIndex, childIndex - 1))} onDown={() => setChildren(moveItem(children, childIndex, childIndex + 1))} onDelete={() => setChildren(removeAt(children, childIndex))} />
-                </DraggableRow>
+                <PricingChildEditor
+                  key={`${child.service}-${childIndex}`}
+                  child={child}
+                  drag={drag}
+                  setDrag={setDrag}
+                  sectionIndex={sectionIndex}
+                  itemIndex={itemIndex}
+                  childIndex={childIndex}
+                  childrenItems={children}
+                  setChildren={setChildren}
+                />
               ))}
-              {children.length === 0 && <p className="text-sm text-slate-400">Bez pod-položek.</p>}
             </div>
-          </div>
+          )}
         </div>
-        <RowActions onUp={onMoveUp} onDown={onMoveDown} onDelete={onDelete} />
+        <PricingItemMenu
+          onAddNote={() => setShowNote(true)}
+          onAddChild={() => setChildren([...children, newPricingItem("Nová varianta")])}
+        />
+        <RowActions onUp={onMoveUp} onDown={onMoveDown} onDelete={onDelete} compact />
       </div>
+    </DraggableRow>
+  );
+}
+
+function PricingChildEditor({ child, drag, setDrag, sectionIndex, itemIndex, childIndex, childrenItems, setChildren }: {
+  child: PricingItem;
+  drag: DragState | null;
+  setDrag: (drag: DragState | null) => void;
+  sectionIndex: number;
+  itemIndex: number;
+  childIndex: number;
+  childrenItems: PricingItem[];
+  setChildren: (children: PricingItem[]) => void;
+}) {
+  const [showNote, setShowNote] = useState(Boolean(child.note));
+  const hasNote = Boolean(child.note?.trim());
+
+  return (
+    <DraggableRow drag={drag} setDrag={setDrag} dragState={{ type: "pricing-child", sectionIndex, itemIndex, childIndex }} onDrop={() => drag?.type === "pricing-child" && drag.sectionIndex === sectionIndex && drag.itemIndex === itemIndex && setChildren(moveItem(childrenItems, drag.childIndex, childIndex))} className="bg-white p-2">
+      <Grip small tight />
+      <div className="grid min-w-0 flex-1 gap-2 md:grid-cols-[1fr_140px]">
+        <CompactInput label="Pod-položka" value={child.service} onChange={(service) => setChildren(replaceAt(childrenItems, childIndex, { ...child, service }))} />
+        <CompactInput label="Cena" value={child.price} onChange={(price) => setChildren(replaceAt(childrenItems, childIndex, { ...child, price }))} />
+        {(showNote || hasNote) && (
+          <div className="md:col-span-2">
+            <CompactInput
+              label="Volitelný popis / poznámka"
+              value={child.note ?? ""}
+              onChange={(note) => {
+                setChildren(replaceAt(childrenItems, childIndex, { ...child, note }));
+                if (!note.trim()) setShowNote(false);
+              }}
+            />
+          </div>
+        )}
+      </div>
+      <PricingItemMenu onAddNote={() => setShowNote(true)} onAddChild={null} />
+      <RowActions onUp={() => setChildren(moveItem(childrenItems, childIndex, childIndex - 1))} onDown={() => setChildren(moveItem(childrenItems, childIndex, childIndex + 1))} onDelete={() => setChildren(removeAt(childrenItems, childIndex))} compact />
     </DraggableRow>
   );
 }
@@ -496,18 +547,36 @@ function DraggableRow({ children, dragState, drag, setDrag, onDrop, vertical = f
   );
 }
 
-function Grip({ small = false }: { small?: boolean }) {
-  return <GripVertical className={`${small ? "h-4 w-4" : "h-5 w-5"} mt-8 shrink-0 cursor-grab text-slate-300 active:cursor-grabbing`} />;
+function Grip({ small = false, tight = false }: { small?: boolean; tight?: boolean }) {
+  return <GripVertical className={`${small ? "h-4 w-4" : "h-5 w-5"} ${tight ? "mt-2" : "mt-8"} shrink-0 cursor-grab text-slate-300 active:cursor-grabbing`} />;
 }
 
-function RowActions({ onUp, onDown, onDelete }: { onUp: () => void; onDown: () => void; onDelete: () => void }) {
+function PricingItemMenu({ onAddNote, onAddChild }: { onAddNote: () => void; onAddChild: (() => void) | null }) {
+  return (
+    <details className="group relative shrink-0">
+      <summary className="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition hover:bg-slate-200 [&::-webkit-details-marker]:hidden">
+        <MoreHorizontal className="h-4 w-4" />
+      </summary>
+      <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl bg-white p-1 shadow-xl ring-1 ring-slate-200">
+        <button type="button" onClick={onAddNote} className="w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50">Přidat popis</button>
+        {onAddChild && <button type="button" onClick={onAddChild} className="w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50">Přidat pod-položku</button>}
+      </div>
+    </details>
+  );
+}
+
+function RowActions({ onUp, onDown, onDelete, compact = false }: { onUp: () => void; onDown: () => void; onDelete: () => void; compact?: boolean }) {
   return (
     <div className="flex shrink-0 flex-col gap-1">
-      <button type="button" onClick={onUp} className="btn-secondary-sm px-3 text-xs font-black">↑</button>
-      <button type="button" onClick={onDown} className="btn-secondary-sm px-3 text-xs font-black">↓</button>
-      <button type="button" onClick={onDelete} className="btn-danger-sm"><Trash2 className="h-4 w-4" /></button>
+      <button type="button" onClick={onUp} className={`btn-secondary-sm text-xs font-black ${compact ? "px-2 py-1" : "px-3"}`}>↑</button>
+      <button type="button" onClick={onDown} className={`btn-secondary-sm text-xs font-black ${compact ? "px-2 py-1" : "px-3"}`}>↓</button>
+      <button type="button" onClick={onDelete} className={`btn-danger-sm ${compact ? "p-1.5" : ""}`}><Trash2 className="h-4 w-4" /></button>
     </div>
   );
+}
+
+function CompactInput({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  return <input aria-label={label} placeholder={label} className="input h-10 px-3 py-2 text-sm" value={value} onChange={(event) => onChange(event.target.value)} />;
 }
 
 function TextField({ label, value, onChange, compact = false }: { label: string; value: string; onChange: (value: string) => void; compact?: boolean }) {
