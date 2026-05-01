@@ -8,7 +8,9 @@
  * @module
  */
 
+import type * as auth from "../auth.js";
 import type * as content from "../content.js";
+import type * as http from "../http.js";
 import type * as pages from "../pages.js";
 import type * as schema_backup from "../schema_backup.js";
 import type * as schema_new from "../schema_new.js";
@@ -24,7 +26,9 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  auth: typeof auth;
   content: typeof content;
+  http: typeof http;
   pages: typeof pages;
   schema_backup: typeof schema_backup;
   schema_new: typeof schema_new;

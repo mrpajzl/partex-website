@@ -1,5 +1,6 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import { authTables } from "@convex-dev/auth/server";
 
 /**
  * New CMS Schema for Partex Website
@@ -7,6 +8,17 @@ import { v } from "convex/values";
  */
 
 export default defineSchema({
+  ...authTables,
+
+  // ===== FOCUSED WEBSITE CONTENT =====
+
+  siteContent: defineTable({
+    key: v.string(),
+    value: v.any(),
+    updatedAt: v.number(),
+    updatedBy: v.optional(v.id("users")),
+  }).index("by_key", ["key"]),
+
   // ===== PAGES SYSTEM =====
   
   /**

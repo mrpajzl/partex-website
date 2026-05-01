@@ -1,466 +1,250 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
+import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useState } from "react";
-import { 
-  Trash2, Edit, Plus, Save, X, Eye, EyeOff, GripVertical, 
-  LayoutDashboard, FileText, Menu, Navigation, Image, Settings,
-  ChevronRight
-} from "lucide-react";
-import type { Id } from "@/convex/_generated/dataModel";
+import { defaultSiteContent, mergeSiteContent, type SiteContent } from "@/lib/site-content";
+import { Eye, LogOut, Save, Shield, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
-type Section = "pages" | "services" | "pricing" | "contact" | "newsletter" | "about";
+type TabKey = "hero" | "services" | "pricing" | "about" | "contact" | "links" | "other";
+
+const tabs: { key: TabKey; label: string }[] = [
+  { key: "hero", label: "Hero + menu" },
+  { key: "services", label: "Služby" },
+  { key: "pricing", label: "Ceník" },
+  { key: "about", label: "O nás" },
+  { key: "contact", label: "Kontakt" },
+  { key: "links", label: "Odkazy" },
+  { key: "other", label: "Bannery" },
+];
 
 export default function AdminDashboard() {
-  const [activeSection, setActiveSection] = useState<Section>("pages");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { isAuthenticated, isLoading } = useConvexAuth();
 
-  const sections = [
-    { id: "pages", label: "Pages", icon: FileText, badge: null },
-    { id: "services", label: "Services", icon: LayoutDashboard, badge: null },
-    { id: "pricing", label: "Pricing", icon: Menu, badge: null },
-    { id: "contact", label: "Contact", icon: Navigation, badge: null },
-    { id: "newsletter", label: "Newsletter", icon: Image, badge: null },
-    { id: "about", label: "About", icon: Settings, badge: null },
-  ];
+  if (isLoading) {
+    return <div className="flex min-h-screen items-center justify-center text-slate-600">Načítám administraci…</div>;
+  }
 
-  return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <aside 
-        className={`${
-          sidebarOpen ? "w-64" : "w-20"
-        } bg-white border-r border-gray-200 transition-all duration-300 flex flex-col`}
-      >
-        {/* Logo/Header */}
-        <div className="h-16 border-b border-gray-200 flex items-center justify-between px-4">
-          {sidebarOpen && (
-            <h1 className="text-xl font-bold bg-gradient-to-r from-[#5865F2] to-[#7983F5] bg-clip-text text-transparent">
-              Partex CMS
-            </h1>
-          )}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition"
-          >
-            <Menu className="w-5 h-5 text-gray-600" />
-          </button>
-        </div>
+  if (!isAuthenticated) {
+    return <SignIn />;
+  }
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-1">
-          {sections.map((section) => {
-            const Icon = section.icon;
-            const isActive = activeSection === section.id;
-            
-            return (
-              <button
-                key={section.id}
-                onClick={() => setActiveSection(section.id as Section)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                  isActive
-                    ? "bg-[#5865F2] text-white shadow-md"
-                    : "text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                <Icon className="w-5 h-5 flex-shrink-0" />
-                {sidebarOpen && (
-                  <>
-                    <span className="font-medium flex-1 text-left">{section.label}</span>
-                    {section.badge && (
-                      <span className="px-2 py-0.5 text-xs rounded-full bg-white/20">
-                        {section.badge}
-                      </span>
-                    )}
-                  </>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* User/Settings */}
-        {sidebarOpen && (
-          <div className="p-4 border-t border-gray-200">
-            <div className="flex items-center gap-3 px-4 py-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5865F2] to-[#7983F5] flex items-center justify-center text-white font-bold">
-                A
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">Admin</p>
-                <p className="text-xs text-gray-500 truncate">admin@partex.cz</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <div className="max-w-7xl mx-auto p-8">
-          {activeSection === "pages" && <PagesManager />}
-          {activeSection === "services" && <ServicesManager />}
-          {activeSection === "pricing" && <PricingManager />}
-          {activeSection === "contact" && <ContactManager />}
-          {activeSection === "newsletter" && <NewsletterManager />}
-          {activeSection === "about" && <AboutManager />}
-        </div>
-      </main>
-    </div>
-  );
+  return <ContentAdmin />;
 }
 
-// Pages Manager (NEW!)
-function PagesManager() {
-  const pages = useQuery(api.pages.list);
+function SignIn() {
+  const { signIn } = useAuthActions();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [flow, setFlow] = useState<"signIn" | "signUp">("signIn");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      await signIn("password", { email, password, flow });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Přihlášení se nepovedlo.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900">Pages</h2>
-          <p className="text-gray-600 mt-1">Manage your website pages and sections</p>
+    <main className="flex min-h-screen items-center justify-center bg-[#f7f8ff] px-4">
+      <form onSubmit={handleSubmit} className="w-full max-w-md rounded-[2rem] bg-white p-8 shadow-[0_24px_80px_rgba(29,38,90,0.14)] ring-1 ring-slate-200">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="rounded-2xl bg-[#5865F2]/10 p-3 text-[#5865F2]"><Shield className="h-6 w-6" /></div>
+          <div>
+            <h1 className="text-2xl font-black text-slate-950">Partex CMS</h1>
+            <p className="text-sm text-slate-500">Přihlášení přes Convex Auth</p>
+          </div>
         </div>
-        <button className="btn-primary flex items-center gap-2">
-          <Plus className="w-5 h-5" />
-          New Page
+        <label className="label">E-mail</label>
+        <input className="input mb-4" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <label className="label">Heslo</label>
+        <input className="input mb-5" type="password" autoComplete={flow === "signIn" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} required />
+        {error && <div className="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</div>}
+        <button disabled={submitting} className="btn-primary w-full justify-center disabled:opacity-60">
+          {submitting ? "Pracuji…" : flow === "signIn" ? "Přihlásit" : "Vytvořit účet"}
         </button>
-      </div>
-
-      {/* Pages Grid */}
-      <div className="grid gap-4">
-        {pages?.map((page) => (
-          <div
-            key={page._id}
-            className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group cursor-pointer"
-            onClick={() => window.location.href = `/admin/pages/${page._id}`}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-xl font-semibold text-gray-900">{page.title}</h3>
-                  {page.isHomepage && (
-                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#5865F2] text-white">
-                      Homepage
-                    </span>
-                  )}
-                  {!page.isActive && (
-                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 text-gray-600">
-                      Draft
-                    </span>
-                  )}
-                </div>
-                <p className="text-gray-600 mb-3">{page.description}</p>
-                <div className="flex items-center gap-4 text-sm text-gray-500">
-                  <span className="flex items-center gap-1">
-                    <FileText className="w-4 h-4" />
-                    /{page.slug}
-                  </span>
-                  <span>
-                    Updated {new Date(page.updatedAt).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(`/cms-test`, '_blank');
-                  }}
-                  className="btn-secondary-sm"
-                >
-                  <Eye className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.location.href = `/admin/pages/${page._id}`;
-                  }}
-                  className="btn-secondary-sm"
-                >
-                  <Edit className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (confirm('Delete this page?')) {
-                      // TODO: implement delete
-                    }
-                  }}
-                  className="btn-danger-sm"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Empty State */}
-      {pages?.length === 0 && (
-        <div className="text-center py-16 bg-white rounded-xl border-2 border-dashed border-gray-300">
-          <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">No pages yet</h3>
-          <p className="text-gray-600 mb-6">Get started by creating your first page</p>
-          <button className="btn-primary">
-            <Plus className="w-5 h-5 mr-2" />
-            Create Page
-          </button>
-        </div>
-      )}
-    </div>
+        <button type="button" onClick={() => setFlow(flow === "signIn" ? "signUp" : "signIn")} className="mt-4 w-full text-sm font-semibold text-[#5865F2] hover:underline">
+          {flow === "signIn" ? "První přihlášení? Vytvořit admin účet" : "Účet už existuje? Přihlásit"}
+        </button>
+        <p className="mt-5 text-xs leading-5 text-slate-500">Doporučení: nastavte v Convex environment proměnnou <code>ADMIN_EMAILS</code> se seznamem povolených e-mailů.</p>
+      </form>
+    </main>
   );
 }
 
-// Services Manager (Redesigned)
-function ServicesManager() {
-  const services = useQuery(api.content.getAllServices);
-  const createService = useMutation(api.content.createService);
-  const updateService = useMutation(api.content.updateService);
-  const deleteService = useMutation(api.content.deleteService);
+function ContentAdmin() {
+  const { signOut } = useAuthActions();
+  const stored = useQuery(api.content.getSiteContent, { key: "main" });
+  const saveContent = useMutation(api.content.upsertSiteContent);
+  const [activeTab, setActiveTab] = useState<TabKey>("hero");
+  const [content, setContent] = useState<SiteContent>(defaultSiteContent);
+  const [status, setStatus] = useState<string | null>(null);
 
-  const [editingId, setEditingId] = useState<Id<"services"> | null>(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    icon: "users",
-    ctaText: "",
-    ctaLink: "",
-    order: 0,
-  });
+  const loadedContent = useMemo(() => mergeSiteContent(stored?.value as Partial<SiteContent> | undefined), [stored]);
 
-  const handleSave = async () => {
-    if (editingId) {
-      await updateService({ id: editingId, ...formData });
-      setEditingId(null);
-    } else {
-      await createService(formData);
-      setIsAdding(false);
-    }
-    setFormData({ title: "", description: "", icon: "users", ctaText: "", ctaLink: "", order: 0 });
-  };
+  useEffect(() => {
+    setContent(loadedContent);
+  }, [loadedContent]);
 
-  const handleEdit = (service: any) => {
-    setEditingId(service._id);
-    setFormData({
-      title: service.title,
-      description: service.description,
-      icon: service.icon || "users",
-      ctaText: service.ctaText || "",
-      ctaLink: service.ctaLink || "",
-      order: service.order,
-    });
-    setIsAdding(true);
-  };
+  async function handleSave() {
+    setStatus("Ukládám…");
+    await saveContent({ key: "main", value: content });
+    setStatus("Uloženo.");
+    setTimeout(() => setStatus(null), 2500);
+  }
 
-  const handleDelete = async (id: Id<"services">) => {
-    if (confirm("Are you sure you want to delete this service?")) {
-      await deleteService({ id });
-    }
-  };
+  function update<K extends keyof SiteContent>(key: K, value: SiteContent[K]) {
+    setContent((current) => ({ ...current, [key]: value }));
+  }
 
-  const handleCancel = () => {
-    setIsAdding(false);
-    setEditingId(null);
-    setFormData({ title: "", description: "", icon: "users", ctaText: "", ctaLink: "", order: 0 });
-  };
+  return (
+    <main className="min-h-screen bg-[#f7f8ff] text-slate-950">
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
+          <div>
+            <h1 className="text-2xl font-black">Partex CMS</h1>
+            <p className="text-sm text-slate-500">Jednoduchá správa veškerého viditelného obsahu webu</p>
+          </div>
+          <div className="flex items-center gap-2">
+            {status && <span className="text-sm font-semibold text-[#5865F2]">{status}</span>}
+            <Link href="/" className="btn-secondary-sm gap-2"><Eye className="h-4 w-4" /> Web</Link>
+            <button onClick={handleSave} className="btn-primary gap-2"><Save className="h-4 w-4" /> Uložit</button>
+            <button onClick={() => void signOut()} className="btn-secondary-sm gap-2"><LogOut className="h-4 w-4" /> Odhlásit</button>
+          </div>
+        </div>
+      </header>
 
+      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 lg:grid-cols-[230px_1fr]">
+        <aside className="space-y-2">
+          {tabs.map((tab) => (
+            <button key={tab.key} onClick={() => setActiveTab(tab.key)} className={`w-full rounded-2xl px-4 py-3 text-left font-bold transition ${activeTab === tab.key ? "bg-[#5865F2] text-white shadow-lg" : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"}`}>
+              {tab.label}
+            </button>
+          ))}
+        </aside>
+
+        <section className="rounded-[2rem] bg-white p-6 shadow-[0_18px_60px_rgba(29,38,90,0.08)] ring-1 ring-slate-200">
+          {activeTab === "hero" && <HeroEditor content={content} update={update} />}
+          {activeTab === "services" && <JsonEditor title="Služby na homepage" description="Karty služeb včetně detailu v modálním okně." value={content.services} onChange={(value) => update("services", value)} />}
+          {activeTab === "pricing" && <PricingEditor content={content} update={update} />}
+          {activeTab === "about" && <AboutEditor content={content} update={update} />}
+          {activeTab === "contact" && <JsonEditor title="Kontakt" description="Kontaktní karty a URL mapy." value={content.contact} onChange={(value) => update("contact", value)} />}
+          {activeTab === "links" && <JsonEditor title="Užitečné odkazy" description="Seznam odkazů v plovoucím panelu pro klienty." value={content.usefulLinks} onChange={(value) => update("usefulLinks", value)} />}
+          {activeTab === "other" && <OtherEditor content={content} update={update} />}
+        </section>
+      </div>
+    </main>
+  );
+}
+
+function HeroEditor({ content, update }: { content: SiteContent; update: <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => void }) {
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900">Services</h2>
-          <p className="text-gray-600 mt-1">Manage your service offerings</p>
-        </div>
-        {!isAdding && (
-          <button 
-            onClick={() => setIsAdding(true)}
-            className="btn-primary flex items-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            Add Service
-          </button>
-        )}
+      <SectionTitle title="Hero + navigace" description="Hlavní nadpis, CTA a menu v hlavičce." />
+      <TextField label="Nadpis" value={content.hero.title} onChange={(title) => update("hero", { ...content.hero, title })} />
+      <TextArea label="Podnadpis" value={content.hero.subtitle} onChange={(subtitle) => update("hero", { ...content.hero, subtitle })} />
+      <div className="grid gap-4 md:grid-cols-2">
+        <TextField label="Text tlačítka" value={content.hero.primaryCtaText} onChange={(primaryCtaText) => update("hero", { ...content.hero, primaryCtaText })} />
+        <TextField label="Odkaz tlačítka" value={content.hero.primaryCtaHref} onChange={(primaryCtaHref) => update("hero", { ...content.hero, primaryCtaHref })} />
       </div>
-
-      {/* Add/Edit Form */}
-      {isAdding && (
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            {editingId ? "Edit Service" : "New Service"}
-          </h3>
-          <div className="grid gap-4">
-            <div>
-              <label className="label">Title</label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="input"
-                placeholder="Service title"
-              />
-            </div>
-            <div>
-              <label className="label">Description</label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="input min-h-[100px]"
-                placeholder="Service description"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="label">Icon</label>
-                <input
-                  type="text"
-                  value={formData.icon}
-                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                  className="input"
-                  placeholder="users"
-                />
-              </div>
-              <div>
-                <label className="label">Order</label>
-                <input
-                  type="number"
-                  value={formData.order}
-                  onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
-                  className="input"
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="label">CTA Text (Optional)</label>
-                <input
-                  type="text"
-                  value={formData.ctaText}
-                  onChange={(e) => setFormData({ ...formData, ctaText: e.target.value })}
-                  className="input"
-                  placeholder="Learn More"
-                />
-              </div>
-              <div>
-                <label className="label">CTA Link (Optional)</label>
-                <input
-                  type="text"
-                  value={formData.ctaLink}
-                  onChange={(e) => setFormData({ ...formData, ctaLink: e.target.value })}
-                  className="input"
-                  placeholder="/services"
-                />
-              </div>
-            </div>
-            <div className="flex gap-3 pt-4 border-t border-gray-200">
-              <button onClick={handleSave} className="btn-primary flex-1">
-                <Save className="w-4 h-4 mr-2" />
-                {editingId ? "Update" : "Create"}
-              </button>
-              <button onClick={handleCancel} className="btn-secondary flex-1">
-                <X className="w-4 h-4 mr-2" />
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Services Grid */}
-      <div className="grid gap-4">
-        {services?.map((service) => (
-          <div
-            key={service._id}
-            className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group"
-          >
-            <div className="flex items-start gap-4">
-              <button className="mt-1 text-gray-400 hover:text-gray-600 cursor-move">
-                <GripVertical className="w-5 h-5" />
-              </button>
-              
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-xl font-semibold text-gray-900">{service.title}</h3>
-                  {!service.isActive && (
-                    <span className="px-2 py-1 text-xs rounded-full bg-gray-200 text-gray-600">
-                      Hidden
-                    </span>
-                  )}
-                </div>
-                <p className="text-gray-600 mb-3">{service.description}</p>
-                {service.ctaText && (
-                  <div className="inline-flex items-center gap-2 text-sm text-[#5865F2]">
-                    <span>{service.ctaText}</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </div>
-                )}
-              </div>
-              
-              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button 
-                  onClick={() => handleEdit(service)}
-                  className="btn-secondary-sm"
-                >
-                  <Edit className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={() => handleDelete(service._id)}
-                  className="btn-danger-sm"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <JsonEditor title="Navigace" description="Položky menu: label + href." value={content.navigation} onChange={(value) => update("navigation", value)} compact />
     </div>
   );
 }
 
-// Placeholder components for other sections
-function PricingManager() {
+function PricingEditor({ content, update }: { content: SiteContent; update: <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => void }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-      <Menu className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">Pricing Manager</h3>
-      <p className="text-gray-600">Coming soon...</p>
+    <div className="space-y-6">
+      <SectionTitle title="Ceník" description="CTA na homepage a kompletní ceník na stránce /cenik." />
+      <JsonEditor title="CTA na homepage" description="Blok odkazující na ceník." value={content.pricingCta} onChange={(value) => update("pricingCta", value)} compact />
+      <JsonEditor title="Stránka ceníku" description="Skupiny, položky, ceny, poznámky a pod-položky." value={content.pricingPage} onChange={(value) => update("pricingPage", value)} compact />
     </div>
   );
 }
 
-function ContactManager() {
+function AboutEditor({ content, update }: { content: SiteContent; update: <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => void }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-      <Navigation className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">Contact Manager</h3>
-      <p className="text-gray-600">Coming soon...</p>
+    <div className="space-y-6">
+      <SectionTitle title="O nás" description="Text sekce O nás na homepage." />
+      <TextField label="Nadpis" value={content.about.title} onChange={(title) => update("about", { ...content.about, title })} />
+      <TextArea label="Obsah" rows={10} value={content.about.content} onChange={(body) => update("about", { ...content.about, content: body })} />
+      <TextField label="Patička webu — slogan" value={content.footer.tagline} onChange={(tagline) => update("footer", { ...content.footer, tagline })} />
     </div>
   );
 }
 
-function NewsletterManager() {
+function OtherEditor({ content, update }: { content: SiteContent; update: <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => void }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-      <Image className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">Newsletter Manager</h3>
-      <p className="text-gray-600">Coming soon...</p>
+    <div className="space-y-6">
+      <SectionTitle title="Bannery a další obsah" description="Babybox, náhradní plnění a pracovní pozice." />
+      <JsonEditor title="Babybox banner" description="Zapnutí, nadpis, obrázek a alt text." value={content.supportBanner} onChange={(value) => update("supportBanner", value)} compact />
+      <JsonEditor title="Náhradní plnění" description="Texty a důležité odkazy." value={content.replacementFulfillment} onChange={(value) => update("replacementFulfillment", value)} compact />
+      <JsonEditor title="Náborový banner" description="Zapnutí a text výzvy." value={content.hiring} onChange={(value) => update("hiring", value)} compact />
     </div>
   );
 }
 
-function AboutManager() {
+function JsonEditor<T>({ title, description, value, onChange, compact = false }: { title: string; description: string; value: T; onChange: (value: T) => void; compact?: boolean }) {
+  const [draft, setDraft] = useState(() => JSON.stringify(value, null, 2));
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setDraft(JSON.stringify(value, null, 2));
+    setError(null);
+  }, [value]);
+
+  function apply(next: string) {
+    setDraft(next);
+    try {
+      onChange(JSON.parse(next) as T);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Neplatný JSON");
+    }
+  }
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-      <Settings className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">About Manager</h3>
-      <p className="text-gray-600">Coming soon...</p>
+    <div className={compact ? "space-y-3" : "space-y-4"}>
+      <SectionTitle title={title} description={description} small={compact} />
+      <textarea className={`input font-mono text-sm ${compact ? "min-h-[220px]" : "min-h-[520px]"}`} value={draft} onChange={(e) => apply(e.target.value)} spellCheck={false} />
+      {error ? <div className="rounded-xl bg-red-50 p-3 text-sm text-red-700">Neuloží se, dokud JSON nebude platný: {error}</div> : <div className="flex items-center gap-2 text-sm font-semibold text-emerald-700"><Sparkles className="h-4 w-4" /> JSON je v pořádku</div>}
     </div>
+  );
+}
+
+function SectionTitle({ title, description, small = false }: { title: string; description: string; small?: boolean }) {
+  return (
+    <div>
+      <h2 className={`${small ? "text-xl" : "text-3xl"} font-black text-slate-950`}>{title}</h2>
+      <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
+    </div>
+  );
+}
+
+function TextField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  return (
+    <label className="block">
+      <span className="label">{label}</span>
+      <input className="input" value={value} onChange={(event) => onChange(event.target.value)} />
+    </label>
+  );
+}
+
+function TextArea({ label, value, onChange, rows = 4 }: { label: string; value: string; onChange: (value: string) => void; rows?: number }) {
+  return (
+    <label className="block">
+      <span className="label">{label}</span>
+      <textarea className="input" rows={rows} value={value} onChange={(event) => onChange(event.target.value)} />
+    </label>
   );
 }

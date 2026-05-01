@@ -1,5 +1,27 @@
 import { v } from "convex/values";
-import { query, mutation } from "./_generated/server";
+import { query, mutation, type MutationCtx } from "./_generated/server";
+import { getAuthUserId } from "@convex-dev/auth/server";
+
+async function requireAdmin(ctx: MutationCtx) {
+  const userId = await getAuthUserId(ctx);
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const allowedEmails = process.env.ADMIN_EMAILS?.split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (allowedEmails?.length) {
+    const user = await ctx.db.get(userId);
+    const email = user?.email?.toLowerCase();
+    if (!email || !allowedEmails.includes(email)) {
+      throw new Error("Forbidden: this account is not allowed to edit the website.");
+    }
+  }
+
+  return userId;
+}
 
 // Hero
 export const getHero = query({
@@ -310,5 +332,48 @@ export const updateSetting = mutation({
       const id = await ctx.db.insert("settings", args);
       return id;
     }
+  },
+});
+
+// Focused site content/settings used by the public website and simple admin.
+export const getSiteContent = query({
+  args: { key: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    const key = args.key ?? "main";
+    return await ctx.db
+      .query("siteContent")
+      .withIndex("by_key", (q) => q.eq("key", key))
+      .first();
+  },
+});
+
+export const upsertSiteContent = mutation({
+  args: {
+    key: v.optional(v.string()),
+    value: v.any(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await requireAdmin(ctx);
+    const key = args.key ?? "main";
+    const existing = await ctx.db
+      .query("siteContent")
+      .withIndex("by_key", (q) => q.eq("key", key))
+      .first();
+
+    if (existing) {
+      await ctx.db.patch(existing._id, {
+        value: args.value,
+        updatedAt: Date.now(),
+        updatedBy: userId,
+      });
+      return existing._id;
+    }
+
+    return await ctx.db.insert("siteContent", {
+      key,
+      value: args.value,
+      updatedAt: Date.now(),
+      updatedBy: userId,
+    });
   },
 });
