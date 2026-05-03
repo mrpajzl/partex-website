@@ -4,7 +4,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
-  defaultSiteContent,
+  getDefaultSiteContent,
   mergeSiteContent,
   type ContactItem,
   type NavItem,
@@ -14,6 +14,7 @@ import {
   type SiteService,
   type UsefulLink,
 } from "@/lib/site-content";
+import { activeSite } from "@/lib/sites";
 import { Eye, GripVertical, LogOut, MoreHorizontal, Plus, Save, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -43,14 +44,15 @@ export default function AdminDashboard() {
 
 function ContentAdmin() {
   const { signOut } = useAuthActions();
-  const stored = useQuery(api.content.getSiteContent, { key: "main" });
+  const defaultContent = getDefaultSiteContent(activeSite.key);
+  const stored = useQuery(api.content.getSiteContent, { key: activeSite.contentKey });
   const saveContent = useMutation(api.content.upsertSiteContent);
   const [activeTab, setActiveTab] = useState<TabKey>("hero");
-  const [content, setContent] = useState<SiteContent>(defaultSiteContent);
+  const [content, setContent] = useState<SiteContent>(defaultContent);
   const [status, setStatus] = useState<string | null>(null);
   const [drag, setDrag] = useState<DragState | null>(null);
 
-  const loadedContent = useMemo(() => mergeSiteContent(stored?.value as Partial<SiteContent> | undefined), [stored]);
+  const loadedContent = useMemo(() => mergeSiteContent(stored?.value as Partial<SiteContent> | undefined, defaultContent), [stored, defaultContent]);
 
   useEffect(() => {
     setContent(loadedContent);
@@ -58,7 +60,7 @@ function ContentAdmin() {
 
   async function handleSave() {
     setStatus("Ukládám…");
-    await saveContent({ key: "main", value: content });
+    await saveContent({ key: activeSite.contentKey, value: content });
     setStatus("Uloženo.");
     setTimeout(() => setStatus(null), 2500);
   }
@@ -72,7 +74,7 @@ function ContentAdmin() {
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-black">Partex CMS</h1>
+            <h1 className="text-2xl font-black">{activeSite.shortName} CMS</h1>
             <p className="text-sm text-slate-500">Pohodlná správa webu bez ručního JSONu</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">

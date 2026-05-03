@@ -307,22 +307,102 @@ export const defaultSiteContent: SiteContent = {
   },
 };
 
-export function mergeSiteContent(content: Partial<SiteContent> | null | undefined): SiteContent {
-  if (!content) return defaultSiteContent;
+export const kenckaSiteContent: SiteContent = {
+  ...defaultSiteContent,
+  hero: {
+    title: "Vaše cesta k úspěchu je i naše práce",
+    subtitle: "Účetnictví, daňová evidence, mzdy a personalistika pro soukromníky, podnikatele a malé firmy.",
+    primaryCtaText: "Naše služby",
+    primaryCtaHref: "#sluzby",
+    yearsBannerPrefix: "Již",
+    yearsBannerSuffix: "let jsme tu pro naše klienty",
+  },
+  navigation: [
+    { label: "Služby", href: "#sluzby" },
+    { label: "Náhradní plnění", href: "#nahradni-plneni" },
+    { label: "O nás", href: "#o-nas" },
+    { label: "Ceník", href: "/cenik" },
+    { label: "Kontakt", href: "#kontakt" },
+  ],
+  services: {
+    heading: "Co nabízíme?",
+    description: "Praktické účetní a mzdové služby pro živnostníky, soukromníky a malé firmy — osobně, přehledně a s důrazem na diskrétnost.",
+    cards: [
+      {
+        title: "Účetnictví",
+        icon: "Calculator",
+        description: "Účetní služby na míru vašim požadavkům.",
+        details: defaultSiteContent.services.cards[0].details,
+      },
+      {
+        title: "Mzdy a personalistika",
+        icon: "Users",
+        description: "Postaráme se o vše, co se týká vašich zaměstnanců.",
+        details: defaultSiteContent.services.cards[1].details,
+      },
+      {
+        title: "Náhradní plnění",
+        icon: "Clipboard",
+        description: "Pomoc s náhradním plněním a související administrativou.",
+        details: [
+          "poskytnutí náhradního plnění pro firmy nad 25 zaměstnanců",
+          "administrativa a zápis na portál MPSV",
+          "poradenství k povinnému podílu zaměstnávání OZP",
+        ],
+      },
+    ],
+  },
+  pricingCta: {
+    eyebrow: "Ceník služeb",
+    title: "Ceny účetnictví, daní i mezd bez překvapení",
+    description: "Podívejte se na orientační ceník. Konkrétní rozsah rádi přizpůsobíme podnikání, počtu dokladů a mzdové agendě.",
+    buttonText: "Zobrazit ceník",
+  },
+  about: {
+    title: "O nás",
+    content: "Účetní firma Ing. Evy Kencké působí v oboru již od roku 1996. Zpracovává ekonomickou agendu klientům z celé ČR a poskytuje služby externě ve vlastních prostorách s moderním vybavením. Dle dohody je možné služby provádět i v prostorách klienta. Důraz klademe na individuální přístup, diskrétnost, mlčenlivost a ochranu zájmů klientů.",
+  },
+  hiring: {
+    enabled: true,
+    title: "Hledáme posilu do našich řad",
+    description: "Máme otevřené místo na pozici všeobecná účetní — podmínkou je praxe.",
+    buttonText: "Zavolejte nám",
+  },
+  contact: {
+    title: "Kontakty",
+    items: [
+      { label: "Adresa", value: "Hrnčířská 42/1\n733 01 Karviná-Fryštát", icon: "MapPin", href: "https://www.google.com/maps/search/?api=1&query=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1-Fry%C5%A1t%C3%A1t" },
+      { label: "E-mail", value: "partex@seznam.cz", icon: "Mail", href: "mailto:partex@seznam.cz" },
+      { label: "Telefon", value: "+420 777 119 938\n+420 725 557 887", icon: "Phone", href: "tel:+420777119938" },
+      { label: "Otevírací doba", value: "pondělí – pátek\n8:00 – 16:30", icon: "Clock" },
+    ],
+    mapEmbedUrl: "https://www.google.com/maps?q=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1-Fry%C5%A1t%C3%A1t&output=embed",
+  },
+  footer: {
+    tagline: "Účetnictví a mzdy pro soukromníky, podnikatele a malé firmy",
+  },
+};
+
+export function getDefaultSiteContent(siteKey: "partex" | "kencka" = "partex"): SiteContent {
+  return siteKey === "kencka" ? kenckaSiteContent : defaultSiteContent;
+}
+
+export function mergeSiteContent(content: Partial<SiteContent> | null | undefined, defaults: SiteContent = defaultSiteContent): SiteContent {
+  if (!content) return defaults;
   return {
-    ...defaultSiteContent,
+    ...defaults,
     ...content,
-    hero: { ...defaultSiteContent.hero, ...content.hero },
-    services: { ...defaultSiteContent.services, ...content.services },
-    pricingCta: { ...defaultSiteContent.pricingCta, ...content.pricingCta },
-    pricingPage: { ...defaultSiteContent.pricingPage, ...content.pricingPage },
-    supportBanner: { ...defaultSiteContent.supportBanner, ...content.supportBanner },
-    replacementFulfillment: { ...defaultSiteContent.replacementFulfillment, ...content.replacementFulfillment },
-    about: { ...defaultSiteContent.about, ...content.about },
-    hiring: { ...defaultSiteContent.hiring, ...content.hiring },
-    contact: { ...defaultSiteContent.contact, ...content.contact },
-    footer: { ...defaultSiteContent.footer, ...content.footer },
-    navigation: content.navigation ?? defaultSiteContent.navigation,
-    usefulLinks: content.usefulLinks ?? defaultSiteContent.usefulLinks,
+    hero: { ...defaults.hero, ...content.hero },
+    services: { ...defaults.services, ...content.services },
+    pricingCta: { ...defaults.pricingCta, ...content.pricingCta },
+    pricingPage: { ...defaults.pricingPage, ...content.pricingPage },
+    supportBanner: { ...defaults.supportBanner, ...content.supportBanner },
+    replacementFulfillment: { ...defaults.replacementFulfillment, ...content.replacementFulfillment },
+    about: { ...defaults.about, ...content.about },
+    hiring: { ...defaults.hiring, ...content.hiring },
+    contact: { ...defaults.contact, ...content.contact },
+    footer: { ...defaults.footer, ...content.footer },
+    navigation: content.navigation ?? defaults.navigation,
+    usefulLinks: content.usefulLinks ?? defaults.usefulLinks,
   };
 }

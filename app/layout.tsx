@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
   description: homepageSeo.description,
   applicationName: siteConfig.name,
-  keywords: [...siteConfig.keywords],
+  keywords: [...siteConfig.seo.keywords],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
@@ -46,10 +46,10 @@ export const metadata: Metadata = {
     locale: siteConfig.locale,
     images: [
       {
-        url: absoluteUrl("/partex-logo.png"),
-        width: 1116,
-        height: 302,
-        alt: "Logo Partex real s. r. o.",
+        url: absoluteUrl(siteConfig.logo?.src ?? siteConfig.heroImage.src),
+        width: siteConfig.logo?.width ?? siteConfig.heroImage.width,
+        height: siteConfig.logo?.height ?? siteConfig.heroImage.height,
+        alt: siteConfig.logo?.alt ?? siteConfig.heroImage.alt,
       },
     ],
   },
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: homepageSeo.title,
     description: homepageSeo.description,
-    images: [absoluteUrl("/partex-logo.png")],
+    images: [absoluteUrl(siteConfig.logo?.src ?? siteConfig.heroImage.src)],
   },
   icons: {
     icon: "/favicon.ico",
@@ -68,7 +68,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   colorScheme: "light",
-  themeColor: "#5865F2",
+  themeColor: siteConfig.theme.primary,
 };
 
 export default function RootLayout({

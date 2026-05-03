@@ -1,49 +1,16 @@
 import type { MetadataRoute } from "next";
+import { activeSite as siteConfig } from "@/lib/sites";
 
-export const siteConfig = {
-  name: "Partex real s. r. o.",
-  shortName: "Partex real",
-  url: "https://partexreal.cz",
-  locale: "cs_CZ",
-  language: "cs",
-  email: "partex@seznam.cz",
-  phone: "+420775554377",
-  formattedPhone: "+420 775 554 377",
-  foundingDate: "2004-11-15",
-  address: {
-    streetAddress: "Hrnčířská 42/1",
-    addressLocality: "Karviná-Fryštát",
-    postalCode: "733 01",
-    addressCountry: "CZ",
-  },
-  geo: {
-    latitude: 49.8537,
-    longitude: 18.5421,
-  },
-  serviceArea: ["Karviná", "Moravskoslezský kraj", "Česká republika"],
-  keywords: [
-    "účetnictví Karviná",
-    "daňová evidence Karviná",
-    "vedení účetnictví",
-    "mzdové účetnictví",
-    "daňová přiznání",
-    "personalistika",
-    "náhradní plnění",
-    "účetní služby pro firmy",
-    "Partex real",
-  ],
-} as const;
+export { siteConfig };
 
 export const homepageSeo = {
-  title: "Účetnictví, mzdy a daně Karviná | Partex real s. r. o.",
-  description:
-    "Partex real s. r. o. poskytuje účetnictví, daňovou evidenci, mzdy, personalistiku a poradenství v Karviné. Osobní přístup, praxe od roku 2004.",
+  title: siteConfig.seo.homepageTitle,
+  description: siteConfig.seo.homepageDescription,
 } as const;
 
 export const pricingSeo = {
-  title: "Ceník účetních, daňových a mzdových služeb | Partex real",
-  description:
-    "Orientační ceník služeb Partex real: vedení účetnictví a daňové evidence, mzdy, daňová přiznání, poradenství, zastupování a další administrativa.",
+  title: siteConfig.seo.pricingTitle,
+  description: siteConfig.seo.pricingDescription,
 } as const;
 
 export function absoluteUrl(path = "/") {
@@ -73,22 +40,22 @@ export function organizationJsonLd() {
     name: siteConfig.name,
     alternateName: siteConfig.shortName,
     url: siteConfig.url,
-    logo: absoluteUrl("/partex-logo.png"),
-    image: absoluteUrl("/partex-logo.png"),
-    email: siteConfig.email,
-    telephone: siteConfig.formattedPhone,
-    foundingDate: siteConfig.foundingDate,
+    logo: absoluteUrl(siteConfig.logo?.src ?? siteConfig.heroImage.src),
+    image: absoluteUrl(siteConfig.heroImage.src),
+    email: siteConfig.contact.email,
+    telephone: siteConfig.contact.formattedPhone,
+    foundingDate: siteConfig.contact.foundingDate,
     priceRange: "Kč",
     address: {
       "@type": "PostalAddress",
-      ...siteConfig.address,
+      ...siteConfig.contact.address,
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: siteConfig.geo.latitude,
-      longitude: siteConfig.geo.longitude,
+      latitude: siteConfig.contact.geo.latitude,
+      longitude: siteConfig.contact.geo.longitude,
     },
-    areaServed: siteConfig.serviceArea.map((name) => ({ "@type": "AdministrativeArea", name })),
+    areaServed: siteConfig.contact.serviceArea.map((name) => ({ "@type": "AdministrativeArea", name })),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -100,8 +67,8 @@ export function organizationJsonLd() {
     contactPoint: [
       {
         "@type": "ContactPoint",
-        telephone: siteConfig.formattedPhone,
-        email: siteConfig.email,
+        telephone: siteConfig.contact.formattedPhone,
+        email: siteConfig.contact.email,
         contactType: "customer service",
         areaServed: "CZ",
         availableLanguage: ["cs"],
@@ -158,7 +125,7 @@ export function homepageJsonLd() {
     about: { "@id": `${siteConfig.url}/#organization` },
     primaryImageOfPage: {
       "@type": "ImageObject",
-      url: absoluteUrl("/partex-logo.png"),
+      url: absoluteUrl(siteConfig.heroImage.src),
     },
   };
 }
@@ -176,7 +143,7 @@ export function pricingPageJsonLd() {
     about: { "@id": `${siteConfig.url}/#organization` },
     mainEntity: {
       "@type": "OfferCatalog",
-      name: "Ceník služeb Partex real",
+      name: `Ceník služeb ${siteConfig.shortName}`,
       url: absoluteUrl("/cenik"),
       provider: { "@id": `${siteConfig.url}/#organization` },
       itemListElement: [

@@ -5,13 +5,13 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: siteConfig.name,
     short_name: siteConfig.shortName,
-    description: "Účetní, daňové a mzdové služby v Karviné.",
+    description: siteConfig.seo.homepageDescription,
     lang: "cs-CZ",
     start_url: "/",
     scope: "/",
     display: "standalone",
     background_color: "#ffffff",
-    theme_color: "#5865F2",
+    theme_color: siteConfig.theme.primary,
     icons: [
       {
         src: "/favicon.ico",
