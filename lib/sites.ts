@@ -78,16 +78,16 @@ const partexTheme: SiteTheme = {
 };
 
 const kenckaTheme: SiteTheme = {
-  primary: "#0b7b6a",
-  primaryHover: "#09685a",
-  primaryDark: "#063f39",
-  accent: "#A43931",
-  accentHover: "#8f3029",
+  primary: "#A43931",
+  primaryHover: "#8f3029",
+  primaryDark: "#2b1718",
+  accent: "#0b7b6a",
+  accentHover: "#09685a",
   accentText: "#ffffff",
-  pageBg: "#f7fbf9",
-  dark: "#143632",
-  heroGradient: "linear-gradient(135deg,#0b7b6a 0%,#0a6e60 48%,#143632 100%)",
-  heroRadial: "radial-gradient(circle_at_18%_18%,rgba(45,206,137,0.28),transparent_28%),radial-gradient(circle_at_84%_16%,rgba(255,255,255,0.20),transparent_26%)",
+  pageBg: "#fbf7f5",
+  dark: "#231416",
+  heroGradient: "linear-gradient(135deg,#A43931 0%,#672523 46%,#231416 100%)",
+  heroRadial: "radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.16),transparent_28%),radial-gradient(circle_at_82%_16%,rgba(11,123,106,0.20),transparent_28%)",
 };
 
 export const sites: Record<SiteKey, RuntimeSite> = {
