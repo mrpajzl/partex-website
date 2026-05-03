@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export const siteConfig = {
   name: "Partex real s. r. o.",
   shortName: "Partex real",
-  url: "https://partex-website.vercel.app",
+  url: "https://partexreal.cz",
   locale: "cs_CZ",
   language: "cs",
   email: "partex@seznam.cz",
