@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { mergeSiteContent, type PricingItem, type SiteContent } from "@/lib/site-content";
+import { pricingPageJsonLd } from "@/lib/seo";
 
 const FOUNDATION_DATE = new Date("2004-11-15T00:00:00+01:00");
 const CURRENT_YEAR = new Date().getFullYear();
@@ -134,6 +135,10 @@ export default function CenikPage() {
 
   return (
     <main id="top" className="min-h-screen bg-[#f7f8ff] text-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingPageJsonLd()) }}
+      />
       <Header site={site} />
 
       <section className="relative overflow-hidden bg-[#5865F2] py-20 text-white md:py-28">

@@ -10,6 +10,37 @@ import {
 } from "lucide-react";
 import type { Id } from "@/convex/_generated/dataModel";
 
+type EditableContent = {
+  heading?: string;
+  subheading?: string;
+  body?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  [key: string]: unknown;
+};
+
+type SectionSummary = {
+  _id: Id<"sections">;
+  name: string;
+  type: string;
+  isActive: boolean;
+  content: EditableContent;
+};
+
+type TemplateSummary = {
+  _id: Id<"sectionTemplates">;
+  type: string;
+  name: string;
+  description?: string;
+  category: string;
+  defaultContent: EditableContent;
+};
+
+type SectionFormData = {
+  name: string;
+  content: EditableContent;
+};
+
 export default function PageEditor() {
   const params = useParams();
   const router = useRouter();
@@ -22,7 +53,6 @@ export default function PageEditor() {
   const updateSection = useMutation(api.sections.update);
   const deleteSection = useMutation(api.sections.remove);
   const duplicateSection = useMutation(api.sections.duplicate);
-  const reorderSections = useMutation(api.sections.reorder);
   
   const [showTemplatePicker, setShowTemplatePicker] = useState(false);
   const [editingSectionId, setEditingSectionId] = useState<Id<"sections"> | null>(null);
@@ -213,7 +243,7 @@ export default function PageEditor() {
 
 // Section Card Component
 interface SectionCardProps {
-  section: any;
+  section: SectionSummary;
   index: number;
   isExpanded: boolean;
   onToggle: () => void;
@@ -324,7 +354,7 @@ function SectionCard({
 
 // Template Picker Modal
 interface TemplatePickerProps {
-  templates: any[];
+  templates: TemplateSummary[];
   pageId: Id<"pages">;
   onClose: () => void;
 }
@@ -338,7 +368,7 @@ function TemplatePicker({ templates, pageId, onClose }: TemplatePickerProps) {
     ? templates 
     : templates.filter(t => t.category === selectedCategory);
 
-  const handleSelectTemplate = async (template: any) => {
+  const handleSelectTemplate = async (template: TemplateSummary) => {
     await createSection({
       pageId,
       type: template.type,
@@ -411,7 +441,7 @@ interface SectionEditorProps {
 function SectionEditor({ sectionId, onClose }: SectionEditorProps) {
   const section = useQuery(api.sections.getById, { id: sectionId });
   const updateSection = useMutation(api.sections.update);
-  const [formData, setFormData] = useState<any>(null);
+  const [formData, setFormData] = useState<SectionFormData | null>(null);
 
   if (!section) return null;
   if (!formData) {

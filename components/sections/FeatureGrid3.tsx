@@ -1,6 +1,7 @@
 "use client";
 
 import * as Icons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface Feature {
   icon?: string;
@@ -56,8 +57,9 @@ export default function FeatureGrid3({ content, style }: FeatureGrid3Props) {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {content.items?.map((feature, index) => {
             // Get the icon component dynamically
+            const iconMap = Icons as unknown as Record<string, LucideIcon>;
             const IconComponent = feature.icon
-              ? (Icons as any)[feature.icon]
+              ? iconMap[feature.icon]
               : Icons.Circle;
 
             return (

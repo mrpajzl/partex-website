@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { mergeSiteContent, type SiteContent, type SiteService } from "@/lib/site-content";
+import { homepageJsonLd } from "@/lib/seo";
 
 const iconMap = { Calculator, Users, Clipboard, Mail, Phone, MapPin, Clock };
 
@@ -50,6 +51,10 @@ export default function Home() {
 
   return (
     <main id="top" className="min-h-screen bg-[#f7f8ff] text-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd()) }}
+      />
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
         <nav className="container mx-auto px-4 py-2.5 md:px-6 md:py-4">

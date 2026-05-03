@@ -13,17 +13,25 @@ const FeatureGrid2 = lazy(() => import("./FeatureGrid2"));
 const CTASimple = lazy(() => import("./CTASimple"));
 const Newsletter = lazy(() => import("./Newsletter"));
 
+type SectionComponentProps = {
+  content?: Record<string, unknown>;
+  style?: Record<string, unknown>;
+};
+
+const asSectionComponent = (component: unknown) =>
+  component as React.ComponentType<SectionComponentProps>;
+
 // Map section types to components
-const sectionComponents: Record<string, React.ComponentType<any>> = {
-  "hero-image-right": HeroImageRight,
-  "hero-image-left": HeroImageLeft,
-  "hero-centered": HeroCentered,
-  "text-block": TextBlock,
-  "text-image": TextImage,
-  "feature-grid-3": FeatureGrid3,
-  "feature-grid-2": FeatureGrid2,
-  "cta-simple": CTASimple,
-  "newsletter": Newsletter,
+const sectionComponents: Record<string, React.ComponentType<SectionComponentProps>> = {
+  "hero-image-right": asSectionComponent(HeroImageRight),
+  "hero-image-left": asSectionComponent(HeroImageLeft),
+  "hero-centered": asSectionComponent(HeroCentered),
+  "text-block": asSectionComponent(TextBlock),
+  "text-image": asSectionComponent(TextImage),
+  "feature-grid-3": asSectionComponent(FeatureGrid3),
+  "feature-grid-2": asSectionComponent(FeatureGrid2),
+  "cta-simple": asSectionComponent(CTASimple),
+  "newsletter": asSectionComponent(Newsletter),
 };
 
 interface SectionRendererProps {
@@ -31,8 +39,8 @@ interface SectionRendererProps {
     _id: string;
     type: string;
     name: string;
-    content: any;
-    style: any;
+    content: Record<string, unknown>;
+    style: Record<string, unknown>;
     isActive: boolean;
   };
 }
