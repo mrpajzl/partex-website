@@ -138,12 +138,9 @@ export default function Home() {
         </nav>
       </header>
 
-      <div className="relative z-10 bg-[var(--color-dark)] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.10em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
-        <span className="mx-auto block max-w-[21rem] sm:max-w-none">{site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}</span>
-      </div>
-
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[var(--color-primary)] text-white pt-6 pb-20">
+      <section className="relative bg-white pb-14 md:pb-16">
+        <div className="relative overflow-hidden rounded-b-[2.75rem] bg-[var(--color-primary)] pt-6 pb-20 text-white shadow-[0_28px_70px_rgba(15,23,42,0.18)] md:rounded-b-[5rem]">
         <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
         <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
         <div className="container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12">
@@ -163,19 +160,18 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="relative hidden min-h-[500px] items-center justify-center md:flex lg:min-h-[540px]">
+            <div className="relative hidden min-h-[500px] items-end justify-center md:flex lg:min-h-[540px]">
               <div className="absolute right-2 top-0 h-[36rem] w-[36rem] rounded-full border border-white/10" />
               <div className="absolute right-16 top-12 h-[26rem] w-[26rem] rounded-full bg-[var(--color-accent)]/18 blur-3xl" />
-              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[390px] translate-y-8 lg:w-[460px]" : "w-[820px] -translate-x-8 translate-y-16 lg:w-[960px] lg:-translate-x-12 xl:w-[1040px]"}`} />
+              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[390px] translate-y-20 lg:w-[460px]" : "w-[820px] -translate-x-8 translate-y-24 lg:w-[960px] lg:-translate-x-12 xl:w-[1040px]"}`} />
             </div>
           </div>
         </div>
-        
-        {/* Diagonal separator using SVG */}
-        <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
-          <svg className="relative block h-32 w-full" viewBox="0 0 1200 140" preserveAspectRatio="none">
-            <path d="M0,100 L1200,0 L1200,140 L0,140 Z" fill="#ffffff"></path>
-          </svg>
+        </div>
+        <div className="absolute inset-x-0 bottom-0 z-30 px-4">
+          <div className="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-2xl border border-white/80 bg-white px-5 py-3 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--color-dark)] shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:px-7 sm:text-sm sm:tracking-[0.16em]">
+            {site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}
+          </div>
         </div>
       </section>
 
