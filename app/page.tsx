@@ -163,7 +163,7 @@ export default function Home() {
             <div className="relative hidden min-h-[500px] items-end justify-center md:flex lg:min-h-[540px]">
               <div className="absolute right-2 top-0 h-[36rem] w-[36rem] rounded-full border border-white/10" />
               <div className="absolute right-16 top-12 h-[26rem] w-[26rem] rounded-full bg-[var(--color-accent)]/18 blur-3xl" />
-              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[390px] translate-y-20 lg:w-[460px]" : "w-[820px] -translate-x-8 translate-y-24 lg:w-[960px] lg:-translate-x-12 xl:w-[1040px]"}`} />
+              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[390px] translate-y-32 lg:w-[460px] lg:translate-y-40" : "w-[820px] -translate-x-8 translate-y-32 lg:w-[960px] lg:-translate-x-12 lg:translate-y-40 xl:w-[1040px]"}`} />
             </div>
           </div>
           </div>
@@ -173,7 +173,7 @@ export default function Home() {
             </svg>
           </div>
         </div>
-        <div className="absolute inset-x-0 bottom-20 z-30 px-4 md:bottom-24">
+        <div className="absolute inset-x-0 bottom-9 z-30 px-4 md:bottom-12">
           <div className="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-2xl border border-white/25 bg-[rgb(29,67,80)]/95 px-5 py-3 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_18px_45px_rgba(15,23,42,0.22)] backdrop-blur sm:px-7 sm:text-sm sm:tracking-[0.16em]">
             {site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}
           </div>
