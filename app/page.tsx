@@ -139,11 +139,11 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-white pb-14 md:pb-16">
-        <div className="relative overflow-hidden rounded-b-[2.75rem] bg-[var(--color-primary)] pt-6 pb-20 text-white shadow-[0_28px_70px_rgba(15,23,42,0.18)] md:rounded-b-[5rem]">
-        <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
-        <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
-        <div className="container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12">
+      <section className="relative bg-white pb-16 md:pb-20">
+        <div className="relative overflow-hidden bg-[var(--color-primary)] pt-6 pb-24 text-white shadow-[0_28px_70px_rgba(15,23,42,0.18)] md:pb-28">
+          <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
+          <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
+          <div className="container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12">
           <div className={`grid items-center gap-2 md:grid-cols-[minmax(0,1fr)_minmax(460px,0.95fr)] lg:grid-cols-[minmax(0,0.96fr)_minmax(600px,1.04fr)] lg:gap-0 ${activeSite.heroImage.position === "left" ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1" : ""}`}>
             <div className="relative z-20 max-w-5xl">
               <h1 className="max-w-[22rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:max-w-[50rem] md:text-6xl lg:max-w-[58rem] lg:text-7xl">
@@ -166,9 +166,10 @@ export default function Home() {
               <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[390px] translate-y-20 lg:w-[460px]" : "w-[820px] -translate-x-8 translate-y-24 lg:w-[960px] lg:-translate-x-12 xl:w-[1040px]"}`} />
             </div>
           </div>
+          </div>
+          <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 h-32 w-[125%] -translate-x-1/2 translate-y-[54%] rounded-[50%] bg-white sm:h-36 md:h-44" />
         </div>
-        </div>
-        <div className="absolute inset-x-0 bottom-0 z-30 px-4">
+        <div className="absolute inset-x-0 bottom-7 z-30 px-4 md:bottom-9">
           <div className="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-2xl border border-white/80 bg-white px-5 py-3 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--color-dark)] shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:px-7 sm:text-sm sm:tracking-[0.16em]">
             {site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}
           </div>
