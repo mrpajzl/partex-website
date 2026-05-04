@@ -168,7 +168,7 @@ export default function CenikPage() {
       <Header site={site} />
 
       <section className="relative overflow-hidden bg-[var(--color-primary)] py-20 text-white md:py-28">
-        <div className="absolute inset-0" style={{ background: `${activeSite.theme.heroRadial},${activeSite.theme.heroGradient}` }} />
+        <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
         <div className="container relative mx-auto px-6 text-center">
           <p className="mb-4 text-sm font-black uppercase tracking-[0.28em] text-[var(--color-accent)]">{site.pricingPage.eyebrow}</p>
           <h1 className="text-4xl font-black tracking-tight md:text-6xl">{site.pricingPage.title}</h1>

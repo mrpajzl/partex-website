@@ -144,7 +144,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-[var(--color-primary)] text-white pt-6 pb-20">
-        <div className="absolute inset-0" style={{ background: `${activeSite.theme.heroRadial},${activeSite.theme.heroGradient}` }} />
+        <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
         <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
         <div className="container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12">
           <div className={`grid items-center gap-2 md:grid-cols-[minmax(0,1fr)_minmax(460px,0.95fr)] lg:grid-cols-[minmax(0,0.96fr)_minmax(600px,1.04fr)] lg:gap-0 ${activeSite.heroImage.position === "left" ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1" : ""}`}>

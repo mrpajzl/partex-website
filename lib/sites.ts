@@ -86,8 +86,8 @@ const kenckaTheme: SiteTheme = {
   accentText: "#ffffff",
   pageBg: "#fbf7f5",
   dark: "#231416",
-  heroGradient: "linear-gradient(135deg,#A43931 0%,#672523 46%,#231416 100%)",
-  heroRadial: "radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.16),transparent_28%),radial-gradient(circle_at_82%_16%,rgba(11,123,106,0.20),transparent_28%)",
+  heroGradient: "linear-gradient(150deg, rgb(29, 67, 80) 0%, rgb(164, 57, 49) 100%)",
+  heroRadial: "",
 };
 
 export const sites: Record<SiteKey, RuntimeSite> = {
