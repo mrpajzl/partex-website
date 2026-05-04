@@ -167,10 +167,14 @@ export default function Home() {
             </div>
           </div>
           </div>
-          <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 h-32 w-[125%] -translate-x-1/2 translate-y-[54%] rounded-[50%] bg-white sm:h-36 md:h-44" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 overflow-hidden leading-none">
+            <svg className="block h-32 w-full sm:h-36 md:h-44" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0 82 Q600 180 1200 82 L1200 180 L0 180 Z" fill="white" />
+            </svg>
+          </div>
         </div>
-        <div className="absolute inset-x-0 bottom-7 z-30 px-4 md:bottom-9">
-          <div className="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-2xl border border-white/80 bg-white px-5 py-3 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--color-dark)] shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:px-7 sm:text-sm sm:tracking-[0.16em]">
+        <div className="absolute inset-x-0 bottom-20 z-30 px-4 md:bottom-24">
+          <div className="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-2xl border border-white/25 bg-[rgb(29,67,80)]/95 px-5 py-3 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_18px_45px_rgba(15,23,42,0.22)] backdrop-blur sm:px-7 sm:text-sm sm:tracking-[0.16em]">
             {site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}
           </div>
         </div>
