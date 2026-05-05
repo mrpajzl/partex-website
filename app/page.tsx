@@ -163,7 +163,7 @@ export default function Home() {
             <div className="relative hidden min-h-[400px] items-end justify-center md:flex lg:min-h-[440px]">
               <div className="absolute right-2 top-0 h-[36rem] w-[36rem] rounded-full border border-white/10" />
               <div className="absolute right-16 top-12 h-[26rem] w-[26rem] rounded-full bg-[var(--color-accent)]/18 blur-3xl" />
-              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[450px] translate-y-13 lg:w-[540px] lg:translate-y-13" : "w-[820px] -translate-x-8 translate-y-32 lg:w-[960px] lg:-translate-x-12 lg:translate-y-40 xl:w-[1040px]"}`} />
+              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[380px] translate-y-13 lg:w-[380px] lg:translate-y-13" : "w-[820px] -translate-x-8 translate-y-32 lg:w-[960px] lg:-translate-x-12 lg:translate-y-40 xl:w-[1040px]"}`} />
             </div>
           </div>
           </div>
