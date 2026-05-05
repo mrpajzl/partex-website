@@ -140,7 +140,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative bg-white pb-16 md:pb-20">
-        <div className="relative overflow-hidden bg-[var(--color-primary)] pt-6 pb-14 text-white md:pb-16">
+        <div className="relative overflow-hidden bg-[var(--color-primary)] pt-6 pb-24 text-white shadow-[0_28px_70px_rgba(15,23,42,0.18)] md:pb-28">
           <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
           <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
           <div className="container relative z-10 mx-auto max-w-7xl px-6 py-6 md:py-7">
@@ -160,10 +160,10 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="relative hidden min-h-[400px] items-end justify-center md:flex lg:min-h-[440px]">
+            <div className="relative hidden min-h-[500px] items-end justify-center md:flex lg:min-h-[540px]">
               <div className="absolute right-2 top-0 h-[36rem] w-[36rem] rounded-full border border-white/10" />
               <div className="absolute right-16 top-12 h-[26rem] w-[26rem] rounded-full bg-[var(--color-accent)]/18 blur-3xl" />
-              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[390px] translate-y-32 lg:w-[460px] lg:translate-y-40" : "w-[820px] -translate-x-8 translate-y-32 lg:w-[960px] lg:-translate-x-12 lg:translate-y-40 xl:w-[1040px]"}`} />
+              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${activeSite.heroImage.position === "left" ? "w-[390px] translate-y-8 lg:w-[460px] lg:translate-y-12" : "w-[820px] -translate-x-8 translate-y-32 lg:w-[960px] lg:-translate-x-12 lg:translate-y-40 xl:w-[1040px]"}`} />
             </div>
           </div>
           </div>
