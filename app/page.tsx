@@ -150,7 +150,7 @@ export default function Home() {
         <div className={isKencka ? "relative overflow-hidden bg-[var(--color-primary)] pt-0 pb-14 text-white md:pb-16" : "contents"}>
           <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
           <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
-          <div className={isKencka ? "container relative z-10 mx-auto max-w-7xl px-6 pt-3 pb-6 md:pt-4 md:pb-7" : "container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12"}>
+          <div className={isKencka ? "container relative z-10 mx-auto max-w-7xl px-6 pt-0 pb-6 md:pt-0 md:pb-7" : "container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12"}>
           <div className={`grid items-center gap-2 md:grid-cols-[minmax(0,1fr)_minmax(460px,0.95fr)] lg:grid-cols-[minmax(0,0.96fr)_minmax(600px,1.04fr)] lg:gap-0 ${activeSite.heroImage.position === "left" ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1" : ""}`}>
             <div className="relative z-20 max-w-5xl">
               <h1 className="max-w-[22rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:max-w-[50rem] md:text-6xl lg:max-w-[58rem] lg:text-7xl">
@@ -170,7 +170,7 @@ export default function Home() {
             <div className={isKencka ? "relative hidden min-h-[400px] items-end justify-center md:flex lg:min-h-[440px]" : "relative hidden min-h-[500px] items-center justify-center md:flex lg:min-h-[540px]"}>
               <div className="absolute right-2 top-0 h-[36rem] w-[36rem] rounded-full border border-white/10" />
               <div className="absolute right-16 top-12 h-[26rem] w-[26rem] rounded-full bg-[var(--color-accent)]/18 blur-3xl" />
-              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${isKencka ? "w-[380px] translate-y-13 lg:w-[380px] lg:translate-y-13" : "w-[820px] -translate-x-8 translate-y-16 lg:w-[960px] lg:-translate-x-12 xl:w-[1040px]"}`} />
+              <BrandHeroImage className={`relative z-10 max-w-none object-contain drop-shadow-[0_34px_45px_rgba(0,0,0,0.24)] ${isKencka ? "w-[360px] max-w-[360px] translate-y-13 lg:w-[360px] lg:translate-y-13" : "w-[820px] -translate-x-8 translate-y-16 lg:w-[960px] lg:-translate-x-12 xl:w-[1040px]"}`} />
             </div>
           </div>
           </div>
