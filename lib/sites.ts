@@ -144,8 +144,8 @@ export const sites: Record<SiteKey, RuntimeSite> = {
     logo: {
       src: "/kencka-logo.png",
       alt: "Ing. Eva Kencká - účetnictví a mzdy",
-      width: 1536,
-      height: 1024,
+      width: 1162,
+      height: 327,
     },
     heroImage: {
       src: "/eva-kencka.png",
