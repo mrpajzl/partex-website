@@ -17,15 +17,15 @@ const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
 const CURRENT_YEAR = new Date().getFullYear();
 
 function getYearsSinceFoundation() {
-  const today = new Date();
-  let years = today.getFullYear() - FOUNDATION_DATE.getFullYear();
-  const anniversaryThisYear = new Date(today.getFullYear(), FOUNDATION_DATE.getMonth(), FOUNDATION_DATE.getDate());
+  return new Date().getFullYear() - FOUNDATION_DATE.getFullYear();
+}
 
-  if (today < anniversaryThisYear) {
-    years -= 1;
+function YearsBannerText({ years }: { years: number }) {
+  if (activeSite.key === "partex") {
+    return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
   }
 
-  return years;
+  return <>Již {years} let jsme tu pro naše klienty</>;
 }
 
 
@@ -141,7 +141,7 @@ export default function Home() {
 
       {!isKencka && (
         <div className="relative z-10 bg-[var(--color-dark)] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.10em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
-          <span className="mx-auto block max-w-[21rem] sm:max-w-none">{site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}</span>
+          <span className="mx-auto block max-w-[21rem] sm:max-w-none"><YearsBannerText years={yearsWithClients} /></span>
         </div>
       )}
 
@@ -191,7 +191,7 @@ export default function Home() {
         {isKencka && (
           <div className="absolute inset-x-0 bottom-24 z-30 px-4 md:bottom-28">
             <div className="mx-auto w-fit max-w-[calc(100vw-2rem)] rounded-2xl border border-white/25 bg-[rgb(29,67,80)]/95 px-5 py-3 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_18px_45px_rgba(15,23,42,0.22)] backdrop-blur sm:px-7 sm:text-sm sm:tracking-[0.16em]">
-              {site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}
+              <YearsBannerText years={yearsWithClients} />
             </div>
           </div>
         )}
@@ -316,7 +316,8 @@ export default function Home() {
               {site.about.content}
             </div>
             <div className="mt-10 rounded-3xl bg-white p-6 text-lg leading-8 text-slate-700 shadow-sm ring-1 ring-slate-200">
-              Společnost Partex real s. r. o. byla založena 15. listopadu {FOUNDATION_YEAR}. Již {yearsWithClients} let jsme tu pro naše klienty a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.
+              <p className="text-xl font-black text-slate-950">Jsme tu pro vás již {yearsWithClients} let <span aria-hidden="true">🎈</span></p>
+              <p className="mt-3">Společnost Partex real s. r. o. byla založena 15. listopadu {FOUNDATION_YEAR}. Už {yearsWithClients} let stojíme při našich klientech a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.</p>
             </div>
           </div>
         </div>

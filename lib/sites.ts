@@ -113,7 +113,7 @@ export const sites: Record<SiteKey, RuntimeSite> = {
     },
     seo: {
       homepageTitle: "Účetnictví, mzdy a daně Karviná | Partex real s. r. o.",
-      homepageDescription: "Partex real s. r. o. poskytuje účetnictví, daňovou evidenci, mzdy, personalistiku a poradenství v Karviné. Osobní přístup, praxe od roku 2004.",
+      homepageDescription: "Partex real s. r. o. poskytuje účetnictví, daňovou evidenci, mzdy, personalistiku a poradenství v Karviné. Osobní přístup a 30 let praxe.",
       pricingTitle: "Ceník účetních, daňových a mzdových služeb | Partex real",
       pricingDescription: "Orientační ceník služeb Partex real: vedení účetnictví a daňové evidence, mzdy, daňová přiznání, poradenství, zastupování a další administrativa.",
       keywords: ["účetnictví Karviná", "daňová evidence Karviná", "vedení účetnictví", "mzdové účetnictví", "daňová přiznání", "personalistika", "náhradní plnění", "účetní služby pro firmy", "Partex real"],
@@ -122,7 +122,7 @@ export const sites: Record<SiteKey, RuntimeSite> = {
       email: "partex@seznam.cz",
       phone: "+420775554377",
       formattedPhone: "+420 775 554 377",
-      foundingDate: "2004-11-15",
+      foundingDate: "1996-11-15",
       address: {
         streetAddress: "Hrnčířská 42/1",
         addressLocality: "Karviná-Fryštát",

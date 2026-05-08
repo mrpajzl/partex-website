@@ -14,15 +14,15 @@ const FOUNDATION_DATE = new Date(`${activeSite.contact.foundingDate}T00:00:00+01
 const CURRENT_YEAR = new Date().getFullYear();
 
 function getYearsSinceFoundation() {
-  const today = new Date();
-  let years = today.getFullYear() - FOUNDATION_DATE.getFullYear();
-  const anniversaryThisYear = new Date(today.getFullYear(), FOUNDATION_DATE.getMonth(), FOUNDATION_DATE.getDate());
+  return new Date().getFullYear() - FOUNDATION_DATE.getFullYear();
+}
 
-  if (today < anniversaryThisYear) {
-    years -= 1;
+function YearsBannerText({ years }: { years: number }) {
+  if (activeSite.key === "partex") {
+    return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
   }
 
-  return years;
+  return <>Již {years} let jsme tu pro naše klienty</>;
 }
 
 function BrandLogo() {
@@ -97,7 +97,7 @@ function Header({ site }: { site: SiteContent }) {
         </nav>
       </header>
       <div className="relative z-10 bg-[var(--color-dark)] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
-        {site.hero.yearsBannerPrefix} {yearsWithClients} {site.hero.yearsBannerSuffix}
+        <YearsBannerText years={yearsWithClients} />
       </div>
     </>
   );

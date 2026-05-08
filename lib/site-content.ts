@@ -104,8 +104,8 @@ export const defaultSiteContent: SiteContent = {
     subtitle: "Pomůžeme vám dosáhnout vašich cílů",
     primaryCtaText: "Naše služby",
     primaryCtaHref: "#sluzby",
-    yearsBannerPrefix: "Již",
-    yearsBannerSuffix: "let jsme tu pro naše klienty",
+    yearsBannerPrefix: "Jsme tu pro vás již",
+    yearsBannerSuffix: "let 🎈",
   },
   navigation: [
     { label: "Služby", href: "#sluzby" },
