@@ -200,7 +200,7 @@ export default function Home() {
           <h2 className="mb-4 text-center text-3xl font-black tracking-tight text-slate-950 md:text-5xl">{site.services.heading}</h2>
           <p className="mx-auto mb-10 max-w-[18rem] text-center text-base leading-7 text-slate-600 sm:max-w-2xl md:mb-16 md:text-lg md:leading-8">{site.services.description}</p>
           
-          <div className="mx-auto grid w-full max-w-[calc(100vw-2rem)] gap-5 md:max-w-6xl md:grid-cols-3 md:gap-8">
+          <div className={`mx-auto grid w-full max-w-[calc(100vw-2rem)] gap-5 md:max-w-6xl md:gap-8 ${site.services.cards.length === 2 ? "md:max-w-4xl md:grid-cols-2" : "md:grid-cols-3"}`}>
             {site.services.cards.map((service) => {
               const Icon = iconMap[service.icon] ?? Calculator;
               return (
