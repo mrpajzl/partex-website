@@ -15,6 +15,11 @@ const iconMap = { Calculator, Users, Clipboard, Mail, Phone, MapPin, Clock };
 const FOUNDATION_DATE = new Date(`${activeSite.contact.foundingDate}T00:00:00+01:00`);
 const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
 const CURRENT_YEAR = new Date().getFullYear();
+const happinessManagerImages = [
+  { src: "/20250227_141726.jpg", alt: "Cherry, happiness manager" },
+  { src: "/20250227_141630.jpg", alt: "Cherry, happiness manager" },
+  { src: "/20250227_141704.jpg", alt: "Cherry, happiness manager" },
+];
 
 function getYearsSinceFoundation() {
   return new Date().getFullYear() - FOUNDATION_DATE.getFullYear();
@@ -313,14 +318,34 @@ export default function Home() {
             </div>
             <div className="mt-10 rounded-3xl bg-white p-6 text-lg leading-8 text-slate-700 shadow-sm ring-1 ring-slate-200">
               <p className="text-xl font-black text-slate-950">Jsme tu pro vás již {yearsWithClients} let <span aria-hidden="true">🎈</span></p>
-              <p className="mt-3">Společnost Partex real s. r. o. byla založena 15. listopadu {FOUNDATION_YEAR}. Už {yearsWithClients} let stojíme při našich klientech a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.</p>
+              <p className="mt-3">{activeSite.key === "kencka" ? "Účetní firma Ing. Evy Kencké působí v oboru od roku" : "Společnost Partex real s. r. o. byla založena 15. listopadu"} {FOUNDATION_YEAR}. Už {yearsWithClients} let stojíme při našich klientech a pomáháme jim s účetnictvím, daněmi, mzdami i související administrativou.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Job Posting Section */}
-      {site.hiring.enabled && <section className="relative bg-[var(--color-primary)] text-white py-32">
+      {/* Happiness Manager / Job Posting Section */}
+      {site.hiring.enabled && activeSite.key === "kencka" && (
+        <section className="relative bg-white py-20 md:py-28">
+          <div className="container mx-auto px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="text-3xl font-black tracking-tight text-slate-950 md:text-5xl">{site.hiring.title}</h2>
+              <p className="mt-4 text-lg leading-8 text-slate-600">{site.hiring.description}</p>
+            </div>
+            <div className="mx-auto mt-12 grid max-w-5xl gap-6 sm:grid-cols-3">
+              {happinessManagerImages.map((image) => (
+                <div key={image.src} className="overflow-hidden rounded-[2rem] bg-[var(--color-page-bg)] p-3 shadow-[0_20px_55px_rgba(29,38,90,0.10)] ring-1 ring-slate-200">
+                  <div className="relative aspect-square overflow-hidden rounded-[1.5rem]">
+                    <Image src={image.src} alt={image.alt} fill className="object-cover object-center" sizes="(min-width: 640px) 30vw, 100vw" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {site.hiring.enabled && activeSite.key !== "kencka" && <section className="relative bg-[var(--color-primary)] text-white py-32">
         {/* Top diagonal */}
         <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none">
           <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ transform: 'rotate(180deg)' }}>

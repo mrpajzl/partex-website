@@ -428,9 +428,9 @@ export const kenckaSiteContent: SiteContent = {
   },
   hiring: {
     enabled: true,
-    title: "Hledáme posilu do našich řad",
-    description: "Máme otevřené místo na pozici „všeobecná účetní“ — podmínka: praxe.",
-    buttonText: "Zavolejte nám",
+    title: "Náš Happiness Manager",
+    description: "Seznamte se s Cherry, naším Happiness managerem.",
+    buttonText: "Kontaktujte nás",
   },
   contact: {
     title: "Kontakty",
