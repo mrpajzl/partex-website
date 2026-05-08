@@ -21,11 +21,7 @@ function getYearsSinceFoundation() {
 }
 
 function YearsBannerText({ years }: { years: number }) {
-  if (activeSite.key === "partex") {
-    return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
-  }
-
-  return <>Již {years} let jsme tu pro naše klienty</>;
+  return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
 }
 
 

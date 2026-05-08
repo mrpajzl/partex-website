@@ -18,11 +18,7 @@ function getYearsSinceFoundation() {
 }
 
 function YearsBannerText({ years }: { years: number }) {
-  if (activeSite.key === "partex") {
-    return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
-  }
-
-  return <>Již {years} let jsme tu pro naše klienty</>;
+  return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
 }
 
 function BrandLogo() {
@@ -115,11 +111,13 @@ function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTi
             </div>
           )}
         </div>
-        <div className="flex items-start md:justify-end">
-          <span className="rounded-full bg-[var(--color-primary)]/10 px-3 py-1.5 text-sm font-black whitespace-nowrap text-[var(--color-primary)] ring-1 ring-[var(--color-primary)]/10 md:text-right">
-            {item.price}
-          </span>
-        </div>
+        {item.price && (
+          <div className="flex items-start md:justify-end">
+            <span className="rounded-full bg-[var(--color-primary)]/10 px-3 py-1.5 text-sm font-black whitespace-nowrap text-[var(--color-primary)] ring-1 ring-[var(--color-primary)]/10 md:text-right">
+              {item.price}
+            </span>
+          </div>
+        )}
       </div>
 
       {item.children && (
