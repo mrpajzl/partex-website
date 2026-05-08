@@ -142,10 +142,10 @@ export const sites: Record<SiteKey, RuntimeSite> = {
     url: "https://kencka.cz",
     locale: "cs_CZ",
     logo: {
-      src: "/kencka-logo.svg",
+      src: "/kencka-logo.png",
       alt: "Ing. Eva Kencká - účetnictví a mzdy",
-      width: 194,
-      height: 42,
+      width: 1176,
+      height: 324,
     },
     heroImage: {
       src: "/eva-kencka.png",
