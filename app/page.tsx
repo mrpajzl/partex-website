@@ -21,6 +21,8 @@ const happinessManagerImages = [
   { src: "/20250227_141704.jpg", alt: "Cherry, happiness manager" },
 ];
 
+const kenckaRegisteredOffice = "Ing. Eva Kencká - účetnictví s.r.o.\nDobrovolného 641/8\n198 00 Praha 9\nIČ: 285 20 092";
+
 function getYearsSinceFoundation() {
   return new Date().getFullYear() - FOUNDATION_DATE.getFullYear();
 }
@@ -415,9 +417,16 @@ export default function Home() {
             })}
           </div>
 
+          {activeSite.key === "kencka" && (
+            <div className="mx-auto mb-10 max-w-3xl rounded-3xl bg-[var(--color-page-bg)] p-6 text-center shadow-lg ring-1 ring-slate-200">
+              <h3 className="text-xl font-black text-slate-950">Sídlo firmy</h3>
+              <p className="mt-3 whitespace-pre-line text-slate-700">{kenckaRegisteredOffice}</p>
+            </div>
+          )}
+
           <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-slate-200">
             <iframe
-              title="Mapa Partex real s. r. o."
+              title={`Mapa ${activeSite.name}`}
               src={site.contact.mapEmbedUrl}
               className="h-96 w-full border-0"
               loading="lazy"
@@ -510,7 +519,7 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             <div>
-              <h3 className="font-bold text-xl mb-4">Partex real s. r. o.</h3>
+              <h3 className="font-bold text-xl mb-4">{activeSite.name}</h3>
               <p className="text-gray-300 leading-relaxed">{site.footer.tagline}</p>
             </div>
             <div>
@@ -529,7 +538,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} Partex real s. r. o. Všechna práva vyhrazena.</p>
+            <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} {activeSite.name}. Všechna práva vyhrazena.</p>
           </div>
         </div>
       </footer>
