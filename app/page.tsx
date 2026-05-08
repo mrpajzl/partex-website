@@ -417,13 +417,6 @@ export default function Home() {
             })}
           </div>
 
-          {activeSite.key === "kencka" && (
-            <div className="mx-auto mb-10 max-w-3xl rounded-3xl bg-[var(--color-page-bg)] p-6 text-center shadow-lg ring-1 ring-slate-200">
-              <h3 className="text-xl font-black text-slate-950">Sídlo firmy</h3>
-              <p className="mt-3 whitespace-pre-line text-slate-700">{kenckaRegisteredOffice}</p>
-            </div>
-          )}
-
           <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-slate-200">
             <iframe
               title={`Mapa ${activeSite.name}`}
@@ -534,8 +527,14 @@ export default function Home() {
             <div>
               <h3 className="font-bold text-lg mb-4">Kontakt</h3>
               <p className="text-gray-300 mb-2">{site.contact.items.find((item) => item.icon === "Mail")?.value}</p>
-              <p className="text-gray-300">{site.contact.items.find((item) => item.icon === "Phone")?.value}</p>
+              <p className="whitespace-pre-line text-gray-300">{site.contact.items.find((item) => item.icon === "Phone")?.value}</p>
             </div>
+            {activeSite.key === "kencka" && (
+              <div>
+                <h3 className="font-bold text-lg mb-4">Sídlo firmy</h3>
+                <p className="whitespace-pre-line text-gray-300">{kenckaRegisteredOffice}</p>
+              </div>
+            )}
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
             <p>&copy; {FOUNDATION_YEAR}–{CURRENT_YEAR} {activeSite.name}. Všechna práva vyhrazena.</p>
