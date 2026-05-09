@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConvexClientProvider } from "@/lib/convex";
 import { absoluteUrl, homepageSeo, organizationJsonLd, siteConfig, websiteJsonLd } from "@/lib/seo";
 import { Analytics } from "@vercel/analytics/next";
+import ObservabilityClient from "@/components/ObservabilityClient";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -90,6 +91,7 @@ export default function RootLayout({
         <ConvexClientProvider>
           {children}
         </ConvexClientProvider>
+        <ObservabilityClient />
         <Analytics />
       </body>
     </html>
