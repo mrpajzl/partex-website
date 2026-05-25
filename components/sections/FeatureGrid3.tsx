@@ -27,6 +27,11 @@ interface FeatureGrid3Props {
 export default function FeatureGrid3({ content, style }: FeatureGrid3Props) {
   const bgColor = style.backgroundColor || "#FFFFFF";
   const textColor = style.textColor || "#2C3E50";
+  const itemCount = content.items?.length ?? 0;
+  const gridClassName =
+    itemCount === 2
+      ? "grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+      : "grid md:grid-cols-2 lg:grid-cols-3 gap-8";
 
   return (
     <section
@@ -54,7 +59,7 @@ export default function FeatureGrid3({ content, style }: FeatureGrid3Props) {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className={gridClassName}>
           {content.items?.map((feature, index) => {
             // Get the icon component dynamically
             const iconMap = Icons as unknown as Record<string, LucideIcon>;
