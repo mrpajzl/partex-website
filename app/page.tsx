@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { type CSSProperties, useState } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import { getDefaultSiteContent, mergeSiteContent, type SiteContent, type SiteService } from "@/lib/site-content";
 import { homepageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
@@ -86,6 +86,19 @@ export default function Home() {
     "--color-page-bg": activeSite.theme.pageBg,
     "--color-dark": activeSite.theme.dark,
   } as CSSProperties;
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+
+      setActiveService(null);
+      setUsefulLinksOpen(false);
+      setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <main id="top" style={themeStyle} className="min-h-screen bg-[var(--color-page-bg)] text-slate-950">
