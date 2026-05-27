@@ -46,6 +46,7 @@ function BrandLogo() {
 function Header({ site }: { site: SiteContent }) {
   const yearsWithClients = getYearsSinceFoundation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const showYearsBanner = activeSite.key !== "kencka";
 
   return (
     <>
@@ -92,9 +93,11 @@ function Header({ site }: { site: SiteContent }) {
           )}
         </nav>
       </header>
-      <div className="relative z-10 bg-[var(--color-dark)] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
-        <YearsBannerText years={yearsWithClients} />
-      </div>
+      {showYearsBanner && (
+        <div className="relative z-10 bg-[var(--color-dark)] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.12em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
+          <YearsBannerText years={yearsWithClients} />
+        </div>
+      )}
     </>
   );
 }
@@ -209,7 +212,7 @@ export default function CenikPage() {
       </section>
 
       <footer className="bg-[var(--color-dark)] py-10 text-center text-sm text-white/70">
-        © {FOUNDATION_DATE.getFullYear()}–{CURRENT_YEAR} Partex real s. r. o. Všechna práva vyhrazena.
+        © {FOUNDATION_DATE.getFullYear()}–{CURRENT_YEAR} {activeSite.name}. Všechna práva vyhrazena.
       </footer>
     </main>
   );
