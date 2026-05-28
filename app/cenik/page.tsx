@@ -74,12 +74,13 @@ function Header({ site }: { site: SiteContent }) {
               className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/90 text-[var(--color-dark)] shadow-sm ring-1 ring-slate-200 transition hover:bg-white lg:hidden"
               aria-label={mobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}
               aria-expanded={mobileMenuOpen}
+              aria-controls="pricing-mobile-navigation"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
           {mobileMenuOpen && (
-            <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
+            <div id="pricing-mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
               <div className="grid gap-2">
                 {site.navigation.map((item) => (
                   <Link key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href.startsWith("#") ? `/${item.href}` : item.href} className={`rounded-2xl px-4 py-3 transition ${item.href === "/cenik" ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]" : "hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]"}`}>{item.label}</Link>

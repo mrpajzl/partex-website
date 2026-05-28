@@ -133,12 +133,13 @@ export default function Home() {
               className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/90 text-[var(--color-dark)] shadow-sm ring-1 ring-slate-200 transition hover:bg-white lg:hidden"
               aria-label={mobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}
               aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
           {mobileMenuOpen && (
-            <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
+            <div id="mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
               <div className="grid gap-2">
                 {site.navigation.map((item) => item.href.startsWith("/") ? (
                   <Link key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href} className="rounded-2xl px-4 py-3 transition hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]">{item.label}</Link>
@@ -446,7 +447,7 @@ export default function Home() {
 
       <div className="fixed bottom-4 left-4 z-[90] flex flex-col items-start gap-3 sm:left-auto sm:right-4 sm:items-end">
         {usefulLinksOpen && (
-          <div className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
+          <div id="useful-links-panel" className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
             <div className="flex items-center justify-between bg-[var(--color-dark)] px-5 py-4 text-white">
               <div>
                 <div className="text-sm font-black uppercase tracking-[0.18em] text-[var(--color-accent)]">Pro klienty</div>
@@ -474,6 +475,7 @@ export default function Home() {
           onClick={() => setUsefulLinksOpen((open) => !open)}
           className="rounded-full bg-[var(--color-accent)] px-3.5 py-2.5 text-xs font-black sm:px-5 sm:py-3 sm:text-sm text-[var(--color-accent-text)] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)]"
           aria-expanded={usefulLinksOpen}
+          aria-controls="useful-links-panel"
         >
           Užitečné odkazy
         </button>
