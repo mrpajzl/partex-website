@@ -47,6 +47,7 @@ function Header({ site }: { site: SiteContent }) {
   const yearsWithClients = getYearsSinceFoundation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const showYearsBanner = activeSite.key !== "kencka";
+  const getNavHref = (href: string) => (href.startsWith("#") ? `/${href}` : href);
 
   return (
     <>
@@ -57,9 +58,19 @@ function Header({ site }: { site: SiteContent }) {
               <BrandLogo />
             </Link>
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner lg:flex">
-              {site.navigation.map((item) => (
-                <Link key={item.href} href={item.href.startsWith("#") ? `/${item.href}` : item.href} className={`rounded-full px-4 py-2 transition ${item.href === "/cenik" ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]" : "hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]"}`}>{item.label}</Link>
-              ))}
+              {site.navigation.map((item) => {
+                const isCurrentPage = item.href === "/cenik";
+                return (
+                  <Link
+                    key={item.href}
+                    href={getNavHref(item.href)}
+                    aria-current={isCurrentPage ? "page" : undefined}
+                    className={`rounded-full px-4 py-2 transition ${isCurrentPage ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]" : "hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]"}`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
             <Link
               href="/#kontakt"
@@ -82,9 +93,20 @@ function Header({ site }: { site: SiteContent }) {
           {mobileMenuOpen && (
             <div id="pricing-mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
               <div className="grid gap-2">
-                {site.navigation.map((item) => (
-                  <Link key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href.startsWith("#") ? `/${item.href}` : item.href} className={`rounded-2xl px-4 py-3 transition ${item.href === "/cenik" ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]" : "hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]"}`}>{item.label}</Link>
-                ))}
+                {site.navigation.map((item) => {
+                  const isCurrentPage = item.href === "/cenik";
+                  return (
+                    <Link
+                      key={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      href={getNavHref(item.href)}
+                      aria-current={isCurrentPage ? "page" : undefined}
+                      className={`rounded-2xl px-4 py-3 transition ${isCurrentPage ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]" : "hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]"}`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
                 <Link onClick={() => setMobileMenuOpen(false)} href="/#kontakt" className="mt-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-accent)] px-4 py-3 font-extrabold text-[var(--color-accent-text)] transition hover:bg-[var(--color-accent-hover)]">
                   Kontaktujte nás
                   <ArrowRight className="h-4 w-4" />
