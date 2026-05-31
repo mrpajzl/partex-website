@@ -525,7 +525,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-[var(--color-dark)] text-white py-16">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
+          <div className={`mb-12 grid gap-12 ${activeSite.key === "kencka" ? "md:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3"}`}>
             <div>
               <h3 className="font-bold text-xl mb-4">{activeSite.name}</h3>
               <p className="text-gray-300 leading-relaxed">{site.footer.tagline}</p>
