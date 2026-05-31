@@ -167,7 +167,7 @@ export default function Home() {
         <div className={isKencka ? "relative overflow-hidden bg-[var(--color-primary)] pt-0 pb-14 text-white md:pb-16" : "contents"}>
           <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
           <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
-          <div className={isKencka ? "container relative z-10 mx-auto max-w-7xl px-6 pt-0 pb-6 md:pt-0 md:pb-7" : "container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12"}>
+          <div className={isKencka ? "container relative z-10 mx-auto max-w-7xl px-6 pt-6 pb-6 sm:pt-8 md:pt-0 md:pb-7" : "container relative z-10 mx-auto max-w-7xl px-6 py-10 md:py-12"}>
           <div className={`grid items-center gap-2 md:grid-cols-[minmax(0,1fr)_minmax(460px,0.95fr)] lg:grid-cols-[minmax(0,0.96fr)_minmax(600px,1.04fr)] lg:gap-0 ${activeSite.heroImage.position === "left" ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1" : ""}`}>
             <div className="relative z-20 max-w-5xl">
               <h1 className="max-w-[22rem] text-3xl font-black leading-[1.02] tracking-tight sm:max-w-4xl sm:text-4xl md:max-w-[50rem] md:text-6xl lg:max-w-[58rem] lg:text-7xl">
