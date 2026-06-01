@@ -19,13 +19,13 @@ body {
 /* Focus visible styles */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px #5865F2;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-primary, #5865F2);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(88, 101, 242, 0.2);
-  color: #4752C4;
+  background: color-mix(in srgb, var(--color-primary, #5865F2) 20%, transparent);
+  color: var(--color-primary-hover, #4752C4);
 }
 
 /* ===== ADMIN UI COMPONENTS ===== */
