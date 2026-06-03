@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { ArrowRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { type CSSProperties, useState } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import { getDefaultSiteContent, mergeSiteContent, type PricingItem, type SiteContent } from "@/lib/site-content";
 import { pricingPageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
@@ -48,6 +48,19 @@ function Header({ site }: { site: SiteContent }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const showYearsBanner = activeSite.key !== "kencka";
   const getNavHref = (href: string) => (href.startsWith("#") ? `/${href}` : href);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
 
   return (
     <>
