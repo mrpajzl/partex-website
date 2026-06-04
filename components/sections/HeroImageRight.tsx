@@ -83,6 +83,7 @@ export default function HeroImageRight({ content, style }: HeroImageRightProps) 
                 alt={content.imageAlt || "Hero image"}
                 fill
                 className="object-cover"
+                sizes="(min-width: 768px) 50vw, 100vw"
                 priority
               />
             </div>
@@ -97,6 +98,8 @@ export default function HeroImageRight({ content, style }: HeroImageRightProps) 
           viewBox="0 0 1440 120"
           fill="none"
           preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             d="M0,64 C360,32 720,96 1440,64 L1440,120 L0,120 Z"

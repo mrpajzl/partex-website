@@ -193,13 +193,13 @@ export default function Home() {
           </div>
           {isKencka ? (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 overflow-hidden leading-none">
-              <svg className="block h-32 w-full drop-shadow-[0_-18px_32px_rgba(15,23,42,0.22)] sm:h-36 md:h-44" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
+              <svg className="block h-32 w-full drop-shadow-[0_-18px_32px_rgba(15,23,42,0.22)] sm:h-36 md:h-44" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <path d="M0 82 Q600 180 1200 82 L1200 180 L0 180 Z" fill="white" />
               </svg>
             </div>
           ) : (
             <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
-              <svg className="relative block h-32 w-full" viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true">
+              <svg className="relative block h-32 w-full" viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <path d="M0,100 L1200,0 L1200,140 L0,140 Z" fill="#ffffff" />
               </svg>
             </div>
@@ -276,7 +276,7 @@ export default function Home() {
       {site.supportBanner.enabled && <section className="relative bg-[var(--color-primary)] text-white py-32">
         {/* Top diagonal */}
         <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none">
-          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ transform: 'rotate(180deg)' }}>
+          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false" style={{ transform: 'rotate(180deg)' }}>
             <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
           </svg>
         </div>
@@ -299,7 +299,7 @@ export default function Home() {
 
         {/* Bottom diagonal */}
         <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
-          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
           </svg>
         </div>
@@ -364,7 +364,7 @@ export default function Home() {
       {site.hiring.enabled && activeSite.key !== "kencka" && <section className="relative bg-[var(--color-primary)] text-white py-32">
         {/* Top diagonal */}
         <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none">
-          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ transform: 'rotate(180deg)' }}>
+          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false" style={{ transform: 'rotate(180deg)' }}>
             <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#F8F9FA"></path>
           </svg>
         </div>
@@ -384,7 +384,7 @@ export default function Home() {
 
         {/* Bottom diagonal to contact/footer */}
         <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none">
-          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg className="relative block h-24 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path d="M0,0 L1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
           </svg>
         </div>
