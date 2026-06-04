@@ -16,10 +16,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Keyboard navigation */
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 9999;
+  transform: translateY(-150%);
+  border-radius: 9999px;
+  background: var(--color-dark, #111827);
+  color: white;
+  font-weight: 800;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.25);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+[id] {
+  scroll-margin-top: 6rem;
+}
+
 /* Focus visible styles */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-primary, #5865F2);
+  box-shadow: 0 0 0 2px white, 0 0 0 5px var(--color-primary, #5865F2);
 }
 
 /* Selection */

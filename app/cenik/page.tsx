@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { ArrowRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { type CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { getDefaultSiteContent, mergeSiteContent, type PricingItem, type SiteContent } from "@/lib/site-content";
 import { pricingPageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
@@ -46,16 +46,23 @@ function BrandLogo() {
 function Header({ site }: { site: SiteContent }) {
   const yearsWithClients = getYearsSinceFoundation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const showYearsBanner = activeSite.key !== "kencka";
   const getNavHref = (href: string) => (href.startsWith("#") ? `/${href}` : href);
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    requestAnimationFrame(() => mobileMenuButtonRef.current?.focus());
+  };
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
+    mobileMenuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
+
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen(false);
-      }
+      if (event.key === "Escape") closeMobileMenu();
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -93,6 +100,7 @@ function Header({ site }: { site: SiteContent }) {
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
             </Link>
             <button
+              ref={mobileMenuButtonRef}
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
               className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/90 text-[var(--color-dark)] shadow-sm ring-1 ring-slate-200 transition hover:bg-white lg:hidden"
@@ -104,7 +112,7 @@ function Header({ site }: { site: SiteContent }) {
             </button>
           </div>
           {mobileMenuOpen && (
-            <div id="pricing-mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
+            <div ref={mobileMenuRef} id="pricing-mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
               <div className="grid gap-2">
                 {site.navigation.map((item) => {
                   const isCurrentPage = item.href === "/cenik";
@@ -202,9 +210,10 @@ export default function CenikPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingPageJsonLd()) }}
       />
+      <a href="#main-content" className="skip-link">Přejít na ceník</a>
       <Header site={site} />
 
-      <section className="relative overflow-hidden bg-[var(--color-primary)] py-20 text-white md:py-28">
+      <section id="main-content" tabIndex={-1} className="relative overflow-hidden bg-[var(--color-primary)] py-20 text-white md:py-28">
         <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
         <div className="container relative mx-auto px-6 text-center">
           <p className="mb-4 text-sm font-black uppercase tracking-[0.28em] text-[var(--color-accent)]">{site.pricingPage.eyebrow}</p>

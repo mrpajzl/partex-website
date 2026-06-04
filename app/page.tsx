@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { type CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, type MouseEvent, useEffect, useRef, useState } from "react";
 import { getDefaultSiteContent, mergeSiteContent, type SiteContent, type SiteService } from "@/lib/site-content";
 import { homepageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
@@ -72,6 +72,13 @@ export default function Home() {
   const [activeService, setActiveService] = useState<SiteService | null>(null);
   const [usefulLinksOpen, setUsefulLinksOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const usefulLinksButtonRef = useRef<HTMLButtonElement | null>(null);
+  const usefulLinksPanelRef = useRef<HTMLDivElement | null>(null);
+  const serviceDialogRef = useRef<HTMLDivElement | null>(null);
+  const serviceCloseButtonRef = useRef<HTMLButtonElement | null>(null);
+  const serviceDialogReturnFocusRef = useRef<HTMLElement | null>(null);
   const defaults = getDefaultSiteContent(activeSite.key);
   const storedContent = useQuery(api.content.getSiteContent, { key: activeSite.contentKey });
   const site = mergeSiteContent(storedContent?.value as Partial<SiteContent> | undefined, defaults);
@@ -87,18 +94,86 @@ export default function Home() {
     "--color-dark": activeSite.theme.dark,
   } as CSSProperties;
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    requestAnimationFrame(() => mobileMenuButtonRef.current?.focus());
+  };
 
-      setActiveService(null);
-      setUsefulLinksOpen(false);
-      setMobileMenuOpen(false);
+  const closeUsefulLinks = () => {
+    setUsefulLinksOpen(false);
+    requestAnimationFrame(() => usefulLinksButtonRef.current?.focus());
+  };
+
+  const openServiceDialog = (event: MouseEvent<HTMLButtonElement>, service: SiteService) => {
+    serviceDialogReturnFocusRef.current = event.currentTarget;
+    setActiveService(service);
+  };
+
+  const closeServiceDialog = () => {
+    setActiveService(null);
+    requestAnimationFrame(() => serviceDialogReturnFocusRef.current?.focus());
+  };
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    mobileMenuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMobileMenu();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!usefulLinksOpen) return;
+
+    usefulLinksPanelRef.current?.querySelector<HTMLElement>("button, a")?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeUsefulLinks();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [usefulLinksOpen]);
+
+  useEffect(() => {
+    if (!activeService) return;
+
+    serviceCloseButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeServiceDialog();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = serviceDialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+
+      if (!focusableElements?.length) return;
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeService]);
 
   return (
     <main id="top" style={themeStyle} className="min-h-screen bg-[var(--color-page-bg)] text-slate-950">
@@ -106,6 +181,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd()) }}
       />
+      <a href="#main-content" className="skip-link">Přejít na hlavní obsah</a>
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
         <nav className="container mx-auto px-4 py-2.5 md:px-6 md:py-4">
@@ -128,6 +204,7 @@ export default function Home() {
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
             </a>
             <button
+              ref={mobileMenuButtonRef}
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
               className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/90 text-[var(--color-dark)] shadow-sm ring-1 ring-slate-200 transition hover:bg-white lg:hidden"
@@ -139,7 +216,7 @@ export default function Home() {
             </button>
           </div>
           {mobileMenuOpen && (
-            <div id="mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
+            <div ref={mobileMenuRef} id="mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
               <div className="grid gap-2">
                 {site.navigation.map((item) => item.href.startsWith("/") ? (
                   <Link key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href} className="rounded-2xl px-4 py-3 transition hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]">{item.label}</Link>
@@ -163,7 +240,7 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section className={isKencka ? "relative bg-white pb-16 md:pb-20" : "relative overflow-hidden bg-[var(--color-primary)] pt-6 pb-20 text-white"}>
+      <section id="main-content" tabIndex={-1} className={isKencka ? "relative bg-white pb-16 md:pb-20" : "relative overflow-hidden bg-[var(--color-primary)] pt-6 pb-20 text-white"}>
         <div className={isKencka ? "relative overflow-hidden bg-[var(--color-primary)] pt-0 pb-14 text-white md:pb-16" : "contents"}>
           <div className="absolute inset-0" style={{ background: [activeSite.theme.heroRadial, activeSite.theme.heroGradient].filter(Boolean).join(",") }} />
           <div className="absolute inset-x-0 top-0 h-28 bg-white/10 blur-3xl" />
@@ -237,7 +314,7 @@ export default function Home() {
                   <p className="relative mb-6 overflow-wrap-anywhere leading-7 text-slate-600">{service.description}</p>
                   <button
                     type="button"
-                    onClick={() => setActiveService(service)}
+                    onClick={(event) => openServiceDialog(event, service)}
                     className="relative inline-flex items-center rounded-full bg-[var(--color-accent)] px-6 py-2.5 font-extrabold text-[var(--color-accent-text)] shadow-lg shadow-[var(--color-accent)]/20 transition-all hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)]"
                   >
                     Zjistit více
@@ -447,13 +524,13 @@ export default function Home() {
 
       <div className="fixed bottom-4 left-4 z-[90] flex flex-col items-start gap-3 sm:left-auto sm:right-4 sm:items-end">
         {usefulLinksOpen && (
-          <div id="useful-links-panel" className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
+          <div ref={usefulLinksPanelRef} id="useful-links-panel" className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
             <div className="flex items-center justify-between bg-[var(--color-dark)] px-5 py-4 text-white">
               <div>
                 <div className="text-sm font-black uppercase tracking-[0.18em] text-[var(--color-accent)]">Pro klienty</div>
                 <div className="text-lg font-black">Užitečné odkazy</div>
               </div>
-              <button type="button" onClick={() => setUsefulLinksOpen(false)} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20" aria-label="Zavřít užitečné odkazy">
+              <button type="button" onClick={closeUsefulLinks} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20" aria-label="Zavřít užitečné odkazy">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -471,6 +548,7 @@ export default function Home() {
           </div>
         )}
         <button
+          ref={usefulLinksButtonRef}
           type="button"
           onClick={() => setUsefulLinksOpen((open) => !open)}
           className="rounded-full bg-[var(--color-accent)] px-3.5 py-2.5 text-xs font-black sm:px-5 sm:py-3 sm:text-sm text-[var(--color-accent-text)] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)]"
@@ -482,11 +560,12 @@ export default function Home() {
       </div>
 
       {activeService && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061727]/70 px-4 py-8 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="service-dialog-title">
+        <div ref={serviceDialogRef} className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061727]/70 px-4 py-8 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="service-dialog-title">
           <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] bg-white p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] md:p-10">
             <button
+              ref={serviceCloseButtonRef}
               type="button"
-              onClick={() => setActiveService(null)}
+              onClick={closeServiceDialog}
               className="absolute right-5 top-5 rounded-full bg-slate-100 p-2 text-slate-600 transition hover:bg-slate-200 hover:text-slate-950"
               aria-label="Zavřít detail služby"
             >
@@ -510,11 +589,11 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#kontakt" onClick={() => setActiveService(null)} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-7 py-3.5 font-extrabold text-white transition hover:bg-[var(--color-primary-hover)]">
+              <a href="#kontakt" onClick={closeServiceDialog} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-7 py-3.5 font-extrabold text-white transition hover:bg-[var(--color-primary-hover)]">
                 Poptat službu
                 <ArrowRight className="h-5 w-5" />
               </a>
-              <button type="button" onClick={() => setActiveService(null)} className="inline-flex items-center justify-center rounded-full border border-slate-200 px-7 py-3.5 font-bold text-slate-700 transition hover:bg-slate-50">
+              <button type="button" onClick={closeServiceDialog} className="inline-flex items-center justify-center rounded-full border border-slate-200 px-7 py-3.5 font-bold text-slate-700 transition hover:bg-slate-50">
                 Zavřít
               </button>
             </div>
