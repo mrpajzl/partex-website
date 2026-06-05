@@ -393,7 +393,7 @@ export default function Home() {
             <div className="mt-10 rounded-3xl bg-white p-6 shadow-sm">
               <h3 className="mb-4 text-xl font-bold text-slate-950">{site.replacementFulfillment.linksTitle}</h3>
               <ul className="space-y-3 text-slate-700">
-                {site.replacementFulfillment.links.map((link) => <li key={link.href}><a className="font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline" href={link.href} target="_blank" rel="noreferrer">{link.title}</a>{link.description ? ` — ${link.description}` : ""}</li>)}
+                {site.replacementFulfillment.links.map((link) => <li key={link.href}><a className="font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline" href={link.href} target="_blank" rel="noopener noreferrer">{link.title}<span className="sr-only"> (otevře se v nové záložce)</span></a>{link.description ? ` — ${link.description}` : ""}</li>)}
               </ul>
             </div>
             <p className="mt-8 text-lg text-slate-700">{site.replacementFulfillment.closingText} <a className="font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline" href="#kontakt">Kontaktovat</a>.</p>
@@ -492,10 +492,11 @@ export default function Home() {
                     key={item.label}
                     href={item.href}
                     target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noreferrer" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
                     className="group block bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
                   >
                     {content}
+                    {isExternal && <span className="sr-only"> (otevře se v nové záložce)</span>}
                   </a>
                 );
               }
@@ -536,10 +537,11 @@ export default function Home() {
             </div>
             <div className="max-h-[60vh] divide-y divide-slate-100 overflow-y-auto">
               {site.usefulLinks.map((link) => (
-                <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="group flex items-start justify-between gap-4 px-5 py-3.5 transition hover:bg-[var(--color-primary)]/5">
+                <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="group flex items-start justify-between gap-4 px-5 py-3.5 transition hover:bg-[var(--color-primary)]/5">
                   <span>
                     <span className="block font-bold text-slate-950 group-hover:text-[var(--color-primary)]">{link.title}</span>
                     <span className="mt-0.5 block text-sm leading-5 text-slate-500">{link.description}</span>
+                    <span className="sr-only"> (otevře se v nové záložce)</span>
                   </span>
                   <ExternalLink className="mt-1 h-4 w-4 flex-shrink-0 text-slate-400 group-hover:text-[var(--color-primary)]" />
                 </a>
