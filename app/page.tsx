@@ -114,6 +114,12 @@ export default function Home() {
     requestAnimationFrame(() => serviceDialogReturnFocusRef.current?.focus());
   };
 
+  const closeServiceDialogFromBackdrop = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      closeServiceDialog();
+    }
+  };
+
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
@@ -562,7 +568,14 @@ export default function Home() {
       </div>
 
       {activeService && (
-        <div ref={serviceDialogRef} className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061727]/70 px-4 py-8 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="service-dialog-title">
+        <div
+          ref={serviceDialogRef}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061727]/70 px-4 py-8 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="service-dialog-title"
+          onMouseDown={closeServiceDialogFromBackdrop}
+        >
           <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] bg-white p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] md:p-10">
             <button
               ref={serviceCloseButtonRef}
