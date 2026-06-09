@@ -39,6 +39,7 @@ function BrandHeroImage({ className = "" }: { className?: string }) {
       alt={activeSite.heroImage.alt}
       width={activeSite.heroImage.width}
       height={activeSite.heroImage.height}
+      sizes="(min-width: 1024px) 50vw, (min-width: 768px) 45vw, 0vw"
       className={className}
       priority
     />
@@ -54,6 +55,7 @@ function BrandLogo() {
         width={activeSite.logo.width}
         height={activeSite.logo.height}
         priority
+        sizes="(min-width: 768px) 20rem, (min-width: 640px) 16rem, 12rem"
         className="h-12 w-auto max-w-[12rem] flex-shrink object-contain object-left sm:h-14 sm:max-w-[16rem] md:h-16 md:max-w-[20rem]"
       />
     );
