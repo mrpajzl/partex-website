@@ -324,6 +324,7 @@ export default function Home() {
                     type="button"
                     onClick={(event) => openServiceDialog(event, service)}
                     className="relative inline-flex items-center rounded-full bg-[var(--color-accent)] px-6 py-2.5 font-extrabold text-[var(--color-accent-text)] shadow-lg shadow-[var(--color-accent)]/20 transition-all hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)]"
+                    aria-label={`Zjistit více o službě ${service.title}`}
                   >
                     Zjistit více
                   </button>
@@ -576,6 +577,7 @@ export default function Home() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="service-dialog-title"
+          aria-describedby="service-dialog-description"
           onMouseDown={closeServiceDialogFromBackdrop}
         >
           <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] bg-white p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] md:p-10">
@@ -595,7 +597,7 @@ export default function Home() {
               })()}
             </div>
             <h3 id="service-dialog-title" className="pr-12 text-3xl font-black tracking-tight text-slate-950 md:text-4xl">{activeService.title}</h3>
-            <p className="mt-4 text-lg leading-8 text-slate-600">{activeService.description}</p>
+            <p id="service-dialog-description" className="mt-4 text-lg leading-8 text-slate-600">{activeService.description}</p>
             {activeService.intro && <p className="mt-7 font-bold text-slate-950">{activeService.intro}</p>}
             <ul className="mt-6 space-y-4">
               {activeService.details.map((detail) => (
