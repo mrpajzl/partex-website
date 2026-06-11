@@ -24,7 +24,15 @@ const happinessManagerImages = [
 const kenckaRegisteredOffice = "Ing. Eva Kencká - účetnictví s.r.o.\nDobrovolného 641/8\n198 00 Praha 9\nIČ: 285 20 092";
 
 function getYearsSinceFoundation() {
-  return new Date().getFullYear() - FOUNDATION_DATE.getFullYear();
+  const today = new Date();
+  const years = today.getFullYear() - FOUNDATION_DATE.getFullYear();
+  const anniversaryThisYear = new Date(
+    today.getFullYear(),
+    FOUNDATION_DATE.getMonth(),
+    FOUNDATION_DATE.getDate()
+  );
+
+  return today < anniversaryThisYear ? years - 1 : years;
 }
 
 function YearsBannerText({ years }: { years: number }) {

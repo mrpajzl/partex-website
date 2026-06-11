@@ -14,7 +14,15 @@ const FOUNDATION_DATE = new Date(`${activeSite.contact.foundingDate}T00:00:00+01
 const CURRENT_YEAR = new Date().getFullYear();
 
 function getYearsSinceFoundation() {
-  return new Date().getFullYear() - FOUNDATION_DATE.getFullYear();
+  const today = new Date();
+  const years = today.getFullYear() - FOUNDATION_DATE.getFullYear();
+  const anniversaryThisYear = new Date(
+    today.getFullYear(),
+    FOUNDATION_DATE.getMonth(),
+    FOUNDATION_DATE.getDate()
+  );
+
+  return today < anniversaryThisYear ? years - 1 : years;
 }
 
 function YearsBannerText({ years }: { years: number }) {
