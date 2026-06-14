@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface HeroImageRightProps {
-  content: {
+  content?: {
     heading?: string;
     subheading?: string;
     body?: string;
@@ -14,7 +14,7 @@ interface HeroImageRightProps {
     ctaLink?: string;
     ctaStyle?: string;
   };
-  style: {
+  style?: {
     backgroundColor?: string;
     textColor?: string;
     paddingTop?: string;
@@ -22,9 +22,26 @@ interface HeroImageRightProps {
   };
 }
 
-export default function HeroImageRight({ content, style }: HeroImageRightProps) {
+function isLocalImage(src: string) {
+  return src.startsWith("/") && !src.startsWith("//");
+}
+
+function getButtonClasses(style?: string) {
+  if (style === "primary") {
+    return "bg-[#57F287] text-[#17351f] hover:bg-[#4ADB7A]";
+  }
+
+  if (style === "secondary") {
+    return "bg-white text-gray-900 hover:bg-gray-100";
+  }
+
+  return "border-2 border-current hover:bg-white hover:text-gray-900";
+}
+
+export default function HeroImageRight({ content = {}, style = {} }: HeroImageRightProps) {
   const bgColor = style.backgroundColor || "#5865F2";
   const textColor = style.textColor || "#FFFFFF";
+  const imageAlt = content.imageAlt || content.heading || "Hero obrázek";
 
   return (
     <section 
@@ -61,13 +78,7 @@ export default function HeroImageRight({ content, style }: HeroImageRightProps) 
               <div className="pt-4">
                 <Link
                   href={content.ctaLink}
-                  className={`inline-block px-8 py-4 rounded-full font-semibold transition-all hover:scale-105 ${
-                    content.ctaStyle === "primary"
-                      ? "bg-[#57F287] text-white hover:bg-[#4ADB7A]"
-                      : content.ctaStyle === "secondary"
-                      ? "bg-white text-gray-900 hover:bg-gray-100"
-                      : "border-2 border-current hover:bg-white hover:text-gray-900"
-                  }`}
+                  className={`inline-block px-8 py-4 rounded-full font-semibold transition-all hover:scale-105 ${getButtonClasses(content.ctaStyle)}`}
                 >
                   {content.ctaText}
                 </Link>
@@ -77,15 +88,25 @@ export default function HeroImageRight({ content, style }: HeroImageRightProps) 
 
           {/* Image */}
           {content.imageUrl && (
-            <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src={content.imageUrl}
-                alt={content.imageAlt || "Hero image"}
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 50vw, 100vw"
-                priority
-              />
+            <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl bg-white/10">
+              {isLocalImage(content.imageUrl) ? (
+                <Image
+                  src={content.imageUrl}
+                  alt={imageAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  priority
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={content.imageUrl}
+                  alt={imageAlt}
+                  className="h-full w-full object-cover"
+                  loading="eager"
+                />
+              )}
             </div>
           )}
         </div>
