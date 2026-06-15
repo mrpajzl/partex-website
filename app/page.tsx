@@ -6,7 +6,7 @@ import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X
 import Image from "next/image";
 import Link from "next/link";
 import { type CSSProperties, type MouseEvent, useEffect, useRef, useState } from "react";
-import { getDefaultSiteContent, mergeSiteContent, type SiteContent, type SiteService } from "@/lib/site-content";
+import { getDefaultSiteContent, mergeSiteContent, type ContactItem, type SiteContent, type SiteService } from "@/lib/site-content";
 import { homepageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
 
@@ -39,6 +39,12 @@ function YearsBannerText({ years }: { years: number }) {
   return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
 }
 
+function getContactHref(item: ContactItem) {
+  if (item.icon !== "Phone") return item.href;
+
+  const firstPhoneNumber = item.value.split("\n")[0]?.replace(/(?!^\+)\D/g, "");
+  return firstPhoneNumber ? `tel:${firstPhoneNumber}` : item.href;
+}
 
 function BrandHeroImage({ className = "" }: { className?: string }) {
   return (
@@ -92,6 +98,8 @@ export default function Home() {
   const defaults = getDefaultSiteContent(activeSite.key);
   const storedContent = useQuery(api.content.getSiteContent, { key: activeSite.contentKey });
   const site = mergeSiteContent(storedContent?.value as Partial<SiteContent> | undefined, defaults);
+  const emailContact = site.contact.items.find((item) => item.icon === "Mail");
+  const phoneContact = site.contact.items.find((item) => item.icon === "Phone");
   const isKencka = activeSite.key === "kencka";
   const themeStyle = {
     "--color-primary": activeSite.theme.primary,
@@ -502,12 +510,14 @@ export default function Home() {
                 </>
               );
 
-              if (item.href) {
-                const isExternal = item.href.startsWith("http");
+              const contactHref = getContactHref(item);
+
+              if (contactHref) {
+                const isExternal = contactHref.startsWith("http");
                 return (
                   <a
                     key={item.label}
-                    href={item.href}
+                    href={contactHref}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
                     className="group block bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
@@ -647,8 +657,16 @@ export default function Home() {
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Kontakt</h3>
-              <p className="text-gray-300 mb-2">{site.contact.items.find((item) => item.icon === "Mail")?.value}</p>
-              <p className="whitespace-pre-line text-gray-300">{site.contact.items.find((item) => item.icon === "Phone")?.value}</p>
+              {emailContact ? (
+                <a href={getContactHref(emailContact)} className="mb-2 block text-gray-300 transition hover:text-white">
+                  {emailContact.value}
+                </a>
+              ) : null}
+              {phoneContact ? (
+                <a href={getContactHref(phoneContact)} className="block whitespace-pre-line text-gray-300 transition hover:text-white">
+                  {phoneContact.value}
+                </a>
+              ) : null}
             </div>
             {activeSite.key === "kencka" && (
               <div>
