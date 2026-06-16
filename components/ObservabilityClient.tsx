@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useReportWebVitals } from "next/web-vitals";
 
-const appName = process.env.NEXT_PUBLIC_OBSERVABILITY_APP || "partexreal";
+const appName = process.env.NEXT_PUBLIC_OBSERVABILITY_APP || (process.env.NEXT_PUBLIC_SITE_KEY === "kencka" ? "kencka" : "partexreal");
 
 function send(event: Record<string, unknown>) {
   const body = JSON.stringify({ ...event, app: appName, url: window.location.href, ts: new Date().toISOString() });
