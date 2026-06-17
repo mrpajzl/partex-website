@@ -32,6 +32,16 @@ export const sitemapPages: MetadataRoute.Sitemap = [
   },
 ];
 
+function siteImageObject(image: { src: string; alt: string; width: number; height: number }) {
+  return {
+    "@type": "ImageObject",
+    url: absoluteUrl(image.src),
+    caption: image.alt,
+    width: image.width,
+    height: image.height,
+  };
+}
+
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -40,8 +50,8 @@ export function organizationJsonLd() {
     name: siteConfig.name,
     alternateName: siteConfig.shortName,
     url: siteConfig.url,
-    logo: absoluteUrl(siteConfig.logo?.src ?? siteConfig.heroImage.src),
-    image: absoluteUrl(siteConfig.heroImage.src),
+    logo: siteConfig.logo ? siteImageObject(siteConfig.logo) : siteImageObject(siteConfig.heroImage),
+    image: siteImageObject(siteConfig.heroImage),
     email: siteConfig.contact.email,
     telephone: siteConfig.contact.formattedPhone,
     foundingDate: siteConfig.contact.foundingDate,
@@ -123,10 +133,7 @@ export function homepageJsonLd() {
     inLanguage: "cs-CZ",
     isPartOf: { "@id": `${siteConfig.url}/#website` },
     about: { "@id": `${siteConfig.url}/#organization` },
-    primaryImageOfPage: {
-      "@type": "ImageObject",
-      url: absoluteUrl(siteConfig.heroImage.src),
-    },
+    primaryImageOfPage: siteImageObject(siteConfig.heroImage),
   };
 }
 
