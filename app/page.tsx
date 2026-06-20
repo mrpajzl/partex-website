@@ -2,19 +2,18 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink, Menu } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type CSSProperties, type MouseEvent, useEffect, useRef, useState } from "react";
+import { SiteHeader } from "@/components/SiteHeader";
+import { CURRENT_YEAR, FOUNDATION_YEAR, getYearsSinceFoundation, YearsBannerText } from "@/lib/foundation";
 import { getDefaultSiteContent, mergeSiteContent, type ContactItem, type SiteContent, type SiteService } from "@/lib/site-content";
 import { homepageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
 
 const iconMap = { Calculator, Users, Clipboard, Mail, Phone, MapPin, Clock };
 
-const FOUNDATION_DATE = new Date(`${activeSite.contact.foundingDate}T00:00:00+01:00`);
-const FOUNDATION_YEAR = FOUNDATION_DATE.getFullYear();
-const CURRENT_YEAR = new Date().getFullYear();
 const happinessManagerImages = [
   { src: "/20250227_141726.jpg", alt: "Cherry, happiness manager" },
   { src: "/20250227_141630.jpg", alt: "Cherry, happiness manager" },
@@ -22,22 +21,6 @@ const happinessManagerImages = [
 ];
 
 const kenckaRegisteredOffice = "Ing. Eva Kencká - účetnictví s.r.o.\nDobrovolného 641/8\n198 00 Praha 9\nIČ: 285 20 092";
-
-function getYearsSinceFoundation() {
-  const today = new Date();
-  const years = today.getFullYear() - FOUNDATION_DATE.getFullYear();
-  const anniversaryThisYear = new Date(
-    today.getFullYear(),
-    FOUNDATION_DATE.getMonth(),
-    FOUNDATION_DATE.getDate()
-  );
-
-  return today < anniversaryThisYear ? years - 1 : years;
-}
-
-function YearsBannerText({ years }: { years: number }) {
-  return <>Jsme tu pro vás již {years} let <span aria-hidden="true">🎈</span></>;
-}
 
 function getContactHref(item: ContactItem) {
   if (item.icon !== "Phone") return item.href;
@@ -60,36 +43,10 @@ function BrandHeroImage({ className = "" }: { className?: string }) {
   );
 }
 
-function BrandLogo() {
-  if (activeSite.logo) {
-    return (
-      <Image
-        src={activeSite.logo.src}
-        alt={activeSite.logo.alt}
-        width={activeSite.logo.width}
-        height={activeSite.logo.height}
-        priority
-        sizes="(min-width: 768px) 20rem, (min-width: 640px) 16rem, 12rem"
-        className="h-12 w-auto max-w-[12rem] flex-shrink object-contain object-left sm:h-14 sm:max-w-[16rem] md:h-16 md:max-w-[20rem]"
-      />
-    );
-  }
-
-  return (
-    <span className="leading-tight">
-      <span className="block text-xl font-black tracking-tight text-slate-950 sm:text-2xl">{activeSite.textLogo?.title ?? activeSite.shortName}</span>
-      <span className="block text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--color-primary)] sm:text-sm">{activeSite.textLogo?.subtitle}</span>
-    </span>
-  );
-}
-
 export default function Home() {
   const yearsWithClients = getYearsSinceFoundation();
   const [activeService, setActiveService] = useState<SiteService | null>(null);
   const [usefulLinksOpen, setUsefulLinksOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
-  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const usefulLinksButtonRef = useRef<HTMLButtonElement | null>(null);
   const usefulLinksPanelRef = useRef<HTMLDivElement | null>(null);
   const serviceDialogRef = useRef<HTMLDivElement | null>(null);
@@ -112,11 +69,6 @@ export default function Home() {
     "--color-dark": activeSite.theme.dark,
   } as CSSProperties;
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-    requestAnimationFrame(() => mobileMenuButtonRef.current?.focus());
-  };
-
   const closeUsefulLinks = () => {
     setUsefulLinksOpen(false);
     requestAnimationFrame(() => usefulLinksButtonRef.current?.focus());
@@ -137,19 +89,6 @@ export default function Home() {
       closeServiceDialog();
     }
   };
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-
-    mobileMenuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeMobileMenu();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [mobileMenuOpen]);
 
   useEffect(() => {
     if (!usefulLinksOpen) return;
@@ -206,62 +145,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd()) }}
       />
       <a href="#main-content" className="skip-link">Přejít na hlavní obsah</a>
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
-        <nav className="container mx-auto px-4 py-2.5 md:px-6 md:py-4">
-          <div className="flex items-center justify-between gap-3">
-            <a href="#top" className="group flex min-w-0 flex-1 items-center gap-3 rounded-full pr-2 transition hover:opacity-90" aria-label="Zpět na začátek stránky">
-              <BrandLogo />
-            </a>
-            <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner lg:flex">
-              {site.navigation.map((item) => item.href.startsWith("/") ? (
-                <Link key={item.href} href={item.href} className="rounded-full px-4 py-2 transition hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]">{item.label}</Link>
-              ) : (
-                <a key={item.href} href={item.href} className="rounded-full px-4 py-2 transition hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]">{item.label}</a>
-              ))}
-            </div>
-            <a
-              href="#kontakt"
-              className="group hidden flex-shrink-0 items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-3 py-2.5 text-xs font-extrabold text-[var(--color-accent-text)] shadow-[0_12px_30px_rgba(87,242,135,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)] sm:text-sm md:px-6 md:py-3 lg:inline-flex"
-            >
-              <span className="hidden sm:inline">Kontaktujte nás</span><span className="sm:hidden">Kontakt</span>
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-            </a>
-            <button
-              ref={mobileMenuButtonRef}
-              type="button"
-              onClick={() => setMobileMenuOpen((open) => !open)}
-              className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/90 text-[var(--color-dark)] shadow-sm ring-1 ring-slate-200 transition hover:bg-white lg:hidden"
-              aria-label={mobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}
-              aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-navigation"
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
-          {mobileMenuOpen && (
-            <div ref={mobileMenuRef} id="mobile-navigation" className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden">
-              <div className="grid gap-2">
-                {site.navigation.map((item) => item.href.startsWith("/") ? (
-                  <Link key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href} className="rounded-2xl px-4 py-3 transition hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]">{item.label}</Link>
-                ) : (
-                  <a key={item.href} onClick={() => setMobileMenuOpen(false)} href={item.href} className="rounded-2xl px-4 py-3 transition hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]">{item.label}</a>
-                ))}
-                <a onClick={() => setMobileMenuOpen(false)} href="#kontakt" className="mt-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-accent)] px-4 py-3 font-extrabold text-[var(--color-accent-text)] transition hover:bg-[var(--color-accent-hover)]">
-                  Kontaktujte nás
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
-            </div>
-          )}
-        </nav>
-      </header>
-
-      {!isKencka && (
-        <div className="relative z-10 bg-[var(--color-dark)] px-4 py-2.5 text-center text-xs font-extrabold uppercase tracking-[0.10em] text-white shadow-inner sm:text-sm sm:tracking-[0.18em]">
-          <span className="mx-auto block max-w-[21rem] sm:max-w-none"><YearsBannerText years={yearsWithClients} /></span>
-        </div>
-      )}
+      <SiteHeader site={site} />
 
       {/* Hero Section */}
       <section id="main-content" tabIndex={-1} className={isKencka ? "relative bg-white pb-16 md:pb-20" : "relative overflow-hidden bg-[var(--color-primary)] pt-6 pb-20 text-white"}>
