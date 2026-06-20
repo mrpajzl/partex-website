@@ -552,11 +552,17 @@ export default function Home() {
 
       <div className="fixed bottom-4 left-4 z-[90] flex flex-col items-start gap-3 sm:left-auto sm:right-4 sm:items-end">
         {usefulLinksOpen && (
-          <div ref={usefulLinksPanelRef} id="useful-links-panel" className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200">
+          <div
+            ref={usefulLinksPanelRef}
+            id="useful-links-panel"
+            role="region"
+            aria-labelledby="useful-links-heading"
+            className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200"
+          >
             <div className="flex items-center justify-between bg-[var(--color-dark)] px-5 py-4 text-white">
               <div>
                 <div className="text-sm font-black uppercase tracking-[0.18em] text-[var(--color-accent)]">Pro klienty</div>
-                <div className="text-lg font-black">Užitečné odkazy</div>
+                <div id="useful-links-heading" className="text-lg font-black">Užitečné odkazy</div>
               </div>
               <button type="button" onClick={closeUsefulLinks} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20" aria-label="Zavřít užitečné odkazy">
                 <X className="h-5 w-5" />
@@ -583,8 +589,9 @@ export default function Home() {
           className="rounded-full bg-[var(--color-accent)] px-3.5 py-2.5 text-xs font-black sm:px-5 sm:py-3 sm:text-sm text-[var(--color-accent-text)] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)]"
           aria-expanded={usefulLinksOpen}
           aria-controls="useful-links-panel"
+          aria-label={usefulLinksOpen ? "Zavřít užitečné odkazy" : "Otevřít užitečné odkazy"}
         >
-          Užitečné odkazy
+          {usefulLinksOpen ? "Zavřít odkazy" : "Užitečné odkazy"}
         </button>
       </div>
 
