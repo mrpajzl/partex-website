@@ -162,7 +162,7 @@ export default function Home() {
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <a
                   href={site.hero.primaryCtaHref}
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-extrabold text-[var(--color-primary)] sm:px-8 sm:py-4 shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-all hover:-translate-y-1 hover:bg-[#f4f6ff]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-extrabold text-[var(--color-primary)] shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-all hover:-translate-y-1 hover:bg-[#f4f6ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:px-8 sm:py-4"
                 >
                   {site.hero.primaryCtaText}
                   <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
@@ -223,7 +223,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={(event) => openServiceDialog(event, service)}
-                    className="relative inline-flex items-center rounded-full bg-[var(--color-accent)] px-6 py-2.5 font-extrabold text-[var(--color-accent-text)] shadow-lg shadow-[var(--color-accent)]/20 transition-all hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)]"
+                    className="relative inline-flex items-center rounded-full bg-[var(--color-accent)] px-6 py-2.5 font-extrabold text-[var(--color-accent-text)] shadow-lg shadow-[var(--color-accent)]/20 transition-all hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
                     aria-label={`Zjistit více o službě ${service.title}`}
                   >
                     Zjistit více
@@ -249,7 +249,7 @@ export default function Home() {
             </div>
             <Link
               href="/cenik"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-8 py-4 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[var(--color-primary-hover)]"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-8 py-4 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[var(--color-primary-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
             >
               {site.pricingCta.buttonText}
               <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
@@ -302,10 +302,10 @@ export default function Home() {
             <div className="mt-10 rounded-3xl bg-white p-6 shadow-sm">
               <h3 className="mb-4 text-xl font-bold text-slate-950">{site.replacementFulfillment.linksTitle}</h3>
               <ul className="space-y-3 text-slate-700">
-                {site.replacementFulfillment.links.map((link) => <li key={link.href}><a className="font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline" href={link.href} target="_blank" rel="noopener noreferrer">{link.title}<span className="sr-only"> (otevře se v nové záložce)</span></a>{link.description ? ` — ${link.description}` : ""}</li>)}
+                {site.replacementFulfillment.links.map((link) => <li key={link.href}><a className="rounded-sm font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]" href={link.href} target="_blank" rel="noopener noreferrer">{link.title}<span className="sr-only"> (otevře se v nové záložce)</span></a>{link.description ? ` — ${link.description}` : ""}</li>)}
               </ul>
             </div>
-            <p className="mt-8 text-lg text-slate-700">{site.replacementFulfillment.closingText} <a className="font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline" href="#kontakt">Kontaktovat</a>.</p>
+            <p className="mt-8 text-lg text-slate-700">{site.replacementFulfillment.closingText} <a className="rounded-sm font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]" href="#kontakt">Kontaktovat</a>.</p>
           </div>
         </div>
       </section>
@@ -361,7 +361,7 @@ export default function Home() {
             <p className="text-lg opacity-90 mb-8">{site.hiring.description}</p>
             <a 
               href="#kontakt"
-              className="inline-block bg-white text-[var(--color-primary)] px-8 py-3.5 rounded-full font-semibold hover:bg-slate-100 transition-all hover:scale-105"
+              className="inline-block rounded-full bg-white px-8 py-3.5 font-semibold text-[var(--color-primary)] transition-all hover:scale-105 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
               {site.hiring.buttonText}
             </a>
@@ -404,7 +404,7 @@ export default function Home() {
                     href={contactHref}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
-                    className="group block bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                    className="group block rounded-2xl bg-white p-6 text-center shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
                   >
                     {content}
                     {isExternal && <span className="sr-only"> (otevře se v nové záložce)</span>}
@@ -448,13 +448,13 @@ export default function Home() {
                 <div className="text-sm font-black uppercase tracking-[0.18em] text-[var(--color-accent)]">Pro klienty</div>
                 <div id="useful-links-heading" className="text-lg font-black">Užitečné odkazy</div>
               </div>
-              <button type="button" onClick={closeUsefulLinks} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20" aria-label="Zavřít užitečné odkazy">
+              <button type="button" onClick={closeUsefulLinks} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Zavřít užitečné odkazy">
                 <X className="h-5 w-5" />
               </button>
             </div>
             <div className="max-h-[60vh] divide-y divide-slate-100 overflow-y-auto">
               {site.usefulLinks.map((link) => (
-                <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="group flex items-start justify-between gap-4 px-5 py-3.5 transition hover:bg-[var(--color-primary)]/5">
+                <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="group flex items-start justify-between gap-4 px-5 py-3.5 transition hover:bg-[var(--color-primary)]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-[var(--color-primary)]">
                   <span>
                     <span className="block font-bold text-slate-950 group-hover:text-[var(--color-primary)]">{link.title}</span>
                     <span className="mt-0.5 block text-sm leading-5 text-slate-500">{link.description}</span>
@@ -470,7 +470,7 @@ export default function Home() {
           ref={usefulLinksButtonRef}
           type="button"
           onClick={() => setUsefulLinksOpen((open) => !open)}
-          className="rounded-full bg-[var(--color-accent)] px-3.5 py-2.5 text-xs font-black sm:px-5 sm:py-3 sm:text-sm text-[var(--color-accent-text)] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)]"
+          className="rounded-full bg-[var(--color-accent)] px-3.5 py-2.5 text-xs font-black text-[var(--color-accent-text)] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] sm:px-5 sm:py-3 sm:text-sm"
           aria-expanded={usefulLinksOpen}
           aria-controls="useful-links-panel"
           aria-label={usefulLinksOpen ? "Zavřít užitečné odkazy" : "Otevřít užitečné odkazy"}
@@ -494,7 +494,7 @@ export default function Home() {
               ref={serviceCloseButtonRef}
               type="button"
               onClick={closeServiceDialog}
-              className="absolute right-5 top-5 rounded-full bg-slate-100 p-2 text-slate-600 transition hover:bg-slate-200 hover:text-slate-950"
+              className="absolute right-5 top-5 rounded-full bg-slate-100 p-2 text-slate-600 transition hover:bg-slate-200 hover:text-slate-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
               aria-label="Zavřít detail služby"
             >
               <X className="h-5 w-5" />
