@@ -56,6 +56,8 @@ export function organizationJsonLd() {
     telephone: siteConfig.contact.formattedPhone,
     foundingDate: siteConfig.contact.foundingDate,
     priceRange: "Kč",
+    currenciesAccepted: "CZK",
+    paymentAccepted: "Cash, Bank transfer",
     address: {
       "@type": "PostalAddress",
       ...siteConfig.contact.address,
