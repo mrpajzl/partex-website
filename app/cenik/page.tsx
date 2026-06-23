@@ -118,7 +118,7 @@ export default function CenikPage() {
           <div className="mt-8 text-center">
             <Link
               href="/#kontakt"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-7 py-3.5 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[var(--color-primary-hover)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-7 py-3.5 font-extrabold text-white shadow-[0_18px_40px_rgba(88,101,242,0.28)] transition-all hover:-translate-y-1 hover:bg-[var(--color-primary-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
             >
               Kontaktujte nás pro cenovou nabídku
               <ArrowRight className="h-5 w-5" />

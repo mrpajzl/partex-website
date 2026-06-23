@@ -517,11 +517,11 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#kontakt" onClick={closeServiceDialog} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-7 py-3.5 font-extrabold text-white transition hover:bg-[var(--color-primary-hover)]">
+              <a href="#kontakt" onClick={closeServiceDialog} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-7 py-3.5 font-extrabold text-white transition hover:bg-[var(--color-primary-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]">
                 Poptat službu
                 <ArrowRight className="h-5 w-5" />
               </a>
-              <button type="button" onClick={closeServiceDialog} className="inline-flex items-center justify-center rounded-full border border-slate-200 px-7 py-3.5 font-bold text-slate-700 transition hover:bg-slate-50">
+              <button type="button" onClick={closeServiceDialog} className="inline-flex items-center justify-center rounded-full border border-slate-200 px-7 py-3.5 font-bold text-slate-700 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]">
                 Zavřít
               </button>
             </div>
