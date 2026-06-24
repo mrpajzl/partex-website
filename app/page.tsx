@@ -22,6 +22,10 @@ const happinessManagerImages = [
 
 const kenckaRegisteredOffice = "Ing. Eva Kencká - účetnictví s.r.o.\nDobrovolného 641/8\n198 00 Praha 9\nIČ: 285 20 092";
 
+function setBodyOverflow(value: string) {
+  document.body.style.overflow = value;
+}
+
 function getContactHref(item: ContactItem) {
   if (item.icon !== "Phone") return item.href;
 
@@ -106,6 +110,8 @@ export default function Home() {
   useEffect(() => {
     if (!activeService) return;
 
+    const previousBodyOverflow = document.body.style.overflow;
+    setBodyOverflow("hidden");
     serviceCloseButtonRef.current?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -135,7 +141,10 @@ export default function Home() {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      setBodyOverflow(previousBodyOverflow);
+    };
   }, [activeService]);
 
   return (
