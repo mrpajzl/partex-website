@@ -42,6 +42,9 @@ export default function HeroImageRight({ content = {}, style = {} }: HeroImageRi
   const bgColor = style.backgroundColor || "#5865F2";
   const textColor = style.textColor || "#FFFFFF";
   const imageAlt = content.imageAlt || content.heading || "Hero obrázek";
+  const ctaLabel = content.heading
+    ? `${content.ctaText}: ${content.heading}`
+    : content.ctaText;
 
   return (
     <section 
@@ -78,7 +81,8 @@ export default function HeroImageRight({ content = {}, style = {} }: HeroImageRi
               <div className="pt-4">
                 <Link
                   href={content.ctaLink}
-                  className={`inline-block px-8 py-4 rounded-full font-semibold transition-all hover:scale-105 ${getButtonClasses(content.ctaStyle)}`}
+                  aria-label={ctaLabel}
+                  className={`inline-block rounded-full px-8 py-4 font-semibold transition-all hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${getButtonClasses(content.ctaStyle)}`}
                 >
                   {content.ctaText}
                 </Link>
