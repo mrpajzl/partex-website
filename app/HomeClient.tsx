@@ -550,21 +550,21 @@ export function HomeClient({ initialContent }: HomeClientProps) {
             <div>
               <h3 className="font-bold text-lg mb-4">Rychlé odkazy</h3>
               <ul className="space-y-3">
-                <li><a href="#sluzby" className="text-gray-300 hover:text-white transition">Služby</a></li>
-                <li><a href="#o-nas" className="text-gray-300 hover:text-white transition">O nás</a></li>
-                <li><Link href="/cenik" className="text-gray-300 hover:text-white transition">Ceník</Link></li>
-                <li><a href="#kontakt" className="text-gray-300 hover:text-white transition">Kontakt</a></li>
+                <li><a href="#sluzby" className="rounded-sm text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Služby</a></li>
+                <li><a href="#o-nas" className="rounded-sm text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">O nás</a></li>
+                <li><Link href="/cenik" className="rounded-sm text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Ceník</Link></li>
+                <li><a href="#kontakt" className="rounded-sm text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Kontakt</a></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Kontakt</h3>
               {emailContact ? (
-                <a href={getContactHref(emailContact)} className="mb-2 block text-gray-300 transition hover:text-white">
+                <a href={getContactHref(emailContact)} className="mb-2 block rounded-sm text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
                   {emailContact.value}
                 </a>
               ) : null}
               {phoneContact ? (
-                <a href={getContactHref(phoneContact)} className="block whitespace-pre-line text-gray-300 transition hover:text-white">
+                <a href={getContactHref(phoneContact)} className="block rounded-sm whitespace-pre-line text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
                   {phoneContact.value}
                 </a>
               ) : null}
