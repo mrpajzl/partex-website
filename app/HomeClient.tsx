@@ -3,7 +3,7 @@
 import { Mail, Phone, MapPin, Clock, Users, Calculator, Clipboard, ArrowRight, X, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { type CSSProperties, type MouseEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CURRENT_YEAR, FOUNDATION_YEAR, getYearsSinceFoundation, YearsBannerText } from "@/lib/foundation";
 import { getDefaultSiteContent, mergeSiteContent, type ContactItem, type SiteContent, type SiteService } from "@/lib/site-content";
@@ -74,10 +74,12 @@ export function HomeClient({ initialContent }: HomeClientProps) {
     "--color-dark": activeSite.theme.dark,
   } as CSSProperties;
 
-  const closeUsefulLinks = () => {
+  const closeUsefulLinks = useCallback((restoreFocus = true) => {
     setUsefulLinksOpen(false);
-    requestAnimationFrame(() => usefulLinksButtonRef.current?.focus());
-  };
+    if (restoreFocus) {
+      requestAnimationFrame(() => usefulLinksButtonRef.current?.focus());
+    }
+  }, []);
 
   const openServiceDialog = (event: MouseEvent<HTMLButtonElement>, service: SiteService) => {
     serviceDialogReturnFocusRef.current = event.currentTarget;
@@ -104,9 +106,20 @@ export function HomeClient({ initialContent }: HomeClientProps) {
       if (event.key === "Escape") closeUsefulLinks();
     };
 
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (!usefulLinksPanelRef.current?.contains(target) && !usefulLinksButtonRef.current?.contains(target)) {
+        closeUsefulLinks(false);
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [usefulLinksOpen]);
+    window.addEventListener("pointerdown", handlePointerDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [closeUsefulLinks, usefulLinksOpen]);
 
   useEffect(() => {
     if (!activeService) return;
@@ -458,7 +471,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
                 <div className="text-sm font-black uppercase tracking-[0.18em] text-[var(--color-accent)]">Pro klienty</div>
                 <div id="useful-links-heading" className="text-lg font-black">Užitečné odkazy</div>
               </div>
-              <button type="button" onClick={closeUsefulLinks} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Zavřít užitečné odkazy">
+              <button type="button" onClick={() => closeUsefulLinks()} className="rounded-full bg-white/10 p-2 transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Zavřít užitečné odkazy">
                 <X className="h-5 w-5" />
               </button>
             </div>
