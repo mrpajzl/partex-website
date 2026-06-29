@@ -315,7 +315,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
       </section>}
 
       {/* Service Details */}
-      <section className="py-20 md:py-28 bg-white">
+      <section id="nahradni-plneni" className="scroll-mt-24 py-20 md:py-28 bg-white">
         <div className="container mx-auto px-6">
           <div className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-[var(--color-page-bg)] p-8 shadow-[0_18px_55px_rgba(29,38,90,0.08)] md:p-12">
             <h2 className="text-3xl md:text-4xl font-black text-center mb-10 text-slate-950">{site.replacementFulfillment.title}</h2>
