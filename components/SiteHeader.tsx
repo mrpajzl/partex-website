@@ -159,6 +159,9 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
             <div
               ref={mobileMenuRef}
               id={mobileMenuId}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobilní navigace"
               className="mt-3 max-h-[min(70vh,32rem)] overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden"
             >
               <div className="grid gap-2">
