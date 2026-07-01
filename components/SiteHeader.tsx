@@ -60,8 +60,6 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
-    const previousBodyOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     mobileMenuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -82,7 +80,6 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("pointerdown", handlePointerDown);
-      document.body.style.overflow = previousBodyOverflow;
     };
   }, [closeMobileMenu, mobileMenuOpen]);
 
@@ -130,7 +127,7 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 text-slate-950 shadow-[0_16px_50px_rgba(45,55,130,0.10)] backdrop-blur-xl">
-        <nav ref={navRef} aria-label="Hlavní navigace" className="container mx-auto px-4 py-2.5 md:px-6 md:py-4">
+        <nav ref={navRef} aria-label="Hlavní navigace" className="container relative mx-auto px-4 py-2.5 md:px-6 md:py-4">
           <div className="flex items-center justify-between gap-3">
             {logo}
             <div className="hidden items-center gap-1 rounded-full border border-slate-200/80 bg-white/80 p-1 text-sm font-semibold text-slate-700 shadow-inner lg:flex">
@@ -162,7 +159,7 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
               role="dialog"
               aria-modal="true"
               aria-label="Mobilní navigace"
-              className="mt-3 max-h-[min(70vh,32rem)] overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden"
+              className="absolute inset-x-4 top-full z-[60] mt-3 max-h-[min(70vh,32rem)] overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 shadow-[0_18px_50px_rgba(45,55,130,0.14)] lg:hidden"
             >
               <div className="grid gap-2">
                 {site.navigation.map((item) => renderNavItem(item, true))}
