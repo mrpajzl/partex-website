@@ -66,6 +66,26 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
       if (event.key === "Escape") {
         event.preventDefault();
         closeMobileMenu(true);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = mobileMenuRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+
+      if (!focusableElements?.length) return;
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
