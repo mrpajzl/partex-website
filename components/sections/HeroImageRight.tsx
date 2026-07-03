@@ -92,7 +92,7 @@ export default function HeroImageRight({ content = {}, style = {} }: HeroImageRi
 
           {/* Image */}
           {content.imageUrl && (
-            <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl bg-white/10">
+            <div className="relative min-h-80 overflow-hidden rounded-2xl bg-white/10 shadow-2xl md:min-h-[500px]">
               {isLocalImage(content.imageUrl) ? (
                 <Image
                   src={content.imageUrl}
@@ -107,7 +107,7 @@ export default function HeroImageRight({ content = {}, style = {} }: HeroImageRi
                 <img
                   src={content.imageUrl}
                   alt={imageAlt}
-                  className="h-full w-full object-cover"
+                  className="h-full min-h-80 w-full object-cover md:min-h-[500px]"
                   loading="eager"
                 />
               )}
