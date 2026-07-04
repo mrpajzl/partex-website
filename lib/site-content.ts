@@ -436,9 +436,9 @@ export const kenckaSiteContent: SiteContent = {
     title: "Kontakty",
     items: [
       { label: "Adresa", value: "Hrnčířská 42/1\n733 01 Karviná Fryštát", icon: "MapPin", href: "https://www.google.com/maps/search/?api=1&query=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%2C%20733%2001%20Karvin%C3%A1%20Fry%C5%A1t%C3%A1t" },
-      { label: "E-Mail", value: "partex@seznam.cz", icon: "Mail", href: "mailto:partex@seznam.cz" },
-      { label: "Telefon", value: "+420 777 11 99 38\n+420 725 557 887", icon: "Phone", href: "tel:+420777119938" },
-      { label: "Otevírací doba", value: "pondělí - pátek\n8:00 - 16:30", icon: "Clock" },
+      { label: "E-mail", value: "partex@seznam.cz", icon: "Mail", href: "mailto:partex@seznam.cz" },
+      { label: "Telefon", value: "+420 777 119 938\n+420 725 557 887", icon: "Phone", href: "tel:+420****9938" },
+      { label: "Otevírací doba", value: "pondělí – pátek\n8:00 – 16:30", icon: "Clock" },
     ],
     mapEmbedUrl: "https://www.google.com/maps?q=Hrn%C4%8D%C3%AD%C5%99sk%C3%A1%2042%2F1%20733%2001%20Karvin%C3%A1%20Fry%C5%A1t%C3%A1t&t=m&z=17&ie=UTF8&iwloc=&output=embed",
   },
