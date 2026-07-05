@@ -9,6 +9,10 @@ import { getDefaultSiteContent, mergeSiteContent, type PricingItem, type SiteCon
 import { pricingPageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
 
+function getPricingItemCount(items: PricingItem[]): number {
+  return items.reduce((count, item) => count + 1 + getPricingItemCount(item.children ?? []), 0);
+}
+
 function getPricingItemCountLabel(count: number) {
   if (count === 1) return "1 položka";
   if (count >= 2 && count <= 4) return `${count} položky`;
@@ -105,7 +109,7 @@ export function CenikClient({ initialContent }: CenikClientProps) {
                       <h2 className="text-xl font-black tracking-tight">{section.title}</h2>
                       <p className="mt-1 max-w-2xl text-xs leading-5 text-white/78">{section.description}</p>
                     </div>
-                    <div className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--color-accent)]">{getPricingItemCountLabel(section.items.length)}</div>
+                    <div className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--color-accent)]">{getPricingItemCountLabel(getPricingItemCount(section.items))}</div>
                   </div>
                 </div>
 
