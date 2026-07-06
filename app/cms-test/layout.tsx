@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { siteConfig } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "CMS test | Partex real",
+  title: `CMS test | ${siteConfig.shortName}`,
   robots: {
     index: false,
     follow: false,

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { siteConfig } from "@/lib/seo";
 import { AdminAuthProvider } from "./AdminAuthProvider";
 import { AuthGate } from "./AuthGate";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Administrace | Partex real",
+  title: `Administrace | ${siteConfig.shortName}`,
   robots: {
     index: false,
     follow: false,
