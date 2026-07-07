@@ -7,9 +7,6 @@ html {
 
 body {
   overflow-x: clip;
-}
-
-body {
   background: white;
   color: #212529;
   -webkit-font-smoothing: antialiased;
