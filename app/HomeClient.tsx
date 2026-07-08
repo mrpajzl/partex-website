@@ -103,7 +103,30 @@ export function HomeClient({ initialContent }: HomeClientProps) {
     usefulLinksPanelRef.current?.querySelector<HTMLElement>("button, a")?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeUsefulLinks();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeUsefulLinks();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = usefulLinksPanelRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+
+      if (!focusableElements?.length) return;
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
     const handlePointerDown = (event: PointerEvent) => {
@@ -462,7 +485,8 @@ export function HomeClient({ initialContent }: HomeClientProps) {
           <div
             ref={usefulLinksPanelRef}
             id="useful-links-panel"
-            role="region"
+            role="dialog"
+            aria-modal="false"
             aria-labelledby="useful-links-heading"
             className="w-[min(calc(100vw-2rem),24rem)] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_70px_rgba(6,23,39,0.24)] ring-1 ring-slate-200"
           >
