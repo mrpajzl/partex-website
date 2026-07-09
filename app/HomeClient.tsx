@@ -13,9 +13,9 @@ import { activeSite } from "@/lib/sites";
 const iconMap = { Calculator, Users, Clipboard, Mail, Phone, MapPin, Clock };
 
 const happinessManagerImages = [
-  { src: "/20250227_141726.jpg", alt: "Cherry, happiness manager" },
-  { src: "/20250227_141630.jpg", alt: "Cherry, happiness manager" },
-  { src: "/20250227_141704.jpg", alt: "Cherry, happiness manager" },
+  { src: "/20250227_141726.jpg", alt: "Cherry, firemní happiness manager, odpočívá na dece" },
+  { src: "/20250227_141630.jpg", alt: "Cherry, firemní happiness manager, leží u pracovního stolu" },
+  { src: "/20250227_141704.jpg", alt: "Cherry, firemní happiness manager, dívá se do kanceláře" },
 ];
 
 const kenckaRegisteredOffice = "Ing. Eva Kencká - účetnictví s.r.o.\nDobrovolného 641/8\n198 00 Praha 9\nIČ: 285 20 092";
