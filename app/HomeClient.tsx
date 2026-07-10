@@ -270,6 +270,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
                     type="button"
                     onClick={(event) => openServiceDialog(event, service)}
                     className="relative inline-flex items-center rounded-full bg-[var(--color-accent)] px-6 py-2.5 font-extrabold text-[var(--color-accent-text)] shadow-lg shadow-[var(--color-accent)]/20 transition-all hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
+                    aria-haspopup="dialog"
                     aria-label={`Zjistit více o službě ${service.title}`}
                   >
                     Zjistit více
@@ -518,6 +519,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
           type="button"
           onClick={() => setUsefulLinksOpen((open) => !open)}
           className="rounded-full bg-[var(--color-accent)] px-3.5 py-2.5 text-xs font-black text-[var(--color-accent-text)] shadow-[0_18px_42px_rgba(87,242,135,0.34)] transition hover:-translate-y-0.5 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] sm:px-5 sm:py-3 sm:text-sm"
+          aria-haspopup="dialog"
           aria-expanded={usefulLinksOpen}
           aria-controls="useful-links-panel"
           aria-label={usefulLinksOpen ? "Zavřít užitečné odkazy" : "Otevřít užitečné odkazy"}

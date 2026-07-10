@@ -166,6 +166,7 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
               onClick={() => setMobileMenuOpen((open) => !open)}
               className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/90 text-[var(--color-dark)] shadow-sm ring-1 ring-slate-200 transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] lg:hidden"
               aria-label={mobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}
+              aria-haspopup="dialog"
               aria-expanded={mobileMenuOpen}
               aria-controls={mobileMenuId}
             >
