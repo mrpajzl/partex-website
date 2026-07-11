@@ -265,7 +265,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
                     <Icon className="h-9 w-9 text-white" />
                   </div>
                   <h3 className="relative mb-4 text-2xl font-black text-slate-950">{service.title}</h3>
-                  <p className="relative mb-6 overflow-wrap-anywhere leading-7 text-slate-600">{service.description}</p>
+                  <p className="relative mb-6 [overflow-wrap:anywhere] leading-7 text-slate-600">{service.description}</p>
                   <button
                     type="button"
                     onClick={(event) => openServiceDialog(event, service)}
