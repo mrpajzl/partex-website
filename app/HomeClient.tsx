@@ -31,6 +31,21 @@ function getContactHref(item: ContactItem) {
   return firstPhoneNumber ? `tel:${firstPhoneNumber}` : item.href;
 }
 
+function getContactAriaLabel(item: ContactItem) {
+  const normalizedValue = item.value.replace(/\s+/g, " ").trim();
+
+  switch (item.icon) {
+    case "MapPin":
+      return `Otevřít adresu ${normalizedValue} v mapách`;
+    case "Mail":
+      return `Napsat e-mail na ${normalizedValue}`;
+    case "Phone":
+      return `Zavolat na ${normalizedValue}`;
+    default:
+      return undefined;
+  }
+}
+
 function BrandHeroImage({ className = "" }: { className?: string }) {
   return (
     <Image
@@ -451,6 +466,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
                     href={contactHref}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
+                    aria-label={getContactAriaLabel(item)}
                     className="group block rounded-2xl bg-white p-6 text-center shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
                   >
                     {content}
