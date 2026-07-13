@@ -524,7 +524,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
                     <span className="mt-0.5 block text-sm leading-5 text-slate-500">{link.description}</span>
                     <span className="sr-only"> (otevře se v nové záložce)</span>
                   </span>
-                  <ExternalLink className="mt-1 h-4 w-4 flex-shrink-0 text-slate-400 group-hover:text-[var(--color-primary)]" />
+                  <ExternalLink aria-hidden="true" className="mt-1 h-4 w-4 flex-shrink-0 text-slate-400 group-hover:text-[var(--color-primary)]" />
                 </a>
               ))}
             </div>
