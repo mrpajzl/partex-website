@@ -60,6 +60,8 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     mobileMenuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -100,6 +102,7 @@ export function SiteHeader({ site, currentPath = "/" }: SiteHeaderProps) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("pointerdown", handlePointerDown);
+      document.body.style.overflow = previousBodyOverflow;
     };
   }, [closeMobileMenu, mobileMenuOpen]);
 
