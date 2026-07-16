@@ -169,3 +169,24 @@ export function pricingPageJsonLd() {
     },
   };
 }
+
+export function pricingBreadcrumbJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: siteConfig.shortName,
+        item: absoluteUrl("/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Ceník",
+        item: absoluteUrl("/cenik"),
+      },
+    ],
+  };
+}

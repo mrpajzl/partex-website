@@ -6,7 +6,7 @@ import { type CSSProperties } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CURRENT_YEAR, FOUNDATION_DATE } from "@/lib/foundation";
 import { getDefaultSiteContent, mergeSiteContent, type PricingItem, type SiteContent } from "@/lib/site-content";
-import { pricingPageJsonLd } from "@/lib/seo";
+import { pricingBreadcrumbJsonLd, pricingPageJsonLd } from "@/lib/seo";
 import { activeSite } from "@/lib/sites";
 
 function getPricingItemCount(items: PricingItem[]): number {
@@ -85,6 +85,10 @@ export function CenikClient({ initialContent }: CenikClientProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingPageJsonLd()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingBreadcrumbJsonLd()) }}
       />
       <a href="#main-content" className="skip-link">Přejít na ceník</a>
       <SiteHeader site={site} currentPath="/cenik" />
