@@ -105,23 +105,35 @@ export function CenikClient({ initialContent }: CenikClientProps) {
       <section className="py-10 md:py-14">
         <div className="container mx-auto max-w-[100vw] px-4 sm:px-6">
           <div className="mx-auto max-w-[calc(100vw-2rem)] space-y-5 md:max-w-none">
-            {site.pricingPage.sections.map((section) => (
-              <section key={section.title} className="overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200">
-                <div className="border-b border-slate-100 bg-gradient-to-r from-[var(--color-dark)] to-[var(--color-primary)] px-5 py-4 text-white md:px-6">
-                  <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-                    <div>
-                      <h2 className="text-xl font-black tracking-tight">{section.title}</h2>
-                      <p className="mt-1 max-w-2xl text-xs leading-5 text-white/78">{section.description}</p>
-                    </div>
-                    <div className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--color-accent)]">{getPricingItemCountLabel(getPricingItemCount(section.items))}</div>
-                  </div>
-                </div>
+            {site.pricingPage.sections.map((section, sectionIndex) => {
+              const itemCountLabel = getPricingItemCountLabel(getPricingItemCount(section.items));
+              const sectionHeadingId = `pricing-section-${sectionIndex}-heading`;
+              const sectionDescriptionId = `pricing-section-${sectionIndex}-description`;
+              const sectionCountId = `pricing-section-${sectionIndex}-count`;
 
-                <div className="divide-y divide-slate-100">
-                  {section.items.map((item, index) => <PriceItem key={`${section.title}-${item.service}-${index}`} item={item} sectionTitle={section.title} index={index} />)}
-                </div>
-              </section>
-            ))}
+              return (
+                <section
+                  key={section.title}
+                  aria-labelledby={sectionHeadingId}
+                  aria-describedby={`${sectionDescriptionId} ${sectionCountId}`}
+                  className="overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200"
+                >
+                  <div className="border-b border-slate-100 bg-gradient-to-r from-[var(--color-dark)] to-[var(--color-primary)] px-5 py-4 text-white md:px-6">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+                      <div>
+                        <h2 id={sectionHeadingId} className="text-xl font-black tracking-tight">{section.title}</h2>
+                        <p id={sectionDescriptionId} className="mt-1 max-w-2xl text-xs leading-5 text-white/78">{section.description}</p>
+                      </div>
+                      <div id={sectionCountId} className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--color-accent)]">{itemCountLabel}</div>
+                    </div>
+                  </div>
+
+                  <div className="divide-y divide-slate-100">
+                    {section.items.map((item, index) => <PriceItem key={`${section.title}-${item.service}-${index}`} item={item} sectionTitle={section.title} index={index} />)}
+                  </div>
+                </section>
+              );
+            })}
           </div>
 
           <div className="mt-8 text-center">
