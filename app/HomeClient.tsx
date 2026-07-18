@@ -24,10 +24,14 @@ function setBodyOverflow(value: string) {
   document.body.style.overflow = value;
 }
 
+function getPrimaryPhoneLine(item: ContactItem) {
+  return item.value.split("\n")[0]?.trim() ?? "";
+}
+
 function getContactHref(item: ContactItem) {
   if (item.icon !== "Phone") return item.href;
 
-  const firstPhoneNumber = item.value.split("\n")[0]?.replace(/(?!^\+)\D/g, "");
+  const firstPhoneNumber = getPrimaryPhoneLine(item).replace(/(?!^\+)\D/g, "");
   return firstPhoneNumber ? `tel:${firstPhoneNumber}` : item.href;
 }
 
@@ -39,8 +43,10 @@ function getContactAriaLabel(item: ContactItem) {
       return `Otevřít adresu ${normalizedValue} v mapách`;
     case "Mail":
       return `Napsat e-mail na ${normalizedValue}`;
-    case "Phone":
-      return `Zavolat na ${normalizedValue}`;
+    case "Phone": {
+      const primaryPhone = getPrimaryPhoneLine(item);
+      return `Zavolat na ${primaryPhone || normalizedValue}`;
+    }
     default:
       return undefined;
   }
