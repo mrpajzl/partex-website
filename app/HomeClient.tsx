@@ -496,6 +496,7 @@ export function HomeClient({ initialContent }: HomeClientProps) {
               className="h-96 w-full border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              tabIndex={-1}
             />
           </div>
         </div>
