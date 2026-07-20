@@ -34,7 +34,7 @@ function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTi
         {item.price && (
           <div className="flex items-start md:justify-end">
             <span className="rounded-full bg-[var(--color-primary)]/10 px-3 py-1.5 text-sm font-black whitespace-nowrap text-[var(--color-primary)] ring-1 ring-[var(--color-primary)]/10 md:text-right">
-              {item.price}
+              <span className="sr-only">Cena: </span>{item.price}
             </span>
           </div>
         )}
@@ -51,7 +51,9 @@ function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTi
                     {child.note && <p className="mt-1 text-xs leading-5 text-slate-500">{child.note}</p>}
                   </div>
                   <div className="flex md:justify-end">
-                    <span className="rounded-full bg-white px-3 py-1 text-sm font-black whitespace-nowrap text-[var(--color-primary)] ring-1 ring-[var(--color-primary)]/15">{child.price}</span>
+                    <span className="rounded-full bg-white px-3 py-1 text-sm font-black whitespace-nowrap text-[var(--color-primary)] ring-1 ring-[var(--color-primary)]/15">
+                      <span className="sr-only">Cena: </span>{child.price}
+                    </span>
                   </div>
                 </div>
               </div>
