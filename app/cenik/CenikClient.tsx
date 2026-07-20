@@ -21,8 +21,8 @@ function getPricingItemCountLabel(count: number) {
 
 function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTitle: string; index: number }) {
   return (
-    <div className="px-4 py-4 transition hover:bg-[var(--color-primary)]/[0.04] sm:px-5 md:px-6">
-      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(12rem,15rem)] md:items-start">
+    <div className="w-full min-w-0 px-4 py-4 transition hover:bg-[var(--color-primary)]/[0.04] sm:px-5 md:px-6">
+      <div className="grid min-w-0 gap-3 md:grid-cols-[minmax(0,1fr)_minmax(12rem,15rem)] md:items-start">
         <div className="min-w-0">
           <div className="text-[0.98rem] font-bold leading-6 text-slate-950 md:text-base">{item.service}</div>
           {item.note && (
@@ -33,7 +33,7 @@ function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTi
         </div>
         {item.price && (
           <div className="flex items-start md:justify-end">
-            <span className="inline-flex min-w-[8.5rem] justify-center rounded-full bg-[var(--color-price-bg)] px-3.5 py-2 text-sm font-black whitespace-nowrap text-[var(--color-price-text)] ring-1 ring-[var(--color-price-ring)] md:text-right">
+            <span className="inline-flex max-w-full justify-center rounded-full bg-[var(--color-price-bg)] px-3.5 py-2 text-sm font-black whitespace-normal text-[var(--color-price-text)] ring-1 ring-[var(--color-price-ring)] sm:min-w-[8.5rem] sm:whitespace-nowrap md:text-right">
               <span className="sr-only">Cena: </span>{item.price}
             </span>
           </div>
@@ -41,17 +41,17 @@ function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTi
       </div>
 
       {item.children && (
-        <div className="mt-4 border-l-2 border-[var(--color-price-ring)] pl-3 md:ml-4 md:pl-4">
-          <div className="divide-y divide-slate-200/80 rounded-2xl bg-slate-50 ring-1 ring-slate-200/80">
+        <div className="mt-4 min-w-0 border-l-2 border-[var(--color-price-ring)] pl-3 md:ml-4 md:pl-4">
+          <div className="min-w-0 divide-y divide-slate-200/80 rounded-2xl bg-slate-50 ring-1 ring-slate-200/80">
             {item.children.map((child) => (
-              <div key={`${sectionTitle}-${index}-${child.service}-${child.price}`} className="px-3 py-3 md:px-4">
-                <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_minmax(10rem,12rem)] md:items-start">
+              <div key={`${sectionTitle}-${index}-${child.service}-${child.price}`} className="min-w-0 px-3 py-3 md:px-4">
+                <div className="grid min-w-0 gap-2 md:grid-cols-[minmax(0,1fr)_minmax(10rem,12rem)] md:items-start">
                   <div className="min-w-0">
                     <div className="font-semibold leading-6 text-slate-800">{child.service}</div>
                     {child.note && <p className="mt-1 max-w-[68ch] text-xs leading-5 text-slate-600">{child.note}</p>}
                   </div>
                   <div className="flex md:justify-end">
-                    <span className="inline-flex min-w-[7.5rem] justify-center rounded-full bg-white px-3 py-1.5 text-sm font-black whitespace-nowrap text-[var(--color-price-text)] ring-1 ring-[var(--color-price-ring)]">
+                    <span className="inline-flex max-w-full justify-center rounded-full bg-white px-3 py-1.5 text-sm font-black whitespace-normal text-[var(--color-price-text)] ring-1 ring-[var(--color-price-ring)] sm:min-w-[7.5rem] sm:whitespace-nowrap">
                       <span className="sr-only">Cena: </span>{child.price}
                     </span>
                   </div>
@@ -87,7 +87,7 @@ export function CenikClient({ initialContent }: CenikClientProps) {
   } as CSSProperties;
 
   return (
-    <main id="top" style={themeStyle} className="min-h-screen bg-[var(--color-page-bg)] text-slate-950">
+    <main id="top" style={themeStyle} className="min-h-screen overflow-x-hidden bg-[var(--color-page-bg)] text-slate-950">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingPageJsonLd()) }}
@@ -108,17 +108,17 @@ export function CenikClient({ initialContent }: CenikClientProps) {
         </div>
       </section>
 
-      <section className="py-8 md:py-12">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid gap-6 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-            <nav aria-label="Kategorie ceníku" className="lg:sticky lg:top-24">
-              <div className="rounded-[1.35rem] bg-white/88 p-2 shadow-[0_14px_38px_rgba(29,38,90,0.07)] ring-1 ring-slate-200/90 backdrop-blur">
-                <div className="flex gap-2 overflow-x-auto lg:block lg:space-y-1 lg:overflow-visible">
+      <section className="overflow-x-hidden py-8 md:py-12">
+        <div className="container mx-auto w-full max-w-7xl px-3 sm:px-6">
+          <div className="grid min-w-0 gap-6 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
+            <nav aria-label="Kategorie ceníku" className="min-w-0 overflow-hidden lg:sticky lg:top-24">
+              <div className="min-w-0 rounded-[1.35rem] bg-white/88 p-2 shadow-[0_14px_38px_rgba(29,38,90,0.07)] ring-1 ring-slate-200/90 backdrop-blur">
+                <div className="flex min-w-0 max-w-full gap-2 overflow-x-auto overscroll-x-contain lg:block lg:space-y-1 lg:overflow-visible">
                   {site.pricingPage.sections.map((section, sectionIndex) => (
                     <a
                       key={section.title}
                       href={`#pricing-section-${sectionIndex}`}
-                      className="shrink-0 rounded-2xl px-3.5 py-2.5 text-sm font-extrabold text-slate-700 transition hover:bg-[var(--color-price-bg)] hover:text-[var(--color-price-text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] lg:block"
+                      className="shrink-0 rounded-2xl px-3.5 py-2.5 text-sm font-extrabold text-slate-700 transition hover:bg-[var(--color-price-bg)] hover:text-[var(--color-price-text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] lg:block lg:whitespace-normal"
                     >
                       {section.title}
                     </a>
@@ -127,7 +127,7 @@ export function CenikClient({ initialContent }: CenikClientProps) {
               </div>
             </nav>
 
-            <div className="mx-auto w-full max-w-[calc(100vw-2rem)] space-y-5 md:max-w-none">
+            <div className="w-full min-w-0 space-y-5">
             {site.pricingPage.sections.map((section, sectionIndex) => {
               const itemCountLabel = getPricingItemCountLabel(getPricingItemCount(section.items));
               const sectionHeadingId = `pricing-section-${sectionIndex}-heading`;
@@ -140,7 +140,7 @@ export function CenikClient({ initialContent }: CenikClientProps) {
                   key={section.title}
                   aria-labelledby={sectionHeadingId}
                   aria-describedby={`${sectionDescriptionId} ${sectionCountId}`}
-                  className="scroll-mt-24 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200"
+                  className="w-full min-w-0 scroll-mt-24 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200"
                 >
                   <div className="border-b border-slate-100 bg-[var(--color-dark)] px-5 py-4 text-white md:px-6">
                     <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
