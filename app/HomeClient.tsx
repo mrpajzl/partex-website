@@ -28,11 +28,19 @@ function getPrimaryPhoneLine(item: ContactItem) {
   return item.value.split("\n")[0]?.trim() ?? "";
 }
 
+function getPhoneLines(item: ContactItem) {
+  return item.value.split("\n").map((line) => line.trim()).filter(Boolean);
+}
+
+function getPhoneHref(phoneNumber: string) {
+  const normalizedPhoneNumber = phoneNumber.replace(/(?!^\+)\D/g, "");
+  return normalizedPhoneNumber ? `tel:${normalizedPhoneNumber}` : undefined;
+}
+
 function getContactHref(item: ContactItem) {
   if (item.icon !== "Phone") return item.href;
 
-  const firstPhoneNumber = getPrimaryPhoneLine(item).replace(/(?!^\+)\D/g, "");
-  return firstPhoneNumber ? `tel:${firstPhoneNumber}` : item.href;
+  return getPhoneHref(getPrimaryPhoneLine(item)) ?? item.href;
 }
 
 function getContactAriaLabel(item: ContactItem) {
@@ -452,6 +460,29 @@ export function HomeClient({ initialContent }: HomeClientProps) {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 max-w-6xl mx-auto">
             {site.contact.items.map((item) => {
               const Icon = iconMap[item.icon] ?? MapPin;
+              if (item.icon === "Phone") {
+                return (
+                  <div key={item.label} className="group rounded-2xl bg-white p-6 text-center shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl">
+                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-primary)]/10 transition group-hover:bg-[var(--color-primary)]/15">
+                      <Icon className="h-7 w-7 text-[var(--color-primary)]" />
+                    </div>
+                    <h3 className="mb-3 font-bold text-gray-900">{item.label}</h3>
+                    <div className="space-y-1 text-sm leading-relaxed">
+                      {getPhoneLines(item).map((phoneNumber) => (
+                        <a
+                          key={phoneNumber}
+                          href={getPhoneHref(phoneNumber)}
+                          aria-label={`Zavolat na ${phoneNumber}`}
+                          className="block rounded-sm text-gray-600 transition hover:text-[var(--color-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
+                        >
+                          {phoneNumber}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
               const content = (
                 <>
                   <div className="w-14 h-14 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center mx-auto mb-4 transition group-hover:bg-[var(--color-primary)]/15">
@@ -626,9 +657,17 @@ export function HomeClient({ initialContent }: HomeClientProps) {
                 </a>
               ) : null}
               {phoneContact ? (
-                <a href={getContactHref(phoneContact)} className="block rounded-sm whitespace-pre-line text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-                  {phoneContact.value}
-                </a>
+                <div className="space-y-1">
+                  {getPhoneLines(phoneContact).map((phoneNumber) => (
+                    <a
+                      key={phoneNumber}
+                      href={getPhoneHref(phoneNumber)}
+                      className="block rounded-sm text-gray-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                    >
+                      {phoneNumber}
+                    </a>
+                  ))}
+                </div>
               ) : null}
             </div>
             {activeSite.key === "kencka" && (
