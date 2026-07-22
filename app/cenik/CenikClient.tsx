@@ -140,7 +140,8 @@ export function CenikClient({ initialContent }: CenikClientProps) {
                   key={section.title}
                   aria-labelledby={sectionHeadingId}
                   aria-describedby={`${sectionDescriptionId} ${sectionCountId}`}
-                  className="w-full min-w-0 scroll-mt-28 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200"
+                  style={{ scrollMarginTop: "7rem" }}
+                  className="w-full min-w-0 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200"
                 >
                   <div className="border-b border-slate-100 bg-[var(--color-dark)] px-5 py-4 text-white md:px-6">
                     <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
