@@ -87,7 +87,7 @@ export function CenikClient({ initialContent }: CenikClientProps) {
   } as CSSProperties;
 
   return (
-    <main id="top" style={themeStyle} className="min-h-screen overflow-x-hidden bg-[var(--color-page-bg)] text-slate-950">
+    <main id="top" style={themeStyle} className="min-h-screen overflow-x-clip bg-[var(--color-page-bg)] text-slate-950">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingPageJsonLd()) }}
@@ -108,10 +108,10 @@ export function CenikClient({ initialContent }: CenikClientProps) {
         </div>
       </section>
 
-      <section className="overflow-x-hidden py-8 md:py-12">
+      <section className="overflow-x-clip py-8 md:py-12">
         <div className="container mx-auto w-full max-w-7xl px-3 sm:px-6">
           <div className="grid min-w-0 gap-6 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-            <nav aria-label="Kategorie ceníku" className="min-w-0 overflow-hidden lg:sticky lg:top-24">
+            <nav aria-label="Kategorie ceníku" className="min-w-0 overflow-hidden lg:sticky lg:top-28">
               <div className="min-w-0 rounded-[1.35rem] bg-white/88 p-2 shadow-[0_14px_38px_rgba(29,38,90,0.07)] ring-1 ring-slate-200/90 backdrop-blur">
                 <div className="flex min-w-0 max-w-full gap-2 overflow-x-auto overscroll-x-contain lg:block lg:space-y-1 lg:overflow-visible">
                   {site.pricingPage.sections.map((section, sectionIndex) => (
@@ -140,7 +140,7 @@ export function CenikClient({ initialContent }: CenikClientProps) {
                   key={section.title}
                   aria-labelledby={sectionHeadingId}
                   aria-describedby={`${sectionDescriptionId} ${sectionCountId}`}
-                  className="w-full min-w-0 scroll-mt-24 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200"
+                  className="w-full min-w-0 scroll-mt-28 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_16px_45px_rgba(29,38,90,0.08)] ring-1 ring-slate-200"
                 >
                   <div className="border-b border-slate-100 bg-[var(--color-dark)] px-5 py-4 text-white md:px-6">
                     <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
