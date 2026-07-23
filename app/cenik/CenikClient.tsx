@@ -21,7 +21,7 @@ function getPricingItemCountLabel(count: number) {
 
 function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTitle: string; index: number }) {
   return (
-    <div className="w-full min-w-0 px-4 py-4 transition hover:bg-[var(--color-primary)]/[0.04] sm:px-5 md:px-6">
+    <li className="w-full min-w-0 px-4 py-4 transition hover:bg-[var(--color-primary)]/[0.04] sm:px-5 md:px-6">
       <div className="grid min-w-0 gap-3 md:grid-cols-[minmax(0,1fr)_minmax(12rem,15rem)] md:items-start">
         <div className="min-w-0">
           <div className="text-[0.98rem] font-bold leading-6 text-slate-950 md:text-base">{item.service}</div>
@@ -42,9 +42,9 @@ function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTi
 
       {item.children && (
         <div className="mt-4 min-w-0 border-l-2 border-[var(--color-price-ring)] pl-3 md:ml-4 md:pl-4">
-          <div className="min-w-0 divide-y divide-slate-200/80 rounded-2xl bg-slate-50 ring-1 ring-slate-200/80">
+          <ul className="min-w-0 divide-y divide-slate-200/80 rounded-2xl bg-slate-50 ring-1 ring-slate-200/80">
             {item.children.map((child) => (
-              <div key={`${sectionTitle}-${index}-${child.service}-${child.price}`} className="min-w-0 px-3 py-3 md:px-4">
+              <li key={`${sectionTitle}-${index}-${child.service}-${child.price}`} className="min-w-0 px-3 py-3 md:px-4">
                 <div className="grid min-w-0 gap-2 md:grid-cols-[minmax(0,1fr)_minmax(10rem,12rem)] md:items-start">
                   <div className="min-w-0">
                     <div className="font-semibold leading-6 text-slate-800">{child.service}</div>
@@ -56,12 +56,12 @@ function PriceItem({ item, sectionTitle, index }: { item: PricingItem; sectionTi
                     </span>
                   </div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       )}
-    </div>
+    </li>
   );
 }
 
@@ -153,9 +153,9 @@ export function CenikClient({ initialContent }: CenikClientProps) {
                     </div>
                   </div>
 
-                  <div className="divide-y divide-slate-100">
+                  <ul className="divide-y divide-slate-100">
                     {section.items.map((item, index) => <PriceItem key={`${section.title}-${item.service}-${index}`} item={item} sectionTitle={section.title} index={index} />)}
-                  </div>
+                  </ul>
                 </section>
               );
             })}
